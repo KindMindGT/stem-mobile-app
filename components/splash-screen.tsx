@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoImage: {
-    width: W * 0.7,
+    width: W * 0.805,
     height: undefined,
     aspectRatio: 1, // will be overridden naturally by resizeMode contain
   },
