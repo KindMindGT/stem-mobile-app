@@ -3,7 +3,6 @@ import { Animated, Dimensions, Image, StyleSheet, View } from 'react-native';
 
 const { width: W, height: H } = Dimensions.get('window');
 
-// Animated wrapper for SVG
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 interface SplashScreenProps {
@@ -22,72 +21,73 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       }).start(() => {
         onFinish();
       });
-    }, 20000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [opacity, onFinish]);
 
   return (
     <AnimatedView style={[styles.container, { opacity }]}>
-      {/* Background */}
-      <View style={StyleSheet.absoluteFill} />
 
-      {/* Top-left blob */}
-      <View style={styles.topLeft} pointerEvents="none">
+      {/* Top shapes — only bottom half visible (image shifted up by 50%) */}
+      <View style={styles.topWrapper}>
         <Image
           source={require('../assets/images/stem-racing-shapes-blue.png')}
-          style={{ resizeMode: 'center' }}
+          style={styles.shapesImage}
+          resizeMode="contain"
         />
       </View>
 
-      {/* Bottom-right blob */}
-      <View style={styles.bottomRight} pointerEvents="none">
-        <Image
-          source={require('../assets/images/stem-racing-shapes-blue.png')}
-          style={{ resizeMode: 'center' }}
-        />
-      </View>
-
-      {/* Center content */}
+      {/* Center logo */}
       <View style={styles.center}>
         <Image
           source={require('../assets/images/stem-racing-gt-white.png')}
-          style={{ resizeMode: 'center' }}
+          style={styles.logoImage}
+          resizeMode="contain"
         />
       </View>
 
-      {/* Center content */}
-      <View style={styles.center}>
-        {/* SR Logo mark */}
-        <View style={styles.logoRow}>
-          <View style={styles.srMark}>
-            <Image
-              source={require('../assets/images/stem-racing-gt-white.png')}
-              style={{ resizeMode: 'center' }}
-            />
-          </View>
-
-        </View>
+      {/* Bottom shapes — rotated 180°, only top half visible (image shifted down by 50%) */}
+      <View style={styles.bottomWrapper}>
+        <Image
+          source={require('../assets/images/stem-racing-shapes-blue.png')}
+          style={[styles.shapesImage, styles.rotated]}
+          resizeMode="contain"
+        />
       </View>
+
     </AnimatedView>
   );
 }
+
+// Height allocated to each shapes block (half the image will be off-screen)
+const SHAPES_AREA = H * 0.35;
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: '#000000',
     zIndex: 9999,
+    flexDirection: 'column',
   },
-  topLeft: {
-    position: 'absolute',
-    top: -H * 0.06,
-    left: -W * 0.08,
+  // Clip the overflow so only half the image shows
+  topWrapper: {
+    width: W,
+    height: SHAPES_AREA,
+    overflow: 'hidden',
+    justifyContent: 'flex-end', // anchor image to bottom → top half is cut off
   },
-  bottomRight: {
-    position: 'absolute',
-    bottom: -H * 0.08,
-    right: -W * 0.08,
+  bottomWrapper: {
+    width: W,
+    height: SHAPES_AREA,
+    overflow: 'hidden',
+    justifyContent: 'flex-start', // anchor image to top → bottom half is cut off
+  },
+  shapesImage: {
+    width: W,
+    height: SHAPES_AREA * 2, // full image is 2× the visible area
+  },
+  rotated: {
     transform: [{ rotate: '180deg' }],
   },
   center: {
@@ -95,67 +95,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  srMark: {
-    width: 54,
-    height: 54,
-  },
-  textStack: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  aramcoBox: {
-    backgroundColor: '#1565C0',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 3,
-    marginBottom: 2,
-    alignSelf: 'flex-start',
-  },
-  aramcoText: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-    fontStyle: 'italic',
-  },
-  stemText: {
-    color: '#FFFFFF',
-    fontSize: 32,
-    fontWeight: '900',
-    letterSpacing: 2,
-    lineHeight: 34,
-  },
-  racingText: {
-    color: '#FFFFFF',
-    fontSize: 32,
-    fontWeight: '900',
-    letterSpacing: 2,
-    lineHeight: 34,
-  },
-  divider: {
-    width: W * 0.5,
-    height: 1,
-    backgroundColor: '#444444',
-    marginVertical: 18,
-  },
-  worldFinalsText: {
-    color: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: '700',
-    fontStyle: 'italic',
-    letterSpacing: 0.5,
-  },
-  locationText: {
-    color: '#E91E8C',
-    fontSize: 16,
-    fontWeight: '600',
-    fontStyle: 'italic',
-    marginTop: 4,
-    letterSpacing: 0.5,
+  logoImage: {
+    width: W * 0.7,
+    height: undefined,
+    aspectRatio: 1, // will be overridden naturally by resizeMode contain
   },
 });
