@@ -8,7 +8,7 @@ import { SHADOWS } from '../theme/shadows';
 
 const GRADIENT_ID = 'tab-bar-stroke';
 const INACTIVE_STROKE = 'rgba(255,255,255,0.55)';
-const DEFAULT_TABS = ['home', 'cal', 'market', 'user'];
+const DEFAULT_TABS = ['home', 'cal', 'user', 'menu'];
 
 const TAB_ICONS = {
   home: ({ stroke, fill, inactive } : { stroke: string; fill: string; inactive: string }) => (

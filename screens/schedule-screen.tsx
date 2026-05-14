@@ -55,7 +55,7 @@ type Props = {
 export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Schedule" variant="primary-gradient-2" />
+      <GradientHeader title="Schedule" variant="blue-gradient" />
 
       <View style={styles.tabs}>
         <View style={styles.tab}>

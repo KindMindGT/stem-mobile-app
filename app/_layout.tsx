@@ -25,6 +25,7 @@ import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import HomeScreen from '@/screens/home-screen';
 import LoginScreen from '@/screens/login-screen';
+import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
 
 ExpoSplashScreen.preventAutoHideAsync();
@@ -77,7 +78,7 @@ export default function RootLayout() {
             {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
             {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
             {activeTab === 'market' && <View style={{ flex: 1 }} />}
-            {activeTab === 'user'   && <View style={{ flex: 1 }} />}
+            {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={() => setStage('login')} />}
           </>
         )}
       </View>
