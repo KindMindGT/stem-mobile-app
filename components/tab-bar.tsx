@@ -1,6 +1,7 @@
 import { BlurView } from 'expo-blur';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 import { BURNOUT_ORANGE, CHICANE_VIOLET, PITLANE_PINK } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
@@ -122,8 +123,12 @@ type Props = {
 };
 
 export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS } : Props) {
+  const insets = useSafeAreaInsets();
+  // Sit above the system navigation bar/home indicator with a fixed gap
+  const bottomOffset = insets.bottom + LAYOUT.tabBarBottom;
+
   return (
-    <View style={styles.wrap} pointerEvents="box-none">
+    <View style={[styles.wrap, { bottom: bottomOffset }]} pointerEvents="box-none">
       <View style={styles.bar}>
         <BlurView intensity={40} tint="dark" style={[StyleSheet.absoluteFill, styles.clip]} />
         <View style={[StyleSheet.absoluteFill, styles.tint]} />
@@ -150,7 +155,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: LAYOUT.edgePadding,
     right: LAYOUT.edgePadding,
-    bottom: LAYOUT.tabBarBottom,
     height: LAYOUT.tabBarHeight,
   },
   bar: {

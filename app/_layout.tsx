@@ -19,6 +19,7 @@ import * as ExpoSplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 
 import SplashScreen from '@/components/splash-screen';
@@ -66,6 +67,7 @@ export default function RootLayout() {
   const handleOpenClass = useCallback(() => {}, []);
 
   return (
+    <SafeAreaProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <View style={{ flex: 1 }}>
         {/* Pre-app stages — rendered on top via absolute fill in each component */}
@@ -84,5 +86,6 @@ export default function RootLayout() {
       </View>
       <StatusBar style="light" />
     </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
