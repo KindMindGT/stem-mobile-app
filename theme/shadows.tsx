@@ -1,0 +1,58 @@
+export const SHADOWS = {
+  pinkCta: {
+    shadowColor: '#ff2878',
+    shadowOpacity: 0.35,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 10,
+  },
+  pinkChip: {
+    shadowColor: '#ff2878',
+    shadowOpacity: 0.28,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  bluePop: {
+    shadowColor: '#146edc',
+    shadowOpacity: 0.5,
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 10,
+  },
+  cardDeep: {
+    shadowColor: '#000',
+    shadowOpacity: 0.45,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 20 },
+    elevation: 14,
+  },
+  raceCard: {
+    shadowColor: '#1450c8',
+    shadowOpacity: 0.32,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 18 },
+    elevation: 8,
+  },
+  fab: {
+    shadowColor: '#ff3c8c',
+    shadowOpacity: 0.45,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 14 },
+    elevation: 10,
+  },
+  headerGlow: {
+    shadowColor: '#ff2878',
+    shadowOpacity: 0.18,
+    shadowRadius: 28,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 12,
+  },
+  tabBar: {
+    shadowColor: '#000',
+    shadowOpacity: 0.45,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 20 },
+    elevation: 12,
+  },
+};
