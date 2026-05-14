@@ -25,16 +25,19 @@ import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import HomeScreen from '@/screens/home-screen';
 import LoginScreen from '@/screens/login-screen';
+import ScheduleScreen from '@/screens/schedule-screen';
 
-// Keep the native splash visible until we explicitly hide it
 ExpoSplashScreen.preventAutoHideAsync();
 
 type AppStage = 'splash' | 'login' | 'app';
 
+// Tab IDs match exactly what TabBar passes to onChange
+type TabId = 'home' | 'cal' | 'market' | 'user';
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [stage, setStage] = useState<AppStage>('splash');
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState<TabId>('home');
 
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -50,31 +53,33 @@ export default function RootLayout() {
     Inter_700Bold,
   });
 
-  // Hide the native splash once fonts are ready
   useEffect(() => {
     if (fontsLoaded) {
       ExpoSplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  const handleSplashFinish = useCallback(() => {
-    setStage('login');
-  }, []);
-
-  const handleLogin = useCallback(() => {
-    setStage('app');
-  }, []);
-
-  const handleTabChange = useCallback((id: string) => {
-    setActiveTab(id);
-  }, []);
+  const handleSplashFinish = useCallback(() => setStage('login'), []);
+  const handleLogin = useCallback(() => setStage('app'), []);
+  const handleTabChange = useCallback((id: string) => setActiveTab(id as TabId), []);
+  const handleOpenClass = useCallback(() => {}, []);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <View style={{ flex: 1 }}>
+        {/* Pre-app stages — rendered on top via absolute fill in each component */}
         {stage === 'splash' && <SplashScreen onFinish={handleSplashFinish} />}
-        {stage === 'login' && <LoginScreen onLogin={handleLogin} />}
-        {stage === 'app' && <HomeScreen onTabChange={handleTabChange} />}
+        {stage === 'login'  && <LoginScreen  onLogin={handleLogin} />}
+
+        {/* Tab screens — only mounted when stage === 'app' */}
+        {stage === 'app' && (
+          <>
+            {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
+            {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
+            {activeTab === 'market' && <View style={{ flex: 1 }} />}
+            {activeTab === 'user'   && <View style={{ flex: 1 }} />}
+          </>
+        )}
       </View>
       <StatusBar style="light" />
     </ThemeProvider>

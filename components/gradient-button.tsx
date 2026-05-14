@@ -21,10 +21,10 @@ export default function GradientButton({
   onPress,
   height = 60,
   radius = 18,
-  variant = 'blue-gradient',
+  variant = 'pink-gradient',
   accessibilityLabel,
 }: Props) {
-  const grad = GRADIENTS[variant] ?? GRADIENTS['blue-gradient'];
+  const grad = GRADIENTS[variant] ?? GRADIENTS['pink-gradient'];
   return (
     <Pressable
       onPress={onPress}

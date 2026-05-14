@@ -115,7 +115,13 @@ function TabIcon({ name, on } : { name: string; on: boolean }) {
   );
 }
 
-export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS } : { active?: string; onChange: (id: string) => void; items?: string[] }) {
+type Props = {
+  active?: string;
+  onChange?: (id: string) => void;
+  items?: string[];
+};
+
+export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS } : Props) {
   return (
     <View style={styles.wrap} pointerEvents="box-none">
       <View style={styles.bar}>
