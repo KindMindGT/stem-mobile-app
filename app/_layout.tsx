@@ -15,7 +15,6 @@ import {
 } from '@expo-google-fonts/inter';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { useRouter } from 'expo-router';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
@@ -24,21 +23,18 @@ import 'react-native-reanimated';
 
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import HomeScreen from '@/screens/home-screen';
 import LoginScreen from '@/screens/login-screen';
 
 // Keep the native splash visible until we explicitly hide it
 ExpoSplashScreen.preventAutoHideAsync();
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
 
 type AppStage = 'splash' | 'login' | 'app';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [stage, setStage] = useState<AppStage>('splash');
-  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('home');
 
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -67,19 +63,18 @@ export default function RootLayout() {
 
   const handleLogin = useCallback(() => {
     setStage('app');
-    router.replace('/(tabs)');
-  }, [router]);
+  }, []);
+
+  const handleTabChange = useCallback((id: string) => {
+    setActiveTab(id);
+  }, []);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <View style={{ flex: 1 }}>
-        {/* <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack> */}
-
-        {stage === 'login' && <LoginScreen onLogin={handleLogin} />}
         {stage === 'splash' && <SplashScreen onFinish={handleSplashFinish} />}
+        {stage === 'login' && <LoginScreen onLogin={handleLogin} />}
+        {stage === 'app' && <HomeScreen onTabChange={handleTabChange} />}
       </View>
       <StatusBar style="light" />
     </ThemeProvider>

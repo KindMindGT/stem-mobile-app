@@ -6,7 +6,7 @@ import GlassInput from '../components/glass-input';
 import GradientButton from '../components/gradient-button';
 import GradientText from '../components/gradient-text';
 //import SplashShapes from '../components/SplashShapes';
-import { APEX_BG, PINK_ORANGE_PAIR } from '../theme/colors';
+import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
 import { FONTS } from '../theme/typography';
 
 const DEMO_EMAIL = __DEV__ ? 'mateo.ramirez@apex.gt' : '';
@@ -49,8 +49,8 @@ export default function LoginScreen({ onLogin }: { onLogin: () => void }) {
         </View>
 
         <View style={styles.footerRow}>
-          <Text style={styles.footerLeft}>NUEVO AQUÍ? </Text>
-          <GradientText colors={PINK_ORANGE_PAIR} style={styles.footerLink}>
+          <Text style={styles.footerLeft}>¿Nuevo aquí? </Text>
+          <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.footerLink}>
             CREA UNA CUENTA
           </GradientText>
         </View>
@@ -62,7 +62,7 @@ export default function LoginScreen({ onLogin }: { onLogin: () => void }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: APEX_BG,
+    backgroundColor: CARBON_SHADOW,
     overflow: 'hidden',
   },
   shapes: {
