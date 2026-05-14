@@ -19,13 +19,14 @@ import * as ExpoSplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import HomeScreen from '@/screens/home-screen';
 import LoginScreen from '@/screens/login-screen';
+import MenuScreen from '@/screens/menu-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
 
@@ -34,7 +35,7 @@ ExpoSplashScreen.preventAutoHideAsync();
 type AppStage = 'splash' | 'login' | 'app';
 
 // Tab IDs match exactly what TabBar passes to onChange
-type TabId = 'home' | 'cal' | 'market' | 'user';
+type TabId = 'home' | 'cal' | 'market' | 'user' | 'menu';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -81,6 +82,7 @@ export default function RootLayout() {
             {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
             {activeTab === 'market' && <View style={{ flex: 1 }} />}
             {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={() => setStage('login')} />}
+            {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}
           </>
         )}
       </View>

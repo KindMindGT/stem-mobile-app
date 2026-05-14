@@ -2,6 +2,7 @@ import GradientHeader from '@/components/gradient-header';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BadgeCard from '../components/badge-card';
 import GradientText from '../components/gradient-text';
 import IconButton from '../components/icon-button';
@@ -85,7 +86,9 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
     help: noop,
     logout: onLogout,
   };
-
+  const insets = useSafeAreaInsets();
+  const scrollBottom = insets.bottom + LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 16;
+  
   return (
     <View style={styles.screen}>
       <GradientHeader title="My Profile" variant="blue-gradient" />
@@ -102,7 +105,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
 
       <ScrollView
         style={styles.scrollWrap}
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: scrollBottom }]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.profileBlock}>
