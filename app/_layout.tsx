@@ -30,27 +30,28 @@ import LoginScreen from '@/screens/login-screen';
 import MenuScreen from '@/screens/menu-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
+import TeacherScreen from '@/screens/teacher-screen';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
 type AppStage = 'splash' | 'login' | 'app';
 type TabId = 'home' | 'cal' | 'market' | 'user' | 'menu';
 
-// Each tab has its own independent navigation stack.
-// null = showing the tab's root screen; string = showing lesson details for that classId.
-type TabStacks = Record<TabId, string | null>;
+// Discriminated union of all detail routes a tab can push
+type TabRoute =
+  | { screen: 'lesson';  classId: string }
+  | { screen: 'teacher'; classId: string }; // classId kept so back() can restore lesson
+
+// Each tab holds its own current route (null = root screen)
+type TabStacks = Record<TabId, TabRoute | null>;
 
 const INITIAL_TAB_STACKS: TabStacks = {
-  home: null,
-  cal: null,
-  market: null,
-  user: null,
-  menu: null,
+  home: null, cal: null, market: null, user: null, menu: null,
 };
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [stage, setStage] = useState<AppStage>('splash');
+  const [stage, setStage]       = useState<AppStage>('splash');
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const [tabStacks, setTabStacks] = useState<TabStacks>(INITIAL_TAB_STACKS);
 
@@ -73,30 +74,49 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   const handleSplashFinish = useCallback(() => setStage('login'), []);
-  const handleLogin       = useCallback(() => setStage('app'), []);
-  const handleLogout      = useCallback(() => {
+
+  const handleLogin = useCallback(() => setStage('app'), []);
+
+  const handleLogout = useCallback(() => {
     setStage('login');
     setTabStacks(INITIAL_TAB_STACKS);
     setActiveTab('home');
   }, []);
 
-  // Switch tabs — never affects the stack of other tabs
+  // Switch tabs — never touches another tab's route
   const handleTabChange = useCallback((id: string) => {
     setActiveTab(id as TabId);
   }, []);
 
-  // Push lesson detail onto the current tab's stack
+  // Push LessonDetail onto the active tab's stack
   const handleOpenClass = useCallback((classId: string) => {
-    setTabStacks(prev => ({ ...prev, [activeTab]: classId }));
+    setTabStacks(prev => ({ ...prev, [activeTab]: { screen: 'lesson', classId } }));
   }, [activeTab]);
 
-  // Pop back to the tab's root screen
+  // Push TeacherScreen on top of the current lesson (preserving classId for back)
+  const handleOpenTeacher = useCallback(() => {
+    setTabStacks(prev => {
+      const current = prev[activeTab];
+      if (current?.screen !== 'lesson') return prev;
+      return { ...prev, [activeTab]: { screen: 'teacher', classId: current.classId } };
+    });
+  }, [activeTab]);
+
+  // Pop: teacher → lesson → root
   const handleBack = useCallback(() => {
-    setTabStacks(prev => ({ ...prev, [activeTab]: null }));
+    setTabStacks(prev => {
+      const current = prev[activeTab];
+      if (!current) return prev;
+      if (current.screen === 'teacher') {
+        // go back to the lesson that opened this teacher
+        return { ...prev, [activeTab]: { screen: 'lesson', classId: current.classId } };
+      }
+      // lesson → root
+      return { ...prev, [activeTab]: null };
+    });
   }, [activeTab]);
 
-  // Convenience: is the current tab showing a detail screen?
-  const currentDetail = tabStacks[activeTab];
+  const currentRoute = tabStacks[activeTab];
 
   return (
     <SafeAreaProvider>
@@ -107,8 +127,8 @@ export default function RootLayout() {
 
           {stage === 'app' && (
             <>
-              {/* Root screens — hidden (not unmounted) when a detail is open */}
-              <View style={{ flex: 1, display: currentDetail ? 'none' : 'flex' }}>
+              {/* Root tab screens — kept mounted but hidden when a detail is open */}
+              <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
                 {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
                 {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <View style={{ flex: 1 }} />}
@@ -116,13 +136,21 @@ export default function RootLayout() {
                 {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}
               </View>
 
-              {/* Detail screen — rendered on top when a classId is set for the active tab */}
-              {currentDetail !== null && (
+              {/* Lesson detail */}
+              {currentRoute?.screen === 'lesson' && (
                 <LessonDetailScreen
-                  classId={currentDetail}
+                  classId={currentRoute.classId}
                   onBack={handleBack}
-                  onTeacher={() => {}}
+                  onTeacher={handleOpenTeacher}
                   onEnter={() => {}}
+                />
+              )}
+
+              {/* Teacher profile — slides on top of lesson detail */}
+              {currentRoute?.screen === 'teacher' && (
+                <TeacherScreen
+                  classId={currentRoute.classId}
+                  onBack={handleBack}
                 />
               )}
             </>
