@@ -35,13 +35,15 @@ const FEATURED_CLASS = {
 };
 
 type Props = {
+  classId: string;
   countdown?: boolean;
   onBack: () => void;
   onTeacher: () => void;
   onEnter: () => void;
 };
 
-export default function ClassDetailScreen({ countdown = false, onBack, onTeacher, onEnter }: Props) {
+export default function ClassDetailScreen({ classId, countdown = false, onBack, onTeacher, onEnter }: Props) {
+  // TODO: look up class data by classId when a real data layer is available
   const cls = FEATURED_CLASS;
   return (
     <View style={styles.screen}>

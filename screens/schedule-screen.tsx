@@ -91,6 +91,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
         {SCHEDULE_ROWS.map((row) => (
           <ScheduleRow
             key={row.id}
+            id={row.id}
             time1={row.time1}
             time2={row.time2}
             session={row.session}

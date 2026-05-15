@@ -152,6 +152,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         {STUDENT.upcoming.map((row, i) => (
           <ScheduleRow
             key={row.id}
+            id={row.id}
             time1={row.time1}
             time2={row.time2}
             session={row.session}

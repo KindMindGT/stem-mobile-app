@@ -34,17 +34,25 @@ import ScheduleScreen from '@/screens/schedule-screen';
 ExpoSplashScreen.preventAutoHideAsync();
 
 type AppStage = 'splash' | 'login' | 'app';
-
-// Tab IDs match exactly what TabBar passes to onChange
 type TabId = 'home' | 'cal' | 'market' | 'user' | 'menu';
 
-type DetailScreenId = 'cal' | 'class';
+// Each tab has its own independent navigation stack.
+// null = showing the tab's root screen; string = showing lesson details for that classId.
+type TabStacks = Record<TabId, string | null>;
+
+const INITIAL_TAB_STACKS: TabStacks = {
+  home: null,
+  cal: null,
+  market: null,
+  user: null,
+  menu: null,
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [stage, setStage] = useState<AppStage>('splash');
   const [activeTab, setActiveTab] = useState<TabId>('home');
-  const [activeDetailScreen, setActiveDetailScreen] = useState<DetailScreenId>('cal');
+  const [tabStacks, setTabStacks] = useState<TabStacks>(INITIAL_TAB_STACKS);
 
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -61,42 +69,67 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      ExpoSplashScreen.hideAsync();
-    }
+    if (fontsLoaded) ExpoSplashScreen.hideAsync();
   }, [fontsLoaded]);
 
   const handleSplashFinish = useCallback(() => setStage('login'), []);
-  const handleLogin = useCallback(() => setStage('app'), []);
-  const handleTabChange = useCallback((id: string) => setActiveTab(id as TabId), []);
-  const handleOpenClass = useCallback((id: string) => setActiveDetailScreen(id as DetailScreenId), []);
+  const handleLogin       = useCallback(() => setStage('app'), []);
+  const handleLogout      = useCallback(() => {
+    setStage('login');
+    setTabStacks(INITIAL_TAB_STACKS);
+    setActiveTab('home');
+  }, []);
+
+  // Switch tabs — never affects the stack of other tabs
+  const handleTabChange = useCallback((id: string) => {
+    setActiveTab(id as TabId);
+  }, []);
+
+  // Push lesson detail onto the current tab's stack
+  const handleOpenClass = useCallback((classId: string) => {
+    setTabStacks(prev => ({ ...prev, [activeTab]: classId }));
+  }, [activeTab]);
+
+  // Pop back to the tab's root screen
+  const handleBack = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, [activeTab]: null }));
+  }, [activeTab]);
+
+  // Convenience: is the current tab showing a detail screen?
+  const currentDetail = tabStacks[activeTab];
 
   return (
     <SafeAreaProvider>
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1 }}>
-        {/* Pre-app stages — rendered on top via absolute fill in each component */}
-        {stage === 'splash' && <SplashScreen onFinish={handleSplashFinish} />}
-        {stage === 'login'  && <LoginScreen  onLogin={handleLogin} />}
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <View style={{ flex: 1 }}>
+          {stage === 'splash' && <SplashScreen onFinish={handleSplashFinish} />}
+          {stage === 'login'  && <LoginScreen  onLogin={handleLogin} />}
 
-        {/* Tab screens — only mounted when stage === 'app' */}
-        {stage === 'app' && (
-          <>
-            {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
-            {activeTab === 'cal'    && ( 
-              <>
-                { activeDetailScreen === 'cal' && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={() =>handleOpenClass('class')} /> }
-                { activeDetailScreen === 'class' && <LessonDetailScreen onBack={() => setActiveDetailScreen('cal')} onTeacher={() => {}} onEnter={() => {}} /> }
-              </>
-            )}
-            {activeTab === 'market' && <View style={{ flex: 1 }} />}
-            {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={() => setStage('login')} />}
-            {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}
-          </>
-        )}
-      </View>
-      <StatusBar style="light" />
-    </ThemeProvider>
+          {stage === 'app' && (
+            <>
+              {/* Root screens — hidden (not unmounted) when a detail is open */}
+              <View style={{ flex: 1, display: currentDetail ? 'none' : 'flex' }}>
+                {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
+                {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
+                {activeTab === 'market' && <View style={{ flex: 1 }} />}
+                {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
+                {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}
+              </View>
+
+              {/* Detail screen — rendered on top when a classId is set for the active tab */}
+              {currentDetail !== null && (
+                <LessonDetailScreen
+                  classId={currentDetail}
+                  onBack={handleBack}
+                  onTeacher={() => {}}
+                  onEnter={() => {}}
+                />
+              )}
+            </>
+          )}
+        </View>
+        <StatusBar style="light" />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

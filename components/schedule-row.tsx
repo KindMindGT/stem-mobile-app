@@ -7,6 +7,7 @@ import CheckBadge from './check-badge';
 import GradientText from './gradient-text';
 
 type Props = {
+  id: string;
   time1: string;
   time2: string;
   session: string;
@@ -16,7 +17,7 @@ type Props = {
   onPress?: (id: string) => void;
 };
 
-export default function ScheduleRow({ time1, time2, session, name, done, last, onPress } : Props) {
+export default function ScheduleRow({ id, time1, time2, session, name, done, last, onPress } : Props) {
   const content = (
     <>
       <View style={styles.timeCol}>
@@ -41,7 +42,7 @@ export default function ScheduleRow({ time1, time2, session, name, done, last, o
         accessibilityRole="button"
         accessibilityLabel={name?.replace('\n', ' ')}
         style={({ pressed }) => [...rowStyle, pressed && styles.pressed]}
-        onPress={() => onPress && onPress(name)}
+        onPress={() => onPress && onPress(id)}
       >
         {content}
       </Pressable>
