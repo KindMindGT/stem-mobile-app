@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, CARBON_SHADOW, CHICANE_VIOLET, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { BURNOUT_ORANGE, CHICANE_VIOLET, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS } from '../theme/typography';
 

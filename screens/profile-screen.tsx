@@ -13,7 +13,7 @@ import SettingRow from '../components/setting-row';
 import SmallCapsHeader from '../components/small-caps-header';
 import StatColumn from '../components/stat-column';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, CARBON_SHADOW, GRADIENTS, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { BURNOUT_ORANGE, GRADIENTS, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
@@ -75,7 +75,7 @@ const noop = () => {};
 
 type Props = {
   onTabChange: (tab: string) => void;
-  onOpenClass: () => void;
+  onOpenClass: (id: string) => void;
   onLogout: () => void;
 };
 

@@ -25,6 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import HomeScreen from '@/screens/home-screen';
+import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
 import MenuScreen from '@/screens/menu-screen';
 import ProfileScreen from '@/screens/profile-screen';
@@ -37,10 +38,13 @@ type AppStage = 'splash' | 'login' | 'app';
 // Tab IDs match exactly what TabBar passes to onChange
 type TabId = 'home' | 'cal' | 'market' | 'user' | 'menu';
 
+type DetailScreenId = 'cal' | 'class';
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [stage, setStage] = useState<AppStage>('splash');
   const [activeTab, setActiveTab] = useState<TabId>('home');
+  const [activeDetailScreen, setActiveDetailScreen] = useState<DetailScreenId>('cal');
 
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -65,7 +69,7 @@ export default function RootLayout() {
   const handleSplashFinish = useCallback(() => setStage('login'), []);
   const handleLogin = useCallback(() => setStage('app'), []);
   const handleTabChange = useCallback((id: string) => setActiveTab(id as TabId), []);
-  const handleOpenClass = useCallback(() => {}, []);
+  const handleOpenClass = useCallback((id: string) => setActiveDetailScreen(id as DetailScreenId), []);
 
   return (
     <SafeAreaProvider>
@@ -79,7 +83,12 @@ export default function RootLayout() {
         {stage === 'app' && (
           <>
             {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
-            {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
+            {activeTab === 'cal'    && ( 
+              <>
+                { activeDetailScreen === 'cal' && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={() =>handleOpenClass('class')} /> }
+                { activeDetailScreen === 'class' && <LessonDetailScreen onBack={() => setActiveDetailScreen('cal')} onTeacher={() => {}} onEnter={() => {}} /> }
+              </>
+            )}
             {activeTab === 'market' && <View style={{ flex: 1 }} />}
             {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={() => setStage('login')} />}
             {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}

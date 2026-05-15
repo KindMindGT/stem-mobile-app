@@ -4,7 +4,7 @@ import GradientHeader from '../components/gradient-header';
 import GradientText from '../components/gradient-text';
 import RaceCard from '../components/race-card';
 import TabBar from '../components/tab-bar';
-import { CARBON_SHADOW, GRADIENTS, STEM_BG } from '../theme/colors';
+import { GRADIENTS, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 

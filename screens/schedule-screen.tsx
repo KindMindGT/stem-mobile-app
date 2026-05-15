@@ -6,7 +6,7 @@ import DayChip, { DAY_CHIP_SIZE } from '../components/day-chip';
 import GradientHeader from '../components/gradient-header';
 import ScheduleRow from '../components/schedule-row';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, CARBON_SHADOW, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { TEXT } from '../theme/typography';
@@ -49,7 +49,7 @@ export const SCHEDULE_ROWS = [
 
 type Props = {
   onTabChange: (tab: string) => void;
-  onOpenClass: () => void;
+  onOpenClass: (id: string) => void;
 };
 
 export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {

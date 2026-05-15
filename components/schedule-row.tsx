@@ -13,7 +13,7 @@ type Props = {
   name: string;
   done?: boolean;
   last?: boolean;
-  onPress?: () => void;
+  onPress?: (id: string) => void;
 };
 
 export default function ScheduleRow({ time1, time2, session, name, done, last, onPress } : Props) {
@@ -41,7 +41,7 @@ export default function ScheduleRow({ time1, time2, session, name, done, last, o
         accessibilityRole="button"
         accessibilityLabel={name?.replace('\n', ' ')}
         style={({ pressed }) => [...rowStyle, pressed && styles.pressed]}
-        onPress={onPress}
+        onPress={() => onPress && onPress(name)}
       >
         {content}
       </Pressable>
