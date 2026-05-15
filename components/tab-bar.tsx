@@ -1,14 +1,13 @@
-import { BlurView } from 'expo-blur';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Defs, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
-import { BURNOUT_ORANGE, CHICANE_VIOLET, PITLANE_PINK } from '../theme/colors';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import { STEM_NAV } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 
-const GRADIENT_ID = 'tab-bar-stroke';
-const INACTIVE_STROKE = 'rgba(255,255,255,0.55)';
+const INACTIVE_STROKE = 'rgba(255,255,255,0.6)';
+const ACTIVE_COLOR = '#ffffff';
 const DEFAULT_TABS = ['home', 'cal', 'user', 'menu'];
 
 const TAB_ICONS = {
@@ -36,10 +35,10 @@ const TAB_ICONS = {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path d="M3.5 9.5 H20.5" stroke={on ? PITLANE_PINK : inactive} strokeWidth={1.6} />
+      <Path d="M3.5 9.5 H20.5" stroke={on ? ACTIVE_COLOR : inactive} strokeWidth={1.6} />
       <Path
         d="M8 3 V6 M16 3 V6"
-        stroke={on ? PITLANE_PINK : inactive}
+        stroke={on ? ACTIVE_COLOR : inactive}
         strokeWidth={1.8}
         strokeLinecap="round"
       />
@@ -89,7 +88,7 @@ const TAB_ICONS = {
       />
       <Path
         d="M9 8 V6 A 3 3 0 0 1 15 6 V8"
-        stroke={on ? PITLANE_PINK : inactive}
+        stroke={on ? ACTIVE_COLOR : inactive}
         strokeWidth={1.8}
         strokeLinecap="round"
         fill="none"
@@ -101,16 +100,10 @@ const TAB_ICONS = {
 function TabIcon({ name, on } : { name: string; on: boolean }) {
   const renderer = TAB_ICONS[name as keyof typeof TAB_ICONS];
   if (!renderer) return null;
-  const stroke = on ? `url(#${GRADIENT_ID})` : INACTIVE_STROKE;
-  const fill = on ? `url(#${GRADIENT_ID})` : 'none';
+  const stroke = on ? ACTIVE_COLOR : INACTIVE_STROKE;
+  const fill = on ? ACTIVE_COLOR : 'none';
   return (
     <Svg width="26" height="26" viewBox="0 0 24 24">
-      <Defs>
-        <LinearGradient id={GRADIENT_ID} x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-          <Stop offset="0" stopColor={CHICANE_VIOLET} />
-          <Stop offset="1" stopColor={BURNOUT_ORANGE} />
-        </LinearGradient>
-      </Defs>
       {renderer({ stroke, fill, inactive: INACTIVE_STROKE, on })}
     </Svg>
   );
@@ -130,7 +123,6 @@ export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS
   return (
     <View style={[styles.wrap, { bottom: bottomOffset }]} pointerEvents="box-none">
       <View style={styles.bar}>
-        <BlurView intensity={40} tint="dark" style={[StyleSheet.absoluteFill, styles.clip]} />
         <View style={[StyleSheet.absoluteFill, styles.tint]} />
         {items.map((id) => (
           <Pressable
@@ -164,14 +156,11 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.15)',
     ...SHADOWS.tabBar,
   },
-  clip: {
-    borderRadius: 22,
-  },
   tint: {
-    backgroundColor: 'rgba(20,20,26,0.7)',
+    backgroundColor: STEM_NAV,
     borderRadius: 22,
   },
   btn: {

@@ -13,7 +13,7 @@ import SettingRow from '../components/setting-row';
 import SmallCapsHeader from '../components/small-caps-header';
 import StatColumn from '../components/stat-column';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, CARBON_SHADOW, GRADIENTS, PITLANE_PINK } from '../theme/colors';
+import { BURNOUT_ORANGE, CARBON_SHADOW, GRADIENTS, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
@@ -191,7 +191,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: CARBON_SHADOW,
+    backgroundColor: STEM_BG,
     overflow: 'hidden',
   },
   headerBg: {
@@ -256,9 +256,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 18,
-    backgroundColor: 'rgba(20,20,26,0.85)',
+    backgroundColor: 'rgba(13,71,161,0.6)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.15)',
     borderRadius: 18,
   },
   statDivider: {
@@ -270,9 +270,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: LAYOUT.screenPadding,
     padding: 16,
-    backgroundColor: 'rgba(20,20,26,0.85)',
+    backgroundColor: 'rgba(13,71,161,0.6)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.15)',
     borderRadius: 18,
   },
   progressHeader: {

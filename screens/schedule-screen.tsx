@@ -6,7 +6,7 @@ import DayChip, { DAY_CHIP_SIZE } from '../components/day-chip';
 import GradientHeader from '../components/gradient-header';
 import ScheduleRow from '../components/schedule-row';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, CARBON_SHADOW, PITLANE_PINK } from '../theme/colors';
+import { BURNOUT_ORANGE, CARBON_SHADOW, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { TEXT } from '../theme/typography';
@@ -141,7 +141,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: CARBON_SHADOW,
+    backgroundColor: STEM_BG,
     overflow: 'hidden',
   },
   tabs: {

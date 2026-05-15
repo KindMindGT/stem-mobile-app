@@ -12,6 +12,11 @@ export const GRID_LIME = '#95C11F';
 export const PODIUM_GOLD = '#FCBC00';
 export const BURNOUT_ORANGE = '#ED6D05';
 
+// Blue theme palette (for STEM app UI)
+export const STEM_BG = '#1565C0';
+export const STEM_HEADER = '#0D47A1';
+export const STEM_NAV = '#1A237E';
+
 // function to set gradients with palette colors as parameters
 export const createGradient = (colors: string[]) => {
   const step = 1 / (colors.length - 1);
@@ -27,4 +32,5 @@ export const GRADIENTS = {
   'blue-green-gradient': createGradient([AERO_SKY, GRID_LIME]),
   'orange-gradient': createGradient([BURNOUT_ORANGE, PODIUM_GOLD]),
   'pink-gradient': createGradient([CHICANE_VIOLET, PITLANE_PINK, BURNOUT_ORANGE]),
+  'stem-header-gradient': createGradient([STEM_HEADER, STEM_BG]),
 }

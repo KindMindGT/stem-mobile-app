@@ -4,7 +4,7 @@ import GradientHeader from '../components/gradient-header';
 import GradientText from '../components/gradient-text';
 import RaceCard from '../components/race-card';
 import TabBar from '../components/tab-bar';
-import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
+import { CARBON_SHADOW, GRADIENTS, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
@@ -83,7 +83,7 @@ export default function HomeScreen({ onTabChange } : { onTabChange: (id: string)
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: CARBON_SHADOW,
+    backgroundColor: STEM_BG,
     overflow: 'hidden',
   },
   heroBlock: {
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     paddingTop: 18,
   },
   sponsorBlock: {
-    backgroundColor: '#0d0d12',
+    backgroundColor: 'rgba(13,71,161,0.6)',
     borderRadius: 18,
     paddingHorizontal: 16,
     paddingTop: 14,
     paddingBottom: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
+    borderColor: 'rgba(255,255,255,0.15)',
   },
   sponsorHeader: {
     flexDirection: 'row',
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 56,
     borderRadius: 12,
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(13,71,161,0.8)',
     alignItems: 'center',
     justifyContent: 'center',
   },

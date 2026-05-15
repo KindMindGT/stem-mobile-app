@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { GRADIENTS } from '../theme/colors';
+import { GRADIENTS, STEM_HEADER } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { TEXT } from '../theme/typography';
@@ -13,15 +13,15 @@ type Props = {
   variant?: GradientKey;
 };
 
-export default function GradientHeader({ title, variant = 'blue-gradient' } : Props) {
-  const grad = GRADIENTS[variant] ?? GRADIENTS['blue-gradient'];
+export default function GradientHeader({ title, variant = 'stem-header-gradient' } : Props) {
+  const grad = GRADIENTS[variant] ?? GRADIENTS['stem-header-gradient'];
   return (
     <View style={styles.wrap}>
       <LinearGradient
         colors={grad.colors as [string, string, ...string[]]}
         locations={grad.locations as [number, number, ...number[]]}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
     
