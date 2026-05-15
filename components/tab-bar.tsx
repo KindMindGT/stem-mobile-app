@@ -8,7 +8,7 @@ import { SHADOWS } from '../theme/shadows';
 
 const INACTIVE_STROKE = 'rgba(255,255,255,0.6)';
 const ACTIVE_COLOR = '#ffffff';
-const DEFAULT_TABS = ['home', 'cal', 'user', 'menu'];
+const DEFAULT_TABS = ['home', 'cal', 'market', 'user', 'menu'];
 
 const TAB_ICONS = {
   home: ({ stroke, fill, inactive } : { stroke: string; fill: string; inactive: string }) => (

@@ -24,10 +24,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import CartScreen from '@/screens/cart-screen';
 import HomeScreen from '@/screens/home-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
+import MarketplaceScreen, { PRODUCTS } from '@/screens/marketplace-screen';
 import MenuScreen from '@/screens/menu-screen';
+import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
 import TeacherScreen from '@/screens/teacher-screen';
@@ -37,12 +40,15 @@ ExpoSplashScreen.preventAutoHideAsync();
 type AppStage = 'splash' | 'login' | 'app';
 type TabId = 'home' | 'cal' | 'market' | 'user' | 'menu';
 
-// Discriminated union of all detail routes a tab can push
+// All possible detail routes across every tab
 type TabRoute =
-  | { screen: 'lesson';  classId: string }
-  | { screen: 'teacher'; classId: string }; // classId kept so back() can restore lesson
+  // edu tab routes
+  | { screen: 'lesson';   classId: string }
+  | { screen: 'teacher';  classId: string }
+  // market tab routes
+  | { screen: 'product';  productId: string }
+  | { screen: 'cart';     fromProductId: string | null };
 
-// Each tab holds its own current route (null = root screen)
 type TabStacks = Record<TabId, TabRoute | null>;
 
 const INITIAL_TAB_STACKS: TabStacks = {
@@ -50,8 +56,8 @@ const INITIAL_TAB_STACKS: TabStacks = {
 };
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [stage, setStage]       = useState<AppStage>('splash');
+  const colorScheme  = useColorScheme();
+  const [stage, setStage]         = useState<AppStage>('splash');
   const [activeTab, setActiveTab] = useState<TabId>('home');
   const [tabStacks, setTabStacks] = useState<TabStacks>(INITIAL_TAB_STACKS);
 
@@ -73,6 +79,7 @@ export default function RootLayout() {
     if (fontsLoaded) ExpoSplashScreen.hideAsync();
   }, [fontsLoaded]);
 
+  // ── stage transitions ─────────────────────────────────────────────────────
   const handleSplashFinish = useCallback(() => setStage('login'), []);
 
   const handleLogin = useCallback(() => setStage('app'), []);
@@ -83,36 +90,62 @@ export default function RootLayout() {
     setActiveTab('home');
   }, []);
 
-  // Switch tabs — never touches another tab's route
+  // ── tab navigation ────────────────────────────────────────────────────────
   const handleTabChange = useCallback((id: string) => {
     setActiveTab(id as TabId);
   }, []);
 
-  // Push LessonDetail onto the active tab's stack
+  // ── edu stack ─────────────────────────────────────────────────────────────
   const handleOpenClass = useCallback((classId: string) => {
     setTabStacks(prev => ({ ...prev, [activeTab]: { screen: 'lesson', classId } }));
   }, [activeTab]);
 
-  // Push TeacherScreen on top of the current lesson (preserving classId for back)
   const handleOpenTeacher = useCallback(() => {
     setTabStacks(prev => {
-      const current = prev[activeTab];
-      if (current?.screen !== 'lesson') return prev;
-      return { ...prev, [activeTab]: { screen: 'teacher', classId: current.classId } };
+      const cur = prev[activeTab];
+      if (cur?.screen !== 'lesson') return prev;
+      return { ...prev, [activeTab]: { screen: 'teacher', classId: cur.classId } };
     });
   }, [activeTab]);
 
-  // Pop: teacher → lesson → root
+  // ── market stack ──────────────────────────────────────────────────────────
+  const handleOpenProduct = useCallback((product: typeof PRODUCTS[0]) => {
+    setTabStacks(prev => ({ ...prev, market: { screen: 'product', productId: product.id } }));
+  }, []);
+
+  const handleAddToCart = useCallback(() => {
+    setTabStacks(prev => {
+      const cur = prev.market;
+      const fromProductId = cur?.screen === 'product' ? cur.productId : null;
+      return { ...prev, market: { screen: 'cart', fromProductId } };
+    });
+  }, []);
+
+  // ── universal back ────────────────────────────────────────────────────────
   const handleBack = useCallback(() => {
     setTabStacks(prev => {
-      const current = prev[activeTab];
-      if (!current) return prev;
-      if (current.screen === 'teacher') {
-        // go back to the lesson that opened this teacher
-        return { ...prev, [activeTab]: { screen: 'lesson', classId: current.classId } };
+      const cur = prev[activeTab];
+      if (!cur) return prev;
+
+      switch (cur.screen) {
+        // edu
+        case 'teacher':
+          return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
+        case 'lesson':
+          return { ...prev, [activeTab]: null };
+        // market
+        case 'cart':
+          return {
+            ...prev,
+            market: cur.fromProductId
+              ? { screen: 'product', productId: cur.fromProductId }
+              : null,
+          };
+        case 'product':
+          return { ...prev, market: null };
+        default:
+          return { ...prev, [activeTab]: null };
       }
-      // lesson → root
-      return { ...prev, [activeTab]: null };
     });
   }, [activeTab]);
 
@@ -127,16 +160,16 @@ export default function RootLayout() {
 
           {stage === 'app' && (
             <>
-              {/* Root tab screens — kept mounted but hidden when a detail is open */}
+              {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen     onTabChange={handleTabChange} />}
-                {activeTab === 'cal'    && <ScheduleScreen onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
-                {activeTab === 'market' && <View style={{ flex: 1 }} />}
-                {activeTab === 'user'   && <ProfileScreen  onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
-                {activeTab === 'menu'   && <MenuScreen     onTabChange={handleTabChange} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} />}
+                {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
+                {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
+                {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
+                {activeTab === 'menu'   && <MenuScreen        onTabChange={handleTabChange} />}
               </View>
 
-              {/* Lesson detail */}
+              {/* ── Edu detail screens ── */}
               {currentRoute?.screen === 'lesson' && (
                 <LessonDetailScreen
                   classId={currentRoute.classId}
@@ -145,12 +178,23 @@ export default function RootLayout() {
                   onEnter={() => {}}
                 />
               )}
-
-              {/* Teacher profile — slides on top of lesson detail */}
               {currentRoute?.screen === 'teacher' && (
                 <TeacherScreen
                   classId={currentRoute.classId}
                   onBack={handleBack}
+                />
+              )}
+
+              {/* ── Market detail screens ── */}
+              {currentRoute?.screen === 'product' && (
+                <ProductDetailScreen
+                  onBack={handleBack}
+                  onAddToCart={handleAddToCart}
+                />
+              )}
+              {currentRoute?.screen === 'cart' && (
+                <CartScreen
+                  onPay={() => {}}
                 />
               )}
             </>
