@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 28,
+    bottom: 28,
     width: FAB_SIZE,
     height: FAB_SIZE,
     borderRadius: 99,
