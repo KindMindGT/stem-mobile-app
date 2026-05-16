@@ -25,6 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
+import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
@@ -47,7 +48,9 @@ type TabRoute =
   | { screen: 'teacher';  classId: string }
   // market tab routes
   | { screen: 'product';  productId: string }
-  | { screen: 'cart';     fromProductId: string | null };
+  | { screen: 'cart';     fromProductId: string | null }
+  // home tab routes
+  | { screen: 'events' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
 
@@ -95,6 +98,11 @@ export default function RootLayout() {
     setActiveTab(id as TabId);
   }, []);
 
+  // ── events ────────────────────────────────────────────────────────────────
+  const handleOpenEvents = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'events' } }));
+  }, []);
+
   // ── edu stack ─────────────────────────────────────────────────────────────
   const handleOpenClass = useCallback((classId: string) => {
     setTabStacks(prev => ({ ...prev, [activeTab]: { screen: 'lesson', classId } }));
@@ -128,6 +136,9 @@ export default function RootLayout() {
       if (!cur) return prev;
 
       switch (cur.screen) {
+        // home
+        case 'events':
+          return { ...prev, [activeTab]: null };
         // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
@@ -162,12 +173,17 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenEvents={handleOpenEvents} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
                 {activeTab === 'menu'   && <MenuScreen        onTabChange={handleTabChange} />}
               </View>
+
+              {/* ── Home detail screens ── */}
+              {currentRoute?.screen === 'events' && (
+                <EventsScreen onBack={handleBack} />
+              )}
 
               {/* ── Edu detail screens ── */}
               {currentRoute?.screen === 'lesson' && (
