@@ -57,6 +57,10 @@ const STUDENT = {
     name: 'Lunar Boys',
     members: ['Facundo Casse', 'Juan P. Rodas', 'Fredy Bressani', 'Daniel Castaneda'],
   },
+  benefits: {
+    name: 'Beneficios',
+    members: ['Beneficio 1', 'Beneficio 2', 'Beneficio 3'],
+  },
   badges: [
     { id: 'b1', label: 'Primer\ndiseño', tone: 'pink' },
     { id: 'b2', label: 'Asistencia\nperfecta', tone: 'orange' },
@@ -64,9 +68,9 @@ const STUDENT = {
     { id: 'b4', label: 'Trabajo\nen equipo', tone: 'purple' },
   ],
   settings: [
-    { id: 'edit', label: 'Editar perfil' },
-    { id: 'notif', label: 'Notificaciones' },
-    { id: 'help', label: 'Ayuda y soporte' },
+    //{ id: 'edit', label: 'Editar perfil' },
+    //{ id: 'notif', label: 'Notificaciones' },
+    //{ id: 'help', label: 'Ayuda y soporte' },
     { id: 'logout', label: 'Cerrar sesión', danger: true },
   ],
 };
@@ -81,6 +85,7 @@ type Props = {
 
 export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Props) {
   const [teamExpanded, setTeamExpanded] = useState(false);
+  const [benefitsExpanded, setBenefitsExpanded] = useState(false);
   const settingHandlers = {
     edit: noop,
     notif: noop,
@@ -149,6 +154,37 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           {teamExpanded && (
             <View style={styles.memberList}>
               {STUDENT.team.members.map((member) => (
+                <View key={member} style={styles.memberChip}>
+                  <Text style={styles.memberName}>{member}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+
+        {/* ── Benefits card ── */}
+        <View style={styles.teamCard}>
+          <Pressable
+            style={styles.teamHeader}
+            onPress={() => setBenefitsExpanded(v => !v)}
+            accessibilityRole="button"
+            accessibilityLabel={benefitsExpanded ? 'ocultar beneficios' : 'ver beneficios'}
+          >
+            <View style={styles.teamNameRow}>
+              <Text style={styles.teamLabel}>BENEFICIOS</Text>
+              <Text style={styles.teamName}>{STUDENT.benefits.name}</Text>
+            </View>
+            <View style={styles.teamMembersToggle}>
+              <Text style={styles.teamMembersLabel}>DETALLES</Text>
+              <Text style={[styles.teamChevron, benefitsExpanded && styles.teamChevronUp]}>
+                {'›'}
+              </Text>
+            </View>
+          </Pressable>
+
+          {benefitsExpanded && (
+            <View style={styles.memberList}>
+              {STUDENT.benefits.members.map((member) => (
                 <View key={member} style={styles.memberChip}>
                   <Text style={styles.memberName}>{member}</Text>
                 </View>
