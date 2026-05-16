@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Defs, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 import DayChip from '../components/day-chip';
 import GradientHeader from '../components/gradient-header';
 import ScheduleRow from '../components/schedule-row';
@@ -259,7 +258,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
         : <AllSessionsView onOpenClass={onOpenClass} />
       }
 
-      {/* FAB */}
+      {/* FAB 
       <Pressable style={styles.fab} accessibilityRole="button" accessibilityLabel="agregar sesión">
         <LinearGradient colors={['#ff2a8a', '#c01880']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
         <Svg width={FAB_SIZE} height={FAB_SIZE} viewBox={`0 0 ${FAB_SIZE} ${FAB_SIZE}`} style={StyleSheet.absoluteFill}>
@@ -277,6 +276,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
           </Svg>
         </View>
       </Pressable>
+      */}
 
       <TabBar active="cal" onChange={onTabChange} />
     </View>
