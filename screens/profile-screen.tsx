@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import IconButton from '../components/icon-button';
 import PhotoCircle from '../components/photo-circle';
 import Pill from '../components/pill';
-import ScheduleRow from '../components/schedule-row';
 import SettingRow from '../components/setting-row';
 import SmallCapsHeader from '../components/small-caps-header';
 import TabBar from '../components/tab-bar';
@@ -223,7 +222,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           */
         }
 
-        { /* ── Upcoming classes ── */ }
+        { /* ── Upcoming classes ──´
         <View style={styles.section}>
           <SmallCapsHeader top={0} bottom={4}>MIS PRÓXIMAS CLASES</SmallCapsHeader>
         </View>
@@ -239,6 +238,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
             onPress={onOpenClass}
           />
         ))}
+         */ }
 
         { /* ── Badges ── */ }
         { 
