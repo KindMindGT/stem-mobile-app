@@ -1,3 +1,6 @@
+import { IconBack } from '@/components/ui/icon-back';
+import { IconChevron } from '@/components/ui/icon-chevron';
+import { IconSearch } from '@/components/ui/icon-search';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useMemo, useState } from 'react';
 import {
@@ -9,7 +12,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Path } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import PhotoCircle from '../components/photo-circle';
 import { BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
@@ -150,39 +152,6 @@ const CATEGORIES: { key: CategoryKey; label: string }[] = [
   { key: 'mentors',  label: 'Mentors'  },
 ];
 
-// ─── Icons ─────────────────────────────────────────────────────────────────────
-
-function SearchIcon() {
-  return (
-    <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-      <Circle cx={11} cy={11} r={7} stroke="rgba(255,255,255,0.5)" strokeWidth={1.8} />
-      <Path d="M16.5 16.5 L21 21" stroke="rgba(255,255,255,0.5)" strokeWidth={1.8} strokeLinecap="round" />
-    </Svg>
-  );
-}
-
-function ChevronIcon({ expanded }: { expanded: boolean }) {
-  return (
-    <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
-      <Path
-        d={expanded ? 'M6 15 L12 9 L18 15' : 'M9 18 L15 12 L9 6'}
-        stroke="rgba(255,255,255,0.7)"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </Svg>
-  );
-}
-
-function BackIcon() {
-  return (
-    <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-      <Path d="M15 18l-6-6 6-6" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
-    </Svg>
-  );
-}
-
 // ─── PersonRow ─────────────────────────────────────────────────────────────────
 
 function PersonRow({ person }: { person: Person }) {
@@ -202,7 +171,7 @@ function PersonRow({ person }: { person: Person }) {
           {person.name}
           <Text style={styles.personRole}>{' / '}{person.role}</Text>
         </Text>
-        <ChevronIcon expanded={expanded} />
+        <IconChevron expanded={expanded} color="rgba(255,255,255,0.7)" />
       </Pressable>
 
       {expanded && (
@@ -260,13 +229,13 @@ export default function WhosWhoScreen({ onBack }: Props) {
         hitSlop={12}
         accessibilityLabel="atrás"
       >
-        <BackIcon />
+        <IconBack />
       </Pressable>
 
       {/* Search bar */}
       <View style={styles.searchWrap}>
         <View style={styles.searchBar}>
-          <SearchIcon />
+          <IconSearch />
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
@@ -383,6 +352,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.1)',
     marginBottom: 8,
+    justifyContent: 'center'
   },
   categoryLabel: {
     fontFamily: FONTS.archivoBold,
