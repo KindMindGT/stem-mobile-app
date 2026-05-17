@@ -1,36 +1,38 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useRef, useState } from 'react';
+import {
+  Dimensions,
+  Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
-import GradientText from '../components/gradient-text';
-import RaceCard from '../components/race-card';
 import TabBar from '../components/tab-bar';
-import { GRADIENTS, STEM_BG } from '../theme/colors';
+import {
+  AERO_SKY,
+  APEX_GLACIER,
+  BURNOUT_ORANGE,
+  PITLANE_PINK,
+  STEM_BG,
+} from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
-const STRIP_EDGE_PADDING = 33;
-const UPCOMING_RACES = [
-  {
-    id: 'r1',
-    left: { flagCode: 'JP', name: 'Dynamis\nRacing' },
-    right: { flagCode: 'KR', name: 'Goldcrest\nRacing' },
-    start: '13:00 (SGT)',
-    date: 'Sat 11 July',
-  },
-  {
-    id: 'r2',
-    left: { flagCode: 'DE', name: 'Nordring\nGP' },
-    right: { flagCode: 'JP', name: 'Sakura\nApex' },
-    start: '15:30 (CEST)',
-    date: 'Sat 18 July',
-  },
-];
-const SPONSOR_COUNT = 6;
-const SPONSOR_ACTIVE_INDEX = 1;
+// ─── Static data ─────────────────────────────────────────────────────────────
 
-<<<<<<< Updated upstream
-export default function HomeScreen({ onTabChange } : { onTabChange: (id: string) => void }) {
-=======
+const COMING_UP = [
+  { id: 'c1', title: 'Branding',          date: 'Friday 30 Sept', time: '2:30 pm' },
+  { id: 'c2', title: 'Engineer + Design', date: 'Friday 30 Sept', time: '2:30 pm' },
+  { id: 'c3', title: 'Engineer + Design', date: 'Friday 30 Sept', time: '2:30 pm' },
+  { id: 'c4', title: 'PMI',               date: 'Friday 30 Sept', time: '2:30 pm' },
+];
+
 const NEWS = [
   { id: 'n1', image: require('../assets/images/news-inscripciones.png'), date: '15 - 30 Agosto 2026', location: 'HQ zona 14' },
   { id: 'n2', image: require('../assets/images/news-inscripciones.png'), date: '1 - 15 Sept 2026',    location: 'Campus Norte' },
@@ -195,7 +197,6 @@ function CalendarIcon() {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const GRID_GAP = 10;
-const GRID_COLS = 3;
 const CARD_WIDTH = Dimensions.get('window').width - LAYOUT.screenPadding * 2;
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
@@ -218,175 +219,204 @@ export default function HomeScreen({
   };
 
   const handleGridPress = (item: typeof GRID_ITEMS[0]) => {
-    if (item.action === 'events') {
-      onOpenEvents();
-    } else if (item.action === 'hub') {
-      onOpenHub();
-    } else if (item.tab) {
-      onTabChange(item.tab);
-    }
+    if (item.action === 'events') onOpenEvents();
+    else if (item.action === 'hub') onOpenHub();
+    else if (item.tab) onTabChange(item.tab);
   };
 
->>>>>>> Stashed changes
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Event guide" variant="blue-gradient" />
-      <View style={styles.heroBlock}>
-        <Text style={styles.heroTitle}>Grand Final</Text>
-        <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.heroSubtitle}>
-          Tokyo 2026
-        </GradientText>
-        <Text style={styles.upcomingLabel}>UPCOMING RACES</Text>
-      </View>
+      <GradientHeader title="Explore" variant="blue-gradient" />
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.strip}
-        contentContainerStyle={styles.stripContent}
-      >
-        {UPCOMING_RACES.map((race) => (
-          <RaceCard key={race.id} separator pair={race} />
-        ))}
-      </ScrollView>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-      <View style={styles.sponsorWrap}>
-        <View style={styles.sponsorBlock}>
-          <View style={styles.sponsorHeader}>
-            <Text style={styles.sponsorTitle}>SPONSORS</Text>
-            <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.viewAll}>
-              VIEW ALL
-            </GradientText>
-          </View>
-          <View style={styles.sponsorBox}>
-            <View style={styles.nordfield}>
-              <Text style={styles.nordfieldText}>NORDFIELD</Text>
-            </View>
-          </View>
-          <View style={styles.dots}>
-            {Array.from({ length: SPONSOR_COUNT }).map((_, i) => (
-              <View
-                key={i}
-                style={[styles.dot, i === SPONSOR_ACTIVE_INDEX && styles.dotActive]}
-              />
-            ))}
+        {/* ── Upcoming ──────────────────────────────────────────────────── */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Upcoming</Text>
+          <View style={styles.sectionIcons}>
+            <Pressable style={styles.iconBtn} hitSlop={8}><ChevronUpIcon /></Pressable>
+            <Pressable style={styles.iconBtn} hitSlop={8}><PinIcon /></Pressable>
           </View>
         </View>
-      </View>
+        <View style={styles.emptyCard}>
+          <Text style={styles.emptyText}>Nothing is currently schedule</Text>
+        </View>
+        <Pressable style={styles.exploreBtn}>
+          <LinearGradient colors={[APEX_GLACIER, AERO_SKY]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+          <Text style={styles.exploreBtnText}>Explore</Text>
+        </Pressable>
+
+        {/* ── Coming up ─────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionTitle, styles.comingUpTitle]}>Coming up</Text>
+        <View style={styles.comingUpCard}>
+          {COMING_UP.map((item, index) => {
+            const isLast = index === COMING_UP.length - 1;
+            return (
+              <View key={item.id}>
+                <View style={styles.comingRow}>
+                  <View style={styles.comingRowLeft}>
+                    <Text style={styles.comingRowTitle}>{item.title}</Text>
+                    <Text style={styles.comingRowSub}>{item.date}{'  ·  '}{item.time}</Text>
+                  </View>
+                  <Pressable hitSlop={8}><PlusIcon /></Pressable>
+                </View>
+                {!isLast && <View style={styles.divider} />}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* ── News ──────────────────────────────────────────────────────── */}
+        <View style={styles.searchRow}>
+          <View style={styles.searchBar}>
+            <SearchIcon />
+            <Text style={styles.searchPlaceholder}>Search</Text>
+          </View>
+        </View>
+        <Text style={[styles.sectionTitle, styles.newsTitle]}>News</Text>
+        <ScrollView
+          ref={newsScrollRef}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={handleNewsScroll}
+          decelerationRate="fast"
+          style={styles.newsCarousel}
+          contentContainerStyle={styles.newsCarouselContent}
+        >
+          {NEWS.map((item) => (
+            <View key={item.id} style={styles.newsCard}>
+              <Image source={item.image} style={styles.newsImage} resizeMode="cover" />
+              <LinearGradient colors={[PITLANE_PINK, BURNOUT_ORANGE]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={styles.newsFooter}>
+                <CalendarIcon />
+                <View style={styles.newsFooterText}>
+                  <Text style={styles.newsFooterDate}>{item.date}</Text>
+                  <Text style={styles.newsFooterLocation}>{item.location}</Text>
+                </View>
+              </LinearGradient>
+            </View>
+          ))}
+        </ScrollView>
+        <View style={styles.dots}>
+          {NEWS.map((_, i) => (
+            <View key={i} style={[styles.dot, i === activeNews && styles.dotActive]} />
+          ))}
+        </View>
+
+        {/* ── Explore grid ──────────────────────────────────────────────── */}
+        <Text style={[styles.sectionTitle, styles.gridTitle]}>Explore</Text>
+        <View style={styles.grid}>
+          {GRID_ITEMS.map((item) => (
+            <Pressable
+              key={item.id}
+              style={({ pressed }) => [styles.gridCell, pressed && styles.gridCellPressed]}
+              onPress={() => handleGridPress(item)}
+              accessibilityRole="button"
+              accessibilityLabel={item.label}
+            >
+              <View style={styles.gridIcon}><GridIcon id={item.id} /></View>
+              <Text style={styles.gridLabel}>{item.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        {/* ── Partners ──────────────────────────────────────────────────── */}
+        <Text style={styles.partnersHeading}>Thank you partners</Text>
+
+        <Text style={styles.partnersCategoryLabel}>Powered by</Text>
+        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
+          <Image source={require('../assets/images/shell.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+        </View>
+
+        <Text style={styles.partnersCategoryLabel}>supported by</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/honda-1596081_1280.webp')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/puma.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/visa.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/redbull.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+        </View>
+
+        <Text style={styles.partnersCategoryLabel}>allies</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/paleta.webp')} style={styles.partnerLogoImageLarge} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/bi.png')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+        </View>
+      </ScrollView>
 
       <TabBar active="home" onChange={onTabChange} />
     </View>
   );
 }
 
+// ─── Styles ───────────────────────────────────────────────────────────────────
+
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: STEM_BG,
-    overflow: 'hidden',
-  },
-  heroBlock: {
-    paddingTop: 28,
-    paddingHorizontal: LAYOUT.screenPadding,
-    alignItems: 'center',
-  },
-  heroTitle: {
-    ...TEXT.display,
-    textAlign: 'center',
-  },
-  heroSubtitle: {
-    fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
-    fontSize: 22,
-    marginTop: 4,
-    letterSpacing: -0.2,
-    textAlign: 'center',
-  },
-  upcomingLabel: {
-    marginTop: 22,
-    fontSize: 11,
-    letterSpacing: 3,
-    color: 'rgba(255,255,255,0.7)',
-    fontFamily: FONTS.interBold,
-    fontWeight: '700',
-  },
-  strip: {
-    marginTop: 14,
-    flexGrow: 0,
-  },
-  stripContent: {
-    paddingLeft: STRIP_EDGE_PADDING,
-    paddingRight: STRIP_EDGE_PADDING,
-    gap: 14,
-  },
-  sponsorWrap: {
-    paddingHorizontal: LAYOUT.screenPadding,
-    paddingTop: 18,
-  },
-  sponsorBlock: {
-    backgroundColor: 'rgba(13,71,161,0.6)',
-    borderRadius: 18,
-    paddingHorizontal: 16,
-    paddingTop: 14,
-    paddingBottom: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
-  },
-  sponsorHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  sponsorTitle: {
-    fontSize: 10,
-    letterSpacing: 2.5,
-    color: 'rgba(255,255,255,0.7)',
-    fontFamily: FONTS.interBold,
-    fontWeight: '700',
-  },
-  viewAll: {
-    fontSize: 11,
-    letterSpacing: 1.5,
-    fontWeight: '800',
-    fontFamily: FONTS.interBold,
-  },
-  sponsorBox: {
-    marginTop: 10,
-    height: 56,
-    borderRadius: 12,
-    backgroundColor: 'rgba(13,71,161,0.8)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nordfield: {
-    backgroundColor: '#1a8eff',
-    paddingHorizontal: 18,
-    paddingTop: 6,
-    paddingBottom: 7,
-    borderRadius: 6,
-  },
-  nordfieldText: {
-    fontFamily: FONTS.archivoBlackItalic,
-    fontStyle: 'italic',
-    fontWeight: '900',
-    color: '#fff',
-    fontSize: 22,
-    letterSpacing: 0.4,
-  },
-  dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 6,
-    marginTop: 10,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 99,
-    backgroundColor: 'rgba(255,255,255,0.28)',
-  },
-  dotActive: {
-    backgroundColor: '#fff',
-  },
+  screen: { flex: 1, backgroundColor: STEM_BG },
+  scroll: { flex: 1 },
+  scrollContent: { paddingHorizontal: LAYOUT.screenPadding, paddingTop: 24, paddingBottom: LAYOUT.scrollBottomWithTabs },
+
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+  sectionTitle: { ...TEXT.h2, fontSize: 22, lineHeight: 26, letterSpacing: -0.2, color: '#fff' },
+  sectionIcons: { flexDirection: 'row', gap: 8 },
+  iconBtn: { width: 32, height: 32, borderRadius: 99, borderWidth: 1, borderColor: 'rgba(255,255,255,0.45)', alignItems: 'center', justifyContent: 'center' },
+
+  emptyCard: { borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.25)', borderStyle: 'dashed', paddingVertical: 28, alignItems: 'center', justifyContent: 'center', marginBottom: 14, backgroundColor: 'rgba(255,255,255,0.05)' },
+  emptyText: { fontFamily: FONTS.interRegular, fontSize: 14, color: 'rgba(255,255,255,0.5)' },
+
+  exploreBtn: { height: 52, borderRadius: 14, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', marginBottom: 28 },
+  exploreBtnText: { ...TEXT.ctaLabel, fontSize: 16, letterSpacing: 0.4, color: '#fff' },
+
+  comingUpTitle: { marginBottom: 14 },
+  comingUpCard: { borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', overflow: 'hidden', backgroundColor: 'rgba(255,255,255,0.06)' },
+  comingRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14 },
+  comingRowLeft: { flex: 1 },
+  comingRowTitle: { fontFamily: FONTS.interBold, fontWeight: '700', fontSize: 15, color: '#fff', marginBottom: 3 },
+  comingRowSub: { fontFamily: FONTS.interRegular, fontSize: 13, color: 'rgba(255,255,255,0.6)' },
+  divider: { height: StyleSheet.hairlineWidth, backgroundColor: 'rgba(255,255,255,0.15)', marginHorizontal: 16 },
+
+  searchRow: { marginTop: 32, marginBottom: 18 },
+  searchBar: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)', backgroundColor: 'rgba(255,255,255,0.08)', paddingHorizontal: 14, paddingVertical: 13 },
+  searchPlaceholder: { fontFamily: FONTS.interRegular, fontSize: 15, color: 'rgba(255,255,255,0.45)' },
+
+  newsTitle: { marginBottom: 14 },
+  newsCarousel: { marginHorizontal: -LAYOUT.screenPadding },
+  newsCarouselContent: { paddingHorizontal: LAYOUT.screenPadding },
+  newsCard: { width: CARD_WIDTH, borderRadius: 18, overflow: 'hidden', backgroundColor: '#000' },
+  newsImage: { width: CARD_WIDTH, height: 260 },
+  newsFooter: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 18, paddingVertical: 14 },
+  newsFooterText: { flex: 1 },
+  newsFooterDate: { fontFamily: FONTS.interBold, fontWeight: '700', fontSize: 14, color: '#fff' },
+  newsFooterLocation: { fontFamily: FONTS.interRegular, fontSize: 13, color: 'rgba(255,255,255,0.85)', marginTop: 1 },
+  dots: { flexDirection: 'row', justifyContent: 'center', gap: 8, marginTop: 14 },
+  dot: { width: 7, height: 7, borderRadius: 99, backgroundColor: 'rgba(255,255,255,0.3)' },
+  dotActive: { backgroundColor: '#fff' },
+
+  gridTitle: { marginTop: 32, marginBottom: 16 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP },
+  gridCell: { aspectRatio: 1, backgroundColor: '#0D1B4B', borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 10, paddingBottom: 10, flexGrow: 1, flexBasis: '30%', maxWidth: '32%' },
+  gridCellPressed: { opacity: 0.75 },
+  gridIcon: { alignItems: 'center', justifyContent: 'center' },
+  gridLabel: { fontFamily: FONTS.interRegular, fontSize: 12, color: 'rgba(255,255,255,0.85)', textAlign: 'center' },
+
+  partnersHeading: { ...TEXT.h2, fontSize: 20, lineHeight: 24, color: '#fff', textAlign: 'center', marginTop: 8, marginBottom: 20 },
+  partnersCategoryLabel: { fontFamily: FONTS.interRegular, fontSize: 14, color: 'rgba(255,255,255,0.75)', marginBottom: 10, marginTop: 4 },
+  partnerCard: { borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingVertical: 14, paddingHorizontal: 12, marginBottom: 10 },
+  partnerCard2: { flex: 1, paddingVertical: 14, paddingHorizontal: 8, marginBottom: 0 },
+  partnerCardWhite: { backgroundColor: '#fff' },
+  partnersGrid2: { flexDirection: 'row', gap: 10, marginBottom: 10 },
+  partnerLogoImage: { width: '100%', height: 90 },
+  partnerLogoImageLarge: { width: '100%', height: 110 },
+  partnerLogoText: { fontFamily: FONTS.archivoBold, fontWeight: '700', fontSize: 20, color: '#222', textAlign: 'center' },
 });

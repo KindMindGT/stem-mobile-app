@@ -25,12 +25,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
+import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
 import MarketplaceScreen, { PRODUCTS } from '@/screens/marketplace-screen';
-import MenuScreen from '@/screens/menu-screen';
 import MoreScreen from '@/screens/more-screen';
 import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
@@ -49,14 +49,10 @@ type TabRoute =
   | { screen: 'teacher';  classId: string }
   // market tab routes
   | { screen: 'product';  productId: string }
-<<<<<<< Updated upstream
-  | { screen: 'cart';     fromProductId: string | null };
-=======
   | { screen: 'cart';     fromProductId: string | null }
   // home tab routes
   | { screen: 'events' }
   | { screen: 'hub' };
->>>>>>> Stashed changes
 
 type TabStacks = Record<TabId, TabRoute | null>;
 
@@ -90,9 +86,7 @@ export default function RootLayout() {
 
   // ── stage transitions ─────────────────────────────────────────────────────
   const handleSplashFinish = useCallback(() => setStage('login'), []);
-
   const handleLogin = useCallback(() => setStage('app'), []);
-
   const handleLogout = useCallback(() => {
     setStage('login');
     setTabStacks(INITIAL_TAB_STACKS);
@@ -104,8 +98,6 @@ export default function RootLayout() {
     setActiveTab(id as TabId);
   }, []);
 
-<<<<<<< Updated upstream
-=======
   // ── events ────────────────────────────────────────────────────────────────
   const handleOpenEvents = useCallback(() => {
     setTabStacks(prev => ({ ...prev, home: { screen: 'events' } }));
@@ -116,7 +108,6 @@ export default function RootLayout() {
     setTabStacks(prev => ({ ...prev, home: { screen: 'hub' } }));
   }, []);
 
->>>>>>> Stashed changes
   // ── edu stack ─────────────────────────────────────────────────────────────
   const handleOpenClass = useCallback((classId: string) => {
     setTabStacks(prev => ({ ...prev, [activeTab]: { screen: 'lesson', classId } }));
@@ -150,19 +141,13 @@ export default function RootLayout() {
       if (!cur) return prev;
 
       switch (cur.screen) {
-<<<<<<< Updated upstream
-=======
-        // home
         case 'events':
         case 'hub':
           return { ...prev, [activeTab]: null };
->>>>>>> Stashed changes
-        // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
         case 'lesson':
           return { ...prev, [activeTab]: null };
-        // market
         case 'cart':
           return {
             ...prev,
@@ -191,19 +176,13 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-<<<<<<< Updated upstream
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} />}
-=======
                 {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} />}
->>>>>>> Stashed changes
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
                 {activeTab === 'menu'   && <MoreScreen        onTabChange={handleTabChange} />}
               </View>
 
-<<<<<<< Updated upstream
-=======
               {/* ── Home detail screens ── */}
               {currentRoute?.screen === 'events' && (
                 <EventsScreen onBack={handleBack} />
@@ -212,7 +191,6 @@ export default function RootLayout() {
                 <HubScreen onBack={handleBack} />
               )}
 
->>>>>>> Stashed changes
               {/* ── Edu detail screens ── */}
               {currentRoute?.screen === 'lesson' && (
                 <LessonDetailScreen
@@ -237,9 +215,7 @@ export default function RootLayout() {
                 />
               )}
               {currentRoute?.screen === 'cart' && (
-                <CartScreen
-                  onPay={() => {}}
-                />
+                <CartScreen onPay={() => {}} />
               )}
             </>
           )}
