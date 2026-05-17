@@ -467,8 +467,6 @@ const styles = StyleSheet.create({
   sessionRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 12,
     gap: 12,
   },
   sessionDivider: {

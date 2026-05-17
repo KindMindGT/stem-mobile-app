@@ -30,7 +30,7 @@ export default function ScheduleRow({ id = 'su3', time1, time2, session, name, d
     </>
   );
 
-  const rowStyle = [styles.row, !last && styles.divider];
+  const rowStyle = [styles.row];
 
   if (onPress) {
     return (
@@ -58,10 +58,6 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: 'rgba(255,255,255,0.03)',
-  },
-  divider: {
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.06)',
   },
   timeCol: {
     width: 64,
