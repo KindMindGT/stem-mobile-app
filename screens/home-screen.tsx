@@ -296,9 +296,10 @@ function CalendarIcon() {
 
 type Props = {
   onTabChange: (id: string) => void;
+  onOpenWhosWho: () => void;
 };
 
-export default function HomeScreen({ onTabChange }: Props) {
+export default function HomeScreen({ onTabChange, onOpenWhosWho }: Props) {
   const [activeNews, setActiveNews] = useState(0);
   const newsScrollRef = useRef<ScrollView>(null);
 
@@ -425,7 +426,7 @@ export default function HomeScreen({ onTabChange }: Props) {
             <Pressable
               key={item.id}
               style={({ pressed }) => [styles.gridCell, pressed && styles.gridCellPressed]}
-              onPress={() => onTabChange(item.tab)}
+              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab)}
               accessibilityRole="button"
               accessibilityLabel={item.label}
             >
