@@ -325,32 +325,32 @@ export default function HomeScreen({
 
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
-          <Image source={require('../assets/images/shell.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          <Text style={styles.partnerLogoText}>🐚 Shell</Text>
         </View>
 
         <Text style={styles.partnersCategoryLabel}>supported by</Text>
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/honda-1596081_1280.webp')} style={styles.partnerLogoImage} resizeMode="contain" />
+            <Text style={styles.partnerLogoText}>Honda</Text>
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/puma.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+            <Text style={styles.partnerLogoText}>Puma</Text>
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#1A1F71' }]}>
+            <Text style={[styles.partnerLogoText, { color: '#fff', fontSize: 24 }]}>VISA</Text>
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/visa.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/redbull.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+            <Text style={styles.partnerLogoText}>Red Bull</Text>
           </View>
         </View>
 
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/paleta.webp')} style={styles.partnerLogoImageLarge} resizeMode="contain" />
+            <Text style={styles.partnerLogoText}>Paleta</Text>
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image source={require('../assets/images/bi.png')} style={styles.partnerLogoImage} resizeMode="contain" />
+          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#003087' }]}>
+            <Text style={[styles.partnerLogoText, { color: '#fff' }]}>Bi Banco{'\n'}Industrial</Text>
           </View>
         </View>
       </ScrollView>
