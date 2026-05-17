@@ -241,11 +241,12 @@ function MyScheduleView({ onOpenClass }: { onOpenClass: (id: string) => void }) 
         onNext={handleNextMonth}
       />
 
-      {/* Horizontal day strip */}
+      {/* Horizontal day strip — fixed height so it never grows into the sessions area */}
       <ScrollView
         ref={calendarRef}
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={styles.calendarStrip}
         contentContainerStyle={styles.calendarRow}
       >
         {daysInMonth.map((d) => {
@@ -427,11 +428,17 @@ const styles = StyleSheet.create({
     letterSpacing: -0.2,
   },
 
-  // Calendar strip
+  // Calendar strip — explicit height = chip height + vertical padding
+  calendarStrip: {
+    flexGrow: 0,
+    flexShrink: 0,
+    height: 92, // DAY_CHIP height + paddingVertical × 2
+  },
   calendarRow: {
     paddingHorizontal: LAYOUT.screenPadding,
     paddingVertical: 10,
     gap: DAY_CHIP_GAP,
+    alignItems: 'center',
   },
 
   // Date heading
