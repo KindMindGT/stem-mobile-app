@@ -34,6 +34,7 @@ import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
 import TeacherScreen from '@/screens/teacher-screen';
+import WhosWhoScreen from '@/screens/whos-who-screen';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -47,7 +48,9 @@ type TabRoute =
   | { screen: 'teacher';  classId: string }
   // market tab routes
   | { screen: 'product';  productId: string }
-  | { screen: 'cart';     fromProductId: string | null };
+  | { screen: 'cart';     fromProductId: string | null }
+  // home tab routes
+  | { screen: 'whoswho' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
 
@@ -95,6 +98,11 @@ export default function RootLayout() {
     setActiveTab(id as TabId);
   }, []);
 
+  // ── home stack ────────────────────────────────────────────────────────────
+  const handleOpenWhosWho = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'whoswho' } }));
+  }, []);
+
   // ── edu stack ─────────────────────────────────────────────────────────────
   const handleOpenClass = useCallback((classId: string) => {
     setTabStacks(prev => ({ ...prev, [activeTab]: { screen: 'lesson', classId } }));
@@ -131,6 +139,8 @@ export default function RootLayout() {
         // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
+        case 'whoswho':
+          return { ...prev, [activeTab]: null };
         case 'lesson':
           return { ...prev, [activeTab]: null };
         // market
@@ -162,12 +172,17 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
                 {activeTab === 'menu'   && <MenuScreen        onTabChange={handleTabChange} />}
               </View>
+
+              {/* ── Home detail screens ── */}
+              {currentRoute?.screen === 'whoswho' && (
+                <WhosWhoScreen onBack={handleBack} />
+              )}
 
               {/* ── Edu detail screens ── */}
               {currentRoute?.screen === 'lesson' && (
