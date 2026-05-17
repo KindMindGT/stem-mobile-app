@@ -1,5 +1,18 @@
+import {
+  addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  format,
+  isSameDay,
+  isSameMonth,
+  isToday,
+  startOfMonth,
+  startOfToday,
+  subMonths,
+} from 'date-fns';
+import { es } from 'date-fns/locale';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -8,15 +21,16 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Path } from 'react-native-svg';
 import DayChip from '../components/day-chip';
 import GradientHeader from '../components/gradient-header';
 import ScheduleRow from '../components/schedule-row';
 import TabBar from '../components/tab-bar';
 import { BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
-import { SHADOWS } from '../theme/shadows';
 import { FONTS, TEXT } from '../theme/typography';
-// ─── Data ─────────────────────────────────────────────────────────────────────
+
+// ─── Types ─────────────────────────────────────────────────────────────────────
 
 export type Session = {
   id: string;
@@ -27,86 +41,81 @@ export type Session = {
   done?: boolean;
 };
 
-export type Day = {
-  id: string;       // unique key, e.g. '2025-09-10'
-  dow: string;      // 'FRI'
-  day: string;      // '10'
-  month: string;    // 'Sept'
-  label: string;    // 'Friday, Sept 10'
-  sessions: Session[];
+// Sessions keyed by ISO date string 'yyyy-MM-dd'
+export type SessionMap = Record<string, Session[]>;
+
+// ─── Session data ──────────────────────────────────────────────────────────────
+// Add or remove entries here; the calendar adapts automatically.
+
+export const SESSIONS: SessionMap = {
+  '2026-05-10': [
+    { id: 's-fri-1', title: 'PMI', time: '02:30', duration: '1.5hrs', teacher: { name: 'Pablo Melendez', initials: 'PM' }, done: true },
+    { id: 's-fri-2', title: 'Growth', time: '02:30', duration: '1.5hrs', teacher: { name: 'Ines Ordonez', initials: 'IO' }, done: true },
+    { id: 's-fri-3', title: 'Design + Engineer', time: '02:30', duration: '1.5hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
+  ],
+  '2026-05-11': [
+    { id: 's-sat-1', title: 'Aerodinámica Básica', time: '08:30', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
+    { id: 's-sat-2', title: 'Telemetría 101', time: '11:00', duration: '1.5hrs', teacher: { name: 'Pablo Melendez', initials: 'PM' } },
+  ],
+  '2026-05-12': [
+    { id: 's-sun-1', title: 'Suspensión y Geometría', time: '09:00', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
+  ],
+  '2026-05-13': [
+    { id: 's-mon-1', title: 'Aerodynamic workshop', time: '02:30', duration: '1.5hrs', teacher: { name: 'Hasso Tangelmann', initials: 'HT' } },
+    { id: 's-mon-2', title: 'Race Strategy', time: '14:00', duration: '1hr', teacher: { name: 'Ines Ordonez', initials: 'IO' } },
+  ],
+  '2026-05-14': [
+    { id: 's-tue-1', title: 'Gran Final', time: '10:00', duration: '3hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
+  ],
 };
 
-export const SCHEDULE: Day[] = [
-  {
-    id: '2025-09-10',
-    dow: 'FRI', day: '10', month: 'Sept',
-    label: 'Friday, Sept 10',
-    sessions: [
-      { id: 's-fri-1', title: 'PMI', time: '02:30', duration: '1.5hrs', teacher: { name: 'Pablo Melendez',  initials: 'PM' }, done: true },
-      { id: 's-fri-2', title: 'Growth', time: '02:30', duration: '1.5hrs', teacher: { name: 'Ines Ordonez',   initials: 'IO' }, done: true },
-      { id: 's-fri-3', title: 'Design + Engineer', time: '02:30', duration: '1.5hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
-    ],
-  },
-  {
-    id: '2025-09-11',
-    dow: 'SAT', day: '11', month: 'Sept',
-    label: 'Saturday, Sept 11',
-    sessions: [
-      { id: 's-sat-1', title: 'Aerodinámica Básica', time: '08:30', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
-      { id: 's-sat-2', title: 'Telemetría 101', time: '11:00', duration: '1.5hrs', teacher: { name: 'Pablo Melendez', initials: 'PM' } },
-    ],
-  },
-  {
-    id: '2025-09-12',
-    dow: 'SUN', day: '12', month: 'Sept',
-    label: 'Sunday, Sept 12',
-    sessions: [
-      { id: 's-sun-1', title: 'Suspensión y Geometría', time: '09:00', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
-    ],
-  },
-  {
-    id: '2025-09-13',
-    dow: 'MON', day: '13', month: 'Sept',
-    label: 'Monday, Sept 13',
-    sessions: [
-      { id: 's-mon-1', title: 'Aerodynamic workshop', time: '02:30', duration: '1.5hrs', teacher: { name: 'Hasso Tangelmann', initials: 'HT' } },
-      { id: 's-mon-2', title: 'Race Strategy', time: '14:00', duration: '1hr', teacher: { name: 'Ines Ordonez', initials: 'IO' } },
-    ],
-  },
-  {
-    id: '2025-09-14',
-    dow: 'TUE', day: '14', month: 'Sept',
-    label: 'Tuesday, Sept 14',
-    sessions: [
-      { id: 's-tue-1', title: 'Gran Final', time: '10:00', duration: '3hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
-    ],
-  },
-];
+// ─── Helpers ───────────────────────────────────────────────────────────────────
 
-const FAB_SIZE = 58;
+const dateKey = (d: Date) => format(d, 'yyyy-MM-dd');
 
-// ─── Session row (image style) ─────────────────────────────────────────────────
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-function SessionRow({ session, isLast, onPress }: { session: Session; isLast: boolean; onPress: () => void }) {
+/** Full heading label: "Viernes, 10 Sept" */
+const dayLabel = (d: Date) =>
+  capitalize(format(d, "EEEE, d MMM", { locale: es }));
+
+/** Month + year heading: "Septiembre 2025" */
+const monthLabel = (d: Date) =>
+  capitalize(format(d, 'MMMM yyyy', { locale: es }));
+
+// ─── SessionRow ────────────────────────────────────────────────────────────────
+
+function SessionRow({
+  session,
+  isLast,
+  onPress,
+}: {
+  session: Session;
+  isLast: boolean;
+  onPress: () => void;
+}) {
   return (
-    <>
-      <Pressable
-        onPress={onPress}
-        accessibilityRole="button"
-        accessibilityLabel={session.title}
-        style={({ pressed }) => [styles.sessionRow, !isLast && styles.sessionDivider, pressed && styles.sessionPressed]}
-      >
-        {
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={session.title}
+      style={({ pressed }) => [
+        styles.sessionRow,
+        !isLast && styles.sessionDivider,
+        pressed && styles.sessionPressed,
+      ]}
+    >
+      {
         /*
-          
-       <PhotoCircle size={46} initials={session.teacher.initials} ring={false} />
-       <View style={styles.sessionInfo}>
-         <Text style={styles.sessionTitle}>{session.title}</Text>
-         <Text style={styles.sessionMeta}>{session.time} · {session.duration}</Text>
-         <Text style={styles.sessionTeacher}>{session.teacher.name}</Text>
-       </View>
+        <PhotoCircle size={46} initials={session.teacher.initials} ring={false} />
+        <View style={styles.sessionInfo}>
+          <Text style={styles.sessionTitle}>{session.title}</Text>
+          <Text style={styles.sessionMeta}>{session.time} · {session.duration}</Text>
+          <Text style={styles.sessionTeacher}>{session.teacher.name}</Text>
+        </View>
+        {session.done && <View style={styles.doneDot} />}
         */
-        }
+      }
         <View style={styles.rows}>
           <ScheduleRow
             time1={session.time}
@@ -117,89 +126,161 @@ function SessionRow({ session, isLast, onPress }: { session: Session; isLast: bo
           />
         </View>
         {/* {session.done && <View style={styles.doneDot} />} */}
-      </Pressable>
-    </>
+    </Pressable>
   );
 }
 
-// ─── All-sessions grouped view ────────────────────────────────────────────────
+// ─── SessionsBlock ─────────────────────────────────────────────────────────────
 
-function AllSessionsView({ onOpenClass }: { onOpenClass: (id: string) => void }) {
-  const insets = useSafeAreaInsets();
-  const paddingBottom = insets.bottom + LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 16;
+function SessionsBlock({
+  date,
+  sessions,
+  onOpenClass,
+}: {
+  date: Date;
+  sessions: Session[];
+  onOpenClass: (id: string) => void;
+}) {
   return (
-    <ScrollView
-      style={styles.flex}
-      contentContainerStyle={[styles.allSessionsContent, { paddingBottom }]}
-      showsVerticalScrollIndicator={false}
-    >
-      {SCHEDULE.map((day) => (
-        <View key={day.id}>
-          {/* Date heading */}
-          <Text style={styles.dateHeading}>{day.label}</Text>
-          {/* Sessions card */}
-          <View style={styles.sessionsCard}>
-            {day.sessions.map((s, i) => (
-              <SessionRow
-                key={s.id}
-                session={s}
-                isLast={i === day.sessions.length - 1}
-                onPress={() => onOpenClass(s.id)}
-              />
-            ))}
-          </View>
-        </View>
-      ))}
-    </ScrollView>
+    <View>
+      <Text style={styles.dateHeading}>{dayLabel(date)}</Text>
+      <View style={styles.sessionsCard}>
+        {sessions.map((s, i) => (
+          <SessionRow
+            key={s.id}
+            session={s}
+            isLast={i === sessions.length - 1}
+            onPress={() => onOpenClass(s.id)}
+          />
+        ))}
+      </View>
+    </View>
   );
 }
 
-// ─── My-schedule view (calendar + day sessions) ────────────────────────────────
+// ─── MonthNavigator ────────────────────────────────────────────────────────────
+
+function MonthNavigator({
+  current,
+  onPrev,
+  onNext,
+}: {
+  current: Date;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  return (
+    <View style={styles.monthNav}>
+      <Pressable onPress={onPrev} hitSlop={12} accessibilityLabel="mes anterior">
+        <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+          <Path d="M15 18l-6-6 6-6" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      </Pressable>
+      <Text style={styles.monthLabel}>{monthLabel(current)}</Text>
+      <Pressable onPress={onNext} hitSlop={12} accessibilityLabel="mes siguiente">
+        <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+          <Path d="M9 18l6-6-6-6" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      </Pressable>
+    </View>
+  );
+}
+
+// ─── MyScheduleView ────────────────────────────────────────────────────────────
 
 function MyScheduleView({ onOpenClass }: { onOpenClass: (id: string) => void }) {
-  const [selectedId, setSelectedId] = useState(SCHEDULE[0].id);
+  const today = startOfToday();
+  const [viewMonth, setViewMonth] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(today);
   const calendarRef = useRef<ScrollView>(null);
   const insets = useSafeAreaInsets();
   const paddingBottom = insets.bottom + LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 16;
 
-  const selectedDay = SCHEDULE.find(d => d.id === selectedId) ?? SCHEDULE[0];
+  // All days in the viewed month
+  const daysInMonth = useMemo(
+    () => eachDayOfInterval({ start: startOfMonth(viewMonth), end: endOfMonth(viewMonth) }),
+    [viewMonth],
+  );
+
+  // Sessions for the selected day
+  const selectedSessions = SESSIONS[dateKey(selectedDate)] ?? [];
+
+  // When the month changes, keep selectedDate inside the new month
+  const handlePrevMonth = useCallback(() => {
+    setViewMonth(prev => {
+      const next = subMonths(prev, 1);
+      setSelectedDate(d => isSameMonth(d, prev) ? startOfMonth(next) : d);
+      return next;
+    });
+  }, []);
+
+  const handleNextMonth = useCallback(() => {
+    setViewMonth(prev => {
+      const next = addMonths(prev, 1);
+      setSelectedDate(d => isSameMonth(d, prev) ? startOfMonth(next) : d);
+      return next;
+    });
+  }, []);
+
+  // Scroll calendar to the selected chip
+  useEffect(() => {
+    const idx = daysInMonth.findIndex(d => isSameDay(d, selectedDate));
+    if (idx >= 0) {
+      calendarRef.current?.scrollTo({
+        x: idx * (DAY_CHIP_WIDTH + DAY_CHIP_GAP),
+        animated: true,
+      });
+    }
+  }, [selectedDate, daysInMonth]);
 
   return (
     <View style={styles.flex}>
-      {/* Horizontal calendar */}
+      <MonthNavigator
+        current={viewMonth}
+        onPrev={handlePrevMonth}
+        onNext={handleNextMonth}
+      />
+
+      {/* Horizontal day strip */}
       <ScrollView
         ref={calendarRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.calendarRow}
       >
-        {SCHEDULE.map((day) => (
-          <DayChip
-            key={day.id}
-            dow={day.dow}
-            day={day.day}
-            selected={day.id === selectedId}
-            onPress={() => setSelectedId(day.id)}
-          />
-        ))}
+        {daysInMonth.map((d) => {
+          const key = dateKey(d);
+          const hasSessions = Boolean(SESSIONS[key]?.length);
+          return (
+            <DayChip
+              key={key}
+              dow={format(d, 'EEE', { locale: es }).toUpperCase().slice(0, 3)}
+              day={format(d, 'd')}
+              selected={isSameDay(d, selectedDate)}
+              today={isToday(d)}
+              hasSessions={hasSessions}
+              onPress={() => setSelectedDate(d)}
+            />
+          );
+        })}
       </ScrollView>
 
       {/* Sessions for selected day */}
       <ScrollView
-        //style={styles.flex}
+        style={styles.flex}
         contentContainerStyle={{ paddingBottom }}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.dateHeading}>{selectedDay.label}</Text>
-        {selectedDay.sessions.length === 0 ? (
+        <Text style={styles.dateHeading}>{dayLabel(selectedDate)}</Text>
+        {selectedSessions.length === 0 ? (
           <Text style={styles.emptyText}>Sin sesiones para este día.</Text>
         ) : (
           <View style={styles.sessionsCard}>
-            {selectedDay.sessions.map((s, i) => (
+            {selectedSessions.map((s, i) => (
               <SessionRow
                 key={s.id}
                 session={s}
-                isLast={i === selectedDay.sessions.length - 1}
+                isLast={i === selectedSessions.length - 1}
                 onPress={() => onOpenClass(s.id)}
               />
             ))}
@@ -207,6 +288,39 @@ function MyScheduleView({ onOpenClass }: { onOpenClass: (id: string) => void }) 
         )}
       </ScrollView>
     </View>
+  );
+}
+
+// ─── AllSessionsView ───────────────────────────────────────────────────────────
+
+function AllSessionsView({ onOpenClass }: { onOpenClass: (id: string) => void }) {
+  const insets = useSafeAreaInsets();
+  const paddingBottom = insets.bottom + LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 16;
+
+  // Sort the entries by date and render each group
+  const sortedDays = useMemo(
+    () =>
+      Object.keys(SESSIONS)
+        .sort()
+        .map(key => ({ date: new Date(key + 'T00:00:00'), sessions: SESSIONS[key] })),
+    [],
+  );
+
+  return (
+    <ScrollView
+      style={styles.flex}
+      contentContainerStyle={{ paddingBottom }}
+      showsVerticalScrollIndicator={false}
+    >
+      {sortedDays.map(({ date, sessions }) => (
+        <SessionsBlock
+          key={dateKey(date)}
+          date={date}
+          sessions={sessions}
+          onOpenClass={onOpenClass}
+        />
+      ))}
+    </ScrollView>
   );
 }
 
@@ -258,42 +372,22 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
         : <AllSessionsView onOpenClass={onOpenClass} />
       }
 
-      {/* FAB 
-      <Pressable style={styles.fab} accessibilityRole="button" accessibilityLabel="agregar sesión">
-        <LinearGradient colors={['#ff2a8a', '#c01880']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
-        <Svg width={FAB_SIZE} height={FAB_SIZE} viewBox={`0 0 ${FAB_SIZE} ${FAB_SIZE}`} style={StyleSheet.absoluteFill}>
-          <Defs>
-            <RadialGradient id="fabGlow" cx="45.24" cy="10.44" r="31.9" gradientUnits="userSpaceOnUse">
-              <Stop offset="0" stopColor="#ff8a2a" stopOpacity="1" />
-              <Stop offset="0.55" stopColor="#ff8a2a" stopOpacity="0" />
-            </RadialGradient>
-          </Defs>
-          <Rect width={FAB_SIZE} height={FAB_SIZE} fill="url(#fabGlow)" />
-        </Svg>
-        <View style={styles.fabIcon} pointerEvents="none">
-          <Svg width="26" height="26" viewBox="0 0 24 24">
-            <Path d="M12 5 V19 M5 12 H19" stroke="#fff" strokeWidth={2.6} strokeLinecap="round" />
-          </Svg>
-        </View>
-      </Pressable>
-      */}
-
       <TabBar active="cal" onChange={onTabChange} />
     </View>
   );
 }
 
+// ─── Constants ─────────────────────────────────────────────────────────────────
+
+const DAY_CHIP_WIDTH = 60;
+const DAY_CHIP_GAP   = 8;
+
 // ─── Styles ────────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: STEM_BG,
-    overflow: 'hidden',
-  },
-  flex: {
-    flex: 1,
-  },
+  screen:  { flex: 1, backgroundColor: STEM_BG, overflow: 'hidden' },
+  flex:    { flex: 1 },
+
   // Inner tabs
   tabs: {
     flexDirection: 'row',
@@ -307,30 +401,40 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     position: 'relative',
   },
-  tabText: {
-    color: 'rgba(255,255,255,0.45)',
-    ...(TEXT.tabLabel as object),
-  },
-  tabTextActive: {
-    color: '#fff',
-  },
+  tabText:       { color: 'rgba(255,255,255,0.45)', ...(TEXT.tabLabel as object) },
+  tabTextActive: { color: '#fff' },
   tabUnderline: {
     position: 'absolute',
-    left: '22%',
-    right: '22%',
-    bottom: -1,
-    height: 3,
-    borderRadius: 99,
+    left: '22%', right: '22%', bottom: -1,
+    height: 3, borderRadius: 99,
+  },
+
+  // Month navigator
+  monthNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: LAYOUT.screenPadding,
+    paddingTop: 14,
+    paddingBottom: 4,
+  },
+  monthLabel: {
+    fontFamily: FONTS.archivoBoldItalic,
+    fontStyle: 'italic' as const,
+    fontWeight: '700' as const,
+    fontSize: 17,
+    color: '#fff',
+    letterSpacing: -0.2,
   },
 
   // Calendar strip
   calendarRow: {
     paddingHorizontal: LAYOUT.screenPadding,
-    paddingVertical: 14,
-    gap: 10,
+    paddingVertical: 10,
+    gap: DAY_CHIP_GAP,
   },
 
-  // Date heading (both views)
+  // Date heading
   dateHeading: {
     fontFamily: FONTS.archivoBoldItalic,
     fontStyle: 'italic' as const,
@@ -357,19 +461,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
-    //paddingVertical: 12,
+    paddingVertical: 12,
     gap: 12,
   },
   sessionDivider: {
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.10)',
   },
-  sessionPressed: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-  },
-  sessionInfo: {
-    flex: 1,
-  },
+  sessionPressed:  { backgroundColor: 'rgba(255,255,255,0.06)' },
+  sessionInfo:     { flex: 1 },
   sessionTitle: {
     fontFamily: FONTS.archivoBoldItalic,
     fontStyle: 'italic' as const,
@@ -392,8 +492,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   doneDot: {
-    width: 8,
-    height: 8,
+    width: 8, height: 8,
     borderRadius: 4,
     backgroundColor: '#4caf50',
   },
@@ -403,28 +502,6 @@ const styles = StyleSheet.create({
     ...TEXT.bodyMuted,
     paddingHorizontal: LAYOUT.screenPadding,
     paddingTop: 8,
-  },
-
-  // All sessions scroll padding
-  allSessionsContent: {
-    paddingBottom: 120,
-  },
-
-  // FAB
-  fab: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: LAYOUT.tabBarBottom + LAYOUT.tabBarHeight + 28,
-    width: FAB_SIZE,
-    height: FAB_SIZE,
-    borderRadius: 99,
-    overflow: 'hidden',
-    ...SHADOWS.fab,
-  },
-  fabIcon: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...StyleSheet.absoluteFillObject,
   },
   rows: {
     marginTop: 6,
