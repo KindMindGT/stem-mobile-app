@@ -1,5 +1,6 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import GradientText from '../components/gradient-text';
 import RaceCard from '../components/race-card';
@@ -28,9 +29,6 @@ const UPCOMING_RACES = [
 const SPONSOR_COUNT = 6;
 const SPONSOR_ACTIVE_INDEX = 1;
 
-<<<<<<< Updated upstream
-export default function HomeScreen({ onTabChange } : { onTabChange: (id: string) => void }) {
-=======
 const NEWS = [
   { id: 'n1', image: require('../assets/images/news-inscripciones.png'), date: '15 - 30 Agosto 2026', location: 'HQ zona 14' },
   { id: 'n2', image: require('../assets/images/news-inscripciones.png'), date: '1 - 15 Sept 2026',    location: 'Campus Norte' },
@@ -227,7 +225,6 @@ export default function HomeScreen({
     }
   };
 
->>>>>>> Stashed changes
   return (
     <View style={styles.screen}>
       <GradientHeader title="Event guide" variant="blue-gradient" />
