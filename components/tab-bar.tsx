@@ -3,15 +3,16 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { STEM_NAV } from '../theme/colors';
-import { LAYOUT } from '../theme/layout';
-import { SHADOWS } from '../theme/shadows';
 
-const INACTIVE_STROKE = 'rgba(255,255,255,0.6)';
+const INACTIVE_STROKE = 'rgba(255,255,255,0.5)';
 const ACTIVE_COLOR = '#ffffff';
 const DEFAULT_TABS = ['home', 'cal', 'market', 'user', 'menu'];
 
+// Tab bar content height (Apple HIG standard: 49pt)
+export const TAB_BAR_CONTENT_HEIGHT = 49;
+
 const TAB_ICONS = {
-  home: ({ stroke, fill, inactive } : { stroke: string; fill: string; inactive: string }) => (
+  home: ({ fill, inactive }: { fill: string; inactive: string }) => (
     <Path
       d="M4 11 L12 4 L20 11 V20 H14 V14 H10 V20 H4 Z"
       fill={fill}
@@ -21,19 +22,13 @@ const TAB_ICONS = {
       strokeLinejoin="round"
     />
   ),
-  cal: ({ stroke, fill, inactive, on } : { stroke: string; fill: string; inactive: string; on: boolean }) => (
+  cal: ({ fill, inactive, on }: { fill: string; inactive: string; on: boolean }) => (
     <>
       <Rect
-        x="3.5"
-        y="5"
-        width="17"
-        height="15"
-        rx="2.5"
+        x="3.5" y="5" width="17" height="15" rx="2.5"
         fill={fill}
         stroke={fill === 'none' ? inactive : 'none'}
         strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
       />
       <Path d="M3.5 9.5 H20.5" stroke={on ? ACTIVE_COLOR : inactive} strokeWidth={1.6} />
       <Path
@@ -44,39 +39,22 @@ const TAB_ICONS = {
       />
     </>
   ),
-  user: ({ stroke } : { stroke: string }) => (
+  user: ({ stroke }: { stroke: string }) => (
     <>
-      <Circle
-        cx="12"
-        cy="9"
-        r="3.5"
-        fill="none"
-        stroke={stroke}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <Circle cx="12" cy="9" r="3.5" fill="none" stroke={stroke} strokeWidth={2} />
       <Path
         d="M5 20 C 5 16 8 14 12 14 C 16 14 19 16 19 20"
-        fill="none"
-        stroke={stroke}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fill="none" stroke={stroke} strokeWidth={2} strokeLinecap="round"
       />
     </>
   ),
-  menu: ({ stroke } : { stroke: string }) => (
+  menu: ({ stroke }: { stroke: string }) => (
     <Path
       d="M4 7 H20 M4 12 H20 M4 17 H20"
-      fill="none"
-      stroke={stroke}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="none" stroke={stroke} strokeWidth={2} strokeLinecap="round"
     />
   ),
-  market: ({ fill, inactive, on } : { fill: string; inactive: string; on: boolean }) => (
+  market: ({ fill, inactive, on }: { fill: string; inactive: string; on: boolean }) => (
     <>
       <Path
         d="M5 8 H19 L18 20 H6 Z"
@@ -97,14 +75,14 @@ const TAB_ICONS = {
   ),
 };
 
-function TabIcon({ name, on } : { name: string; on: boolean }) {
+function TabIcon({ name, on }: { name: string; on: boolean }) {
   const renderer = TAB_ICONS[name as keyof typeof TAB_ICONS];
   if (!renderer) return null;
   const stroke = on ? ACTIVE_COLOR : INACTIVE_STROKE;
   const fill = on ? ACTIVE_COLOR : 'none';
   return (
     <Svg width="26" height="26" viewBox="0 0 24 24">
-      {renderer({ stroke, fill, inactive: INACTIVE_STROKE, on })}
+      {renderer({ stroke, fill, inactive: INACTIVE_STROKE, on } as any)}
     </Svg>
   );
 }
@@ -115,21 +93,19 @@ type Props = {
   items?: string[];
 };
 
-export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS } : Props) {
+export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS }: Props) {
   const insets = useSafeAreaInsets();
-  // Sit above the system navigation bar/home indicator with a fixed gap
-  const bottomOffset = insets.bottom + LAYOUT.tabBarBottom;
 
   return (
-    <View style={[styles.wrap, { bottom: bottomOffset }]} pointerEvents="box-none">
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
+      <View style={styles.separator} />
       <View style={styles.bar}>
-        <View style={[StyleSheet.absoluteFill, styles.tint]} />
         {items.map((id) => (
           <Pressable
             key={id}
             style={styles.btn}
-            onPress={() => onChange && onChange(id)}
-            hitSlop={8}
+            onPress={() => onChange?.(id)}
+            hitSlop={4}
             accessibilityRole="tab"
             accessibilityLabel={id}
             accessibilityState={{ selected: active === id }}
@@ -143,25 +119,18 @@ export default function TabBar({ active = 'home', onChange, items = DEFAULT_TABS
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    position: 'absolute',
-    left: LAYOUT.edgePadding,
-    right: LAYOUT.edgePadding,
-    height: LAYOUT.tabBarHeight,
+  container: {
+    backgroundColor: STEM_NAV,
+    // No absolute positioning — sits in the normal layout flow
+  },
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
   bar: {
-    flex: 1,
+    height: TAB_BAR_CONTENT_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 22,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
-    ...SHADOWS.tabBar,
-  },
-  tint: {
-    backgroundColor: STEM_NAV,
-    borderRadius: 22,
   },
   btn: {
     flex: 1,
