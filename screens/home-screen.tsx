@@ -293,10 +293,12 @@ export default function HomeScreen({
   onTabChange,
   onOpenEvents,
   onOpenHub,
+  onOpenWhosWho,
 }: {
   onTabChange: (id: string) => void;
   onOpenEvents: () => void;
   onOpenHub: () => void;
+  onOpenWhosWho: () => void;
 }) {
   const [activeNews, setActiveNews] = useState(0);
   const newsScrollRef = useRef<ScrollView>(null);
@@ -311,6 +313,8 @@ export default function HomeScreen({
       onOpenEvents();
     } else if (item.action === 'hub') {
       onOpenHub();
+    } else if (item.action === 'whoswho') {
+      onOpenWhosWho();
     } else if (item.tab) {
       onTabChange(item.tab);
     }
@@ -434,7 +438,7 @@ export default function HomeScreen({
             <Pressable
               key={item.id}
               style={({ pressed }) => [styles.gridCell, pressed && styles.gridCellPressed]}
-              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab)}
+              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab as string)}
               accessibilityRole="button"
               accessibilityLabel={item.label}
             >

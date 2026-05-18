@@ -25,7 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
-import EventsScreen from '@/screens/events-screen';
+//import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
@@ -197,9 +197,9 @@ export default function RootLayout() {
               </View>
 
               {/* ── Home detail screens ── */}
-              {currentRoute?.screen === 'events' && (
+              {/*currentRoute?.screen === 'events' && (
                 <EventsScreen onBack={handleBack} />
-              )}
+              )*/}
               {currentRoute?.screen === 'hub' && (
                 <HubScreen onBack={handleBack} />
               )}
