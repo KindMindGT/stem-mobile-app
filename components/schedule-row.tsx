@@ -1,13 +1,11 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { GRADIENTS } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 import CheckBadge from './check-badge';
-import GradientText from './gradient-text';
 
 type Props = {
-  id: string;
+  id?: string;
   time1: string;
   time2: string;
   session: string;
@@ -17,7 +15,7 @@ type Props = {
   onPress?: (id: string) => void;
 };
 
-export default function ScheduleRow({ id, time1, time2, session, name, done, last, onPress } : Props) {
+export default function ScheduleRow({ id = 'su3', time1, time2, session, name, done, last, onPress }: Props) {
   const content = (
     <>
       <View style={styles.timeCol}>
@@ -25,16 +23,14 @@ export default function ScheduleRow({ id, time1, time2, session, name, done, las
         <Text style={styles.time}>{time2}</Text>
       </View>
       <View style={styles.middle}>
-        <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.sessionLabel}>
-          {session}
-        </GradientText>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.sessionTeacher}>{name}</Text>
+        <Text style={styles.sessionTitle}>{session}</Text>
       </View>
       <CheckBadge done={done} />
     </>
   );
 
-  const rowStyle = [styles.row, !last && styles.divider];
+  const rowStyle = [styles.row];
 
   if (onPress) {
     return (
@@ -63,10 +59,6 @@ const styles = StyleSheet.create({
   pressed: {
     backgroundColor: 'rgba(255,255,255,0.03)',
   },
-  divider: {
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.06)',
-  },
   timeCol: {
     width: 64,
   },
@@ -92,5 +84,26 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: -0.3,
     marginTop: 2,
+  },
+  sessionTitle: {
+    fontFamily: FONTS.archivoBoldItalic,
+    fontStyle: 'italic' as const,
+    fontWeight: '700' as const,
+    fontSize: 15,
+    color: '#fff',
+    letterSpacing: -0.2,
+  },
+  sessionMeta: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.65)',
+    marginTop: 1,
+  },
+  sessionTeacher: {
+    fontFamily: FONTS.interMedium,
+    fontWeight: '500' as const,
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.85)',
+    marginTop: 1,
   },
 });

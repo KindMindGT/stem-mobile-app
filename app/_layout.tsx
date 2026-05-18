@@ -25,7 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
-import EventsScreen from '@/screens/events-screen';
+//import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
@@ -36,6 +36,7 @@ import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
 import TeacherScreen from '@/screens/teacher-screen';
+import WhosWhoScreen from '@/screens/whos-who-screen';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -52,7 +53,8 @@ type TabRoute =
   | { screen: 'cart';     fromProductId: string | null }
   // home tab routes
   | { screen: 'events' }
-  | { screen: 'hub' };
+  | { screen: 'hub' }
+  | { screen: 'whoswho' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
 
@@ -107,6 +109,10 @@ export default function RootLayout() {
   const handleOpenHub = useCallback(() => {
     setTabStacks(prev => ({ ...prev, home: { screen: 'hub' } }));
   }, []);
+  // ── home stack ────────────────────────────────────────────────────────────
+  const handleOpenWhosWho = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'whoswho' } }));
+  }, []);
 
   // ── edu stack ─────────────────────────────────────────────────────────────
   const handleOpenClass = useCallback((classId: string) => {
@@ -141,11 +147,15 @@ export default function RootLayout() {
       if (!cur) return prev;
 
       switch (cur.screen) {
+        // home
         case 'events':
         case 'hub':
           return { ...prev, [activeTab]: null };
+        // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
+        case 'whoswho':
+          return { ...prev, [activeTab]: null };
         case 'lesson':
           return { ...prev, [activeTab]: null };
         case 'cart':
@@ -176,7 +186,7 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
@@ -184,11 +194,14 @@ export default function RootLayout() {
               </View>
 
               {/* ── Home detail screens ── */}
-              {currentRoute?.screen === 'events' && (
+              {/*currentRoute?.screen === 'events' && (
                 <EventsScreen onBack={handleBack} />
-              )}
+              )*/}
               {currentRoute?.screen === 'hub' && (
                 <HubScreen onBack={handleBack} />
+              )}
+              {currentRoute?.screen === 'whoswho' && (
+                <WhosWhoScreen onBack={handleBack} />
               )}
 
               {/* ── Edu detail screens ── */}

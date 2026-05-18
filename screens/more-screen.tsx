@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
   Dimensions,
@@ -9,7 +10,7 @@ import {
   StyleSheet,
   Text,
   UIManager,
-  View,
+  View
 } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { WebView } from 'react-native-webview';
@@ -154,14 +155,15 @@ export default function MoreScreen({ onTabChange }: Props) {
         {/* ── Media ─────────────────────────────────────────────────────── */}
         <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Media</Text>
 
-        {/* YouTube — embedded channel page showing latest videos */}
+        {/* YouTube — embedded video */}
         <View style={styles.webCard}>
           <WebView
-            source={{ uri: 'https://www.youtube.com/@STEMRacing_HQ?app=desktop' }}
+            source={{ uri: 'https://www.youtube.com/embed/a5B-RPNqEt0?rel=0&modestbranding=1' }}
             style={styles.youtubeWebView}
             scrollEnabled={false}
             allowsInlineMediaPlayback
             mediaPlaybackRequiresUserAction={false}
+            allowsFullscreenVideo
           />
         </View>
         <Pressable
@@ -178,7 +180,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           <View style={styles.socialCol}>
             <View style={[styles.webCard, styles.socialWebCard]}>
               <WebView
-                source={{ uri: 'https://www.instagram.com/stemracinghq/?embed=true' }}
+                source={{ uri: 'https://www.instagram.com/p/DROiEcFEYaq/embed/' }}
                 style={styles.socialWebView}
                 scrollEnabled={false}
               />
@@ -204,7 +206,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           <View style={styles.socialCol}>
             <View style={[styles.webCard, styles.socialWebCard]}>
               <WebView
-                source={{ uri: 'https://www.tiktok.com/@stemracing_hq?embed=true' }}
+                source={{ uri: 'https://www.tiktok.com/embed/v2/7083871467288546566' }}
                 style={styles.socialWebView}
                 scrollEnabled={false}
               />
@@ -218,6 +220,113 @@ export default function MoreScreen({ onTabChange }: Props) {
             <Text style={styles.platformLabel}>TikTok</Text>
           </View>
         </View>
+
+        {/* ── Podcast ───────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Podcast</Text>
+
+        {/* Player with playlist — listType=playlist shows the full playlist */}
+        <View style={styles.webCard}>
+          <WebView
+            source={{ uri: 'https://www.youtube.com/embed/c_kSkzmQ4Os?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU&listType=playlist&rel=0&modestbranding=1' }}
+            style={styles.podcastWebView}
+            scrollEnabled={false}
+            allowsInlineMediaPlayback
+            mediaPlaybackRequiresUserAction={false}
+            allowsFullscreenVideo
+          />
+        </View>
+        <Pressable
+          style={styles.channelBtn}
+          onPress={() => Linking.openURL('https://www.youtube.com/playlist?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU')}
+        >
+          <Text style={styles.channelBtnText}>▶  Ver playlist completa</Text>
+        </Pressable>
+        <Text style={[styles.platformLabel, { marginBottom: 32 }]}>STEM Racing Podcast</Text>
+
+        {/* ── Partners carrusel ─────────────────────────────────────────── */}
+        <Text style={styles.partnersHeading}>Thank you partners</Text>
+
+        <Text style={styles.partnersCategoryLabel}>Powered by</Text>
+        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
+          <Text style={styles.partnerLogoText}>🐚 Shell</Text>
+        </View>
+
+        <Text style={styles.partnersCategoryLabel}>supported by</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Text style={styles.partnerLogoText}>Honda</Text>
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Text style={styles.partnerLogoText}>Puma</Text>
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#1A1F71' }]}>
+            <Text style={[styles.partnerLogoText, { color: '#fff', fontSize: 24 }]}>VISA</Text>
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Text style={styles.partnerLogoText}>Red Bull</Text>
+          </View>
+        </View>
+
+        <Text style={styles.partnersCategoryLabel}>allies</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Text style={styles.partnerLogoText}>Paleta</Text>
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#003087' }]}>
+            <Text style={[styles.partnerLogoText, { color: '#fff' }]}>Bi Banco{'\n'}Industrial</Text>
+          </View>
+        </View>
+
+        {/* ── Terms & Conditions ───────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Terms & Conditions</Text>
+
+        <View style={styles.termsCard}>
+          <Text style={styles.termsText}>
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
+            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}
+          </Text>
+        </View>
+
+        {/* ── Contact Us ────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Contact Us</Text>
+
+        <LinearGradient
+          colors={['#009FE3', '#95C11F']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.contactCard}
+        >
+          <Text style={styles.contactText}>HQ zona 14</Text>
+          <Text style={styles.contactText}>10 avenida 11-83</Text>
+          <Text style={styles.contactText}>horario 8am - 5pm</Text>
+
+          <Pressable onPress={() => Linking.openURL('mailto:hola@stemracing.gt')}>
+            <Text style={[styles.contactText, styles.contactLink, { marginTop: 16 }]}>hola@stemracing.gt</Text>
+          </Pressable>
+
+          <Pressable onPress={() => Linking.openURL('https://www.stemracing.gt')}>
+            <Text style={[styles.contactText, styles.contactLink, { marginTop: 12 }]}>www.stemracing.gt</Text>
+          </Pressable>
+
+          <Pressable onPress={() => Linking.openURL('tel:+50223691199')}>
+            <Text style={[styles.contactText, styles.contactLink, { marginTop: 12 }]}>+502 2369 - 1199</Text>
+          </Pressable>
+        </LinearGradient>
       </ScrollView>
 
       <TabBar active="menu" onChange={onTabChange} />
@@ -349,5 +458,91 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#fff',
     textAlign: 'center',
+  },
+
+  // ── Podcast
+  podcastWebView: {
+    width: CONTENT_WIDTH,
+    height: 300,
+  },
+
+  // ── Partners
+  partnersHeading: {
+    fontFamily: FONTS.archivoBoldItalic,
+    fontStyle: 'italic',
+    fontWeight: '700',
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  partnersCategoryLabel: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.75)',
+    marginBottom: 10,
+    marginTop: 4,
+  },
+  partnerCard: {
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+  },
+  partnerCard2: {
+    flex: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 8,
+    marginBottom: 0,
+  },
+  partnerCardWhite: { backgroundColor: '#fff' },
+  partnersGrid2: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 10,
+  },
+  partnerLogoText: {
+    fontFamily: FONTS.interBold,
+    fontWeight: '700',
+    fontSize: 18,
+    color: '#222',
+    textAlign: 'center',
+  },
+
+  // ── Terms & Conditions
+  termsCard: {
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 20,
+    paddingVertical: 22,
+    marginBottom: 10,
+  },
+  termsText: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.85)',
+    lineHeight: 26,
+  },
+
+  // ── Contact Us
+  contactCard: {
+    borderRadius: 18,
+    paddingHorizontal: 24,
+    paddingVertical: 28,
+    marginBottom: 32,
+  },
+  contactText: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 16,
+    color: '#fff',
+    lineHeight: 24,
+  },
+  contactLink: {
+    textDecorationLine: 'underline',
+    textDecorationColor: 'rgba(255,255,255,0.6)',
   },
 });
