@@ -36,6 +36,7 @@ import MoreScreen from '@/screens/more-screen';
 import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
+import SurveyScreen from '@/screens/survey-screen';
 import TeacherScreen from '@/screens/teacher-screen';
 import WhosWhoScreen from '@/screens/whos-who-screen';
 
@@ -56,6 +57,7 @@ type TabRoute =
   | { screen: 'activity' }
   | { screen: 'events' }
   | { screen: 'hub' }
+  | { screen: 'surveys' }
   | { screen: 'whoswho' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
@@ -100,6 +102,11 @@ export default function RootLayout() {
   // ── tab navigation ────────────────────────────────────────────────────────
   const handleTabChange = useCallback((id: string) => {
     setActiveTab(id as TabId);
+  }, []);
+
+  // ── surveys ───────────────────────────────────────────────────────────────
+  const handleOpenSurveys = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'surveys' } }));
   }, []);
 
   // ── activity ──────────────────────────────────────────────────────────────
@@ -158,6 +165,7 @@ export default function RootLayout() {
         case 'activity':
         case 'events':
         case 'hub':
+        case 'surveys':
           return { ...prev, [activeTab]: null };
         // edu
         case 'teacher':
@@ -194,7 +202,7 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} onOpenActivity={handleOpenActivity} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} onOpenActivity={handleOpenActivity} onOpenSurveys={handleOpenSurveys} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
@@ -206,6 +214,9 @@ export default function RootLayout() {
                 <View style={StyleSheet.absoluteFill}>
                   {currentRoute.screen === 'activity' && (
                     <ActivityScreen onBack={handleBack} />
+                  )}
+                  {currentRoute.screen === 'surveys' && (
+                    <SurveyScreen onBack={handleBack} />
                   )}
                   {currentRoute.screen === 'hub' && (
                     <HubScreen onBack={handleBack} />

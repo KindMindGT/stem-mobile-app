@@ -49,7 +49,7 @@ const GRID_ITEMS = [
   { id: 'events',   label: 'events',    tab: null,     action: 'events' },
   { id: 'whoswho',  label: "who's who", tab: null,     action: 'whoswho' },
   { id: 'code',     label: 'code',      tab: 'home',   action: null },
-  { id: 'surveys',  label: 'surveys',   tab: 'home',   action: null },
+  { id: 'surveys',  label: 'surveys',   tab: null,     action: 'surveys' },
   { id: 'nukunem',  label: 'nukunem',   tab: 'home',   action: null },
 ];
 
@@ -295,12 +295,14 @@ export default function HomeScreen({
   onOpenHub,
   onOpenWhosWho,
   onOpenActivity,
+  onOpenSurveys,
 }: {
   onTabChange: (id: string) => void;
   onOpenEvents: () => void;
   onOpenHub: () => void;
   onOpenWhosWho: () => void;
   onOpenActivity: () => void;
+  onOpenSurveys: () => void;
 }) {
   const [activeNews, setActiveNews] = useState(0);
   const newsScrollRef = useRef<ScrollView>(null);
@@ -319,6 +321,8 @@ export default function HomeScreen({
       onOpenWhosWho();
     } else if (item.action === 'activity') {
       onOpenActivity();
+    } else if (item.action === 'surveys') {
+      onOpenSurveys();
     } else if (item.tab) {
       onTabChange(item.tab);
     }
