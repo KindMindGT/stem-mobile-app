@@ -1,0 +1,88 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main, develop]
+
+# Cancel any in-progress run for the same PR when a new commit is pushed
+concurrency:
+  group: pr-validation-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  static-analysis:
+    name: TypeScript & ESLint
+    runs-on: ubuntu-latest
+    # Skip draft PRs — only run when the PR is ready for review
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # check merge conflicts before spending time on compilation
+      - name: Check for merge conflicts
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git merge --no-commit --no-ff origin/${{ github.base_ref }} 2>&1 | tee /tmp/merge_output.txt
+          if grep -q "CONFLICT" /tmp/merge_output.txt; then
+            echo "❌ Merge conflicts detected — resolve them before merging."
+            git merge --abort
+            exit 1
+          fi
+          git merge --abort 2>/dev/null || true
+          echo "✅ No merge conflicts found."
+
+      - name: TypeScript type-check
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npm run lint
+
+  metro-bundle:
+    name: Metro Bundle (Android + iOS)
+    runs-on: ubuntu-latest
+    needs: static-analysis
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Bundles the JS for Android without building the APK.
+      # Catches Metro resolution errors, missing native modules referenced
+      # in JS, and import cycles that break the bundle.
+      - name: Metro bundle — Android
+        run: |
+          npx expo export --platform android
+        env:
+          CI: true
+          EXPO_NO_TELEMETRY: 1
+
+      - name: Metro bundle — iOS
+        run: |
+          npx expo export --platform ios
+        env:
+          CI: true
+          EXPO_NO_TELEMETRY: 1
