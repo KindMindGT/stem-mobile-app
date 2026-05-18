@@ -45,9 +45,9 @@ const GRID_ITEMS = [
   { id: 'schedule', label: 'schedule',  tab: 'home',   action: null },
   { id: 'profile',  label: 'profile',   tab: 'home',   action: null },
   { id: 'hub',      label: 'hub',       tab: null,     action: 'hub' },
-  { id: 'activity', label: 'activity',  tab: 'home',   action: null },
+  { id: 'activity', label: 'activity',  tab: null,     action: 'activity' },
   { id: 'events',   label: 'events',    tab: null,     action: 'events' },
-  { id: 'whoswho',  label: "who's who", tab: 'home',   action: null },
+  { id: 'whoswho',  label: "who's who", tab: null,     action: 'whoswho' },
   { id: 'code',     label: 'code',      tab: 'home',   action: null },
   { id: 'surveys',  label: 'surveys',   tab: 'home',   action: null },
   { id: 'nukunem',  label: 'nukunem',   tab: 'home',   action: null },
@@ -294,11 +294,13 @@ export default function HomeScreen({
   onOpenEvents,
   onOpenHub,
   onOpenWhosWho,
+  onOpenActivity,
 }: {
   onTabChange: (id: string) => void;
   onOpenEvents: () => void;
   onOpenHub: () => void;
   onOpenWhosWho: () => void;
+  onOpenActivity: () => void;
 }) {
   const [activeNews, setActiveNews] = useState(0);
   const newsScrollRef = useRef<ScrollView>(null);
@@ -315,6 +317,8 @@ export default function HomeScreen({
       onOpenHub();
     } else if (item.action === 'whoswho') {
       onOpenWhosWho();
+    } else if (item.action === 'activity') {
+      onOpenActivity();
     } else if (item.tab) {
       onTabChange(item.tab);
     }
@@ -435,7 +439,7 @@ export default function HomeScreen({
             <Pressable
               key={item.id}
               style={({ pressed }) => [styles.gridCell, pressed && styles.gridCellPressed]}
-              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab as string)}
+              onPress={() => handleGridPress(item)}
               accessibilityRole="button"
               accessibilityLabel={item.label}
             >
