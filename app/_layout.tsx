@@ -18,12 +18,13 @@ import { useFonts } from 'expo-font';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import ActivityScreen from '@/screens/activity-screen';
 import CartScreen from '@/screens/cart-screen';
 //import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
@@ -52,6 +53,7 @@ type TabRoute =
   | { screen: 'product';  productId: string }
   | { screen: 'cart';     fromProductId: string | null }
   // home tab routes
+  | { screen: 'activity' }
   | { screen: 'events' }
   | { screen: 'hub' }
   | { screen: 'whoswho' };
@@ -98,6 +100,11 @@ export default function RootLayout() {
   // ── tab navigation ────────────────────────────────────────────────────────
   const handleTabChange = useCallback((id: string) => {
     setActiveTab(id as TabId);
+  }, []);
+
+  // ── activity ──────────────────────────────────────────────────────────────
+  const handleOpenActivity = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'activity' } }));
   }, []);
 
   // ── events ────────────────────────────────────────────────────────────────
@@ -148,6 +155,7 @@ export default function RootLayout() {
 
       switch (cur.screen) {
         // home
+        case 'activity':
         case 'events':
         case 'hub':
           return { ...prev, [activeTab]: null };
@@ -186,49 +194,49 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} onOpenActivity={handleOpenActivity} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
                 {activeTab === 'menu'   && <MoreScreen        onTabChange={handleTabChange} />}
               </View>
 
-              {/* ── Home detail screens ── */}
-              {/*currentRoute?.screen === 'events' && (
-                <EventsScreen onBack={handleBack} />
-              )*/}
-              {currentRoute?.screen === 'hub' && (
-                <HubScreen onBack={handleBack} />
-              )}
-              {currentRoute?.screen === 'whoswho' && (
-                <WhosWhoScreen onBack={handleBack} />
-              )}
-
-              {/* ── Edu detail screens ── */}
-              {currentRoute?.screen === 'lesson' && (
-                <LessonDetailScreen
-                  classId={currentRoute.classId}
-                  onBack={handleBack}
-                  onTeacher={handleOpenTeacher}
-                  onEnter={() => {}}
-                />
-              )}
-              {currentRoute?.screen === 'teacher' && (
-                <TeacherScreen
-                  classId={currentRoute.classId}
-                  onBack={handleBack}
-                />
-              )}
-
-              {/* ── Market detail screens ── */}
-              {currentRoute?.screen === 'product' && (
-                <ProductDetailScreen
-                  onBack={handleBack}
-                  onAddToCart={handleAddToCart}
-                />
-              )}
-              {currentRoute?.screen === 'cart' && (
-                <CartScreen onPay={() => {}} />
+              {/* ── Detail screens — absoluteFill so they sit above the root layer ── */}
+              {currentRoute && (
+                <View style={StyleSheet.absoluteFill}>
+                  {currentRoute.screen === 'activity' && (
+                    <ActivityScreen onBack={handleBack} />
+                  )}
+                  {currentRoute.screen === 'hub' && (
+                    <HubScreen onBack={handleBack} />
+                  )}
+                  {currentRoute.screen === 'whoswho' && (
+                    <WhosWhoScreen onBack={handleBack} />
+                  )}
+                  {currentRoute.screen === 'lesson' && (
+                    <LessonDetailScreen
+                      classId={currentRoute.classId}
+                      onBack={handleBack}
+                      onTeacher={handleOpenTeacher}
+                      onEnter={() => {}}
+                    />
+                  )}
+                  {currentRoute.screen === 'teacher' && (
+                    <TeacherScreen
+                      classId={currentRoute.classId}
+                      onBack={handleBack}
+                    />
+                  )}
+                  {currentRoute.screen === 'product' && (
+                    <ProductDetailScreen
+                      onBack={handleBack}
+                      onAddToCart={handleAddToCart}
+                    />
+                  )}
+                  {currentRoute.screen === 'cart' && (
+                    <CartScreen onPay={() => {}} />
+                  )}
+                </View>
               )}
             </>
           )}
