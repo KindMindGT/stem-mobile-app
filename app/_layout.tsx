@@ -25,6 +25,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
+import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
@@ -50,6 +51,7 @@ type TabRoute =
   | { screen: 'product';  productId: string }
   | { screen: 'cart';     fromProductId: string | null }
   // home tab routes
+  | { screen: 'events' };
   | { screen: 'whoswho' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
@@ -98,6 +100,9 @@ export default function RootLayout() {
     setActiveTab(id as TabId);
   }, []);
 
+  // ── events ────────────────────────────────────────────────────────────────
+  const handleOpenEvents = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'events' } }));
   // ── home stack ────────────────────────────────────────────────────────────
   const handleOpenWhosWho = useCallback(() => {
     setTabStacks(prev => ({ ...prev, home: { screen: 'whoswho' } }));
@@ -136,6 +141,9 @@ export default function RootLayout() {
       if (!cur) return prev;
 
       switch (cur.screen) {
+        // home
+        case 'events':
+          return { ...prev, [activeTab]: null };
         // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
@@ -172,6 +180,7 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenEvents={handleOpenEvents} />}
                 {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
@@ -180,6 +189,8 @@ export default function RootLayout() {
               </View>
 
               {/* ── Home detail screens ── */}
+              {currentRoute?.screen === 'events' && (
+                <EventsScreen onBack={handleBack} />
               {currentRoute?.screen === 'whoswho' && (
                 <WhosWhoScreen onBack={handleBack} />
               )}
