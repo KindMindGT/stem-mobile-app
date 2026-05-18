@@ -25,11 +25,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import CartScreen from '@/screens/cart-screen';
+//import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
+import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
 import LoginScreen from '@/screens/login-screen';
 import MarketplaceScreen, { PRODUCTS } from '@/screens/marketplace-screen';
-import MenuScreen from '@/screens/menu-screen';
+import MoreScreen from '@/screens/more-screen';
 import ProductDetailScreen from '@/screens/product-details-screen';
 import ProfileScreen from '@/screens/profile-screen';
 import ScheduleScreen from '@/screens/schedule-screen';
@@ -50,6 +52,8 @@ type TabRoute =
   | { screen: 'product';  productId: string }
   | { screen: 'cart';     fromProductId: string | null }
   // home tab routes
+  | { screen: 'events' }
+  | { screen: 'hub' }
   | { screen: 'whoswho' };
 
 type TabStacks = Record<TabId, TabRoute | null>;
@@ -84,9 +88,7 @@ export default function RootLayout() {
 
   // ── stage transitions ─────────────────────────────────────────────────────
   const handleSplashFinish = useCallback(() => setStage('login'), []);
-
   const handleLogin = useCallback(() => setStage('app'), []);
-
   const handleLogout = useCallback(() => {
     setStage('login');
     setTabStacks(INITIAL_TAB_STACKS);
@@ -98,6 +100,15 @@ export default function RootLayout() {
     setActiveTab(id as TabId);
   }, []);
 
+  // ── events ────────────────────────────────────────────────────────────────
+  const handleOpenEvents = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'events' } }));
+  }, []);
+
+  // ── hub ───────────────────────────────────────────────────────────────────
+  const handleOpenHub = useCallback(() => {
+    setTabStacks(prev => ({ ...prev, home: { screen: 'hub' } }));
+  }, []);
   // ── home stack ────────────────────────────────────────────────────────────
   const handleOpenWhosWho = useCallback(() => {
     setTabStacks(prev => ({ ...prev, home: { screen: 'whoswho' } }));
@@ -136,6 +147,10 @@ export default function RootLayout() {
       if (!cur) return prev;
 
       switch (cur.screen) {
+        // home
+        case 'events':
+        case 'hub':
+          return { ...prev, [activeTab]: null };
         // edu
         case 'teacher':
           return { ...prev, [activeTab]: { screen: 'lesson', classId: cur.classId } };
@@ -143,7 +158,6 @@ export default function RootLayout() {
           return { ...prev, [activeTab]: null };
         case 'lesson':
           return { ...prev, [activeTab]: null };
-        // market
         case 'cart':
           return {
             ...prev,
@@ -172,14 +186,20 @@ export default function RootLayout() {
             <>
               {/* Root tab screens — kept mounted, hidden when a detail is open */}
               <View style={{ flex: 1, display: currentRoute ? 'none' : 'flex' }}>
-                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} />}
+                {activeTab === 'home'   && <HomeScreen        onTabChange={handleTabChange} onOpenWhosWho={handleOpenWhosWho} onOpenEvents={handleOpenEvents} onOpenHub={handleOpenHub} />}
                 {activeTab === 'cal'    && <ScheduleScreen    onTabChange={handleTabChange} onOpenClass={handleOpenClass} />}
                 {activeTab === 'market' && <MarketplaceScreen onTabChange={handleTabChange} onOpenProduct={handleOpenProduct} />}
                 {activeTab === 'user'   && <ProfileScreen     onTabChange={handleTabChange} onOpenClass={handleOpenClass} onLogout={handleLogout} />}
-                {activeTab === 'menu'   && <MenuScreen        onTabChange={handleTabChange} />}
+                {activeTab === 'menu'   && <MoreScreen        onTabChange={handleTabChange} />}
               </View>
 
               {/* ── Home detail screens ── */}
+              {/*currentRoute?.screen === 'events' && (
+                <EventsScreen onBack={handleBack} />
+              )*/}
+              {currentRoute?.screen === 'hub' && (
+                <HubScreen onBack={handleBack} />
+              )}
               {currentRoute?.screen === 'whoswho' && (
                 <WhosWhoScreen onBack={handleBack} />
               )}
@@ -208,9 +228,7 @@ export default function RootLayout() {
                 />
               )}
               {currentRoute?.screen === 'cart' && (
-                <CartScreen
-                  onPay={() => {}}
-                />
+                <CartScreen onPay={() => {}} />
               )}
             </>
           )}

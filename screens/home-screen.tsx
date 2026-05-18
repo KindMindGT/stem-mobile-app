@@ -41,20 +41,19 @@ const NEWS = [
   },
 ];
 
-// Grid items — destination is a tab id; for now all redirect to 'home'
 const GRID_ITEMS = [
-  { id: 'schedule', label: 'schedule', tab: 'home' },
-  { id: 'profile',  label: 'profile',  tab: 'home' },
-  { id: 'hub',      label: 'hub',      tab: 'home' },
-  { id: 'activity', label: 'activity', tab: 'home' },
-  { id: 'events',   label: 'events',   tab: 'home' },
-  { id: 'whoswho',  label: "who's who", tab: 'home' },
-  { id: 'code',     label: 'code',     tab: 'home' },
-  { id: 'surveys',  label: 'surveys',  tab: 'home' },
-  { id: 'nukunem',  label: 'nukunem',  tab: 'home' },
+  { id: 'schedule', label: 'schedule',  tab: 'home',   action: null },
+  { id: 'profile',  label: 'profile',   tab: 'home',   action: null },
+  { id: 'hub',      label: 'hub',       tab: null,     action: 'hub' },
+  { id: 'activity', label: 'activity',  tab: 'home',   action: null },
+  { id: 'events',   label: 'events',    tab: null,     action: 'events' },
+  { id: 'whoswho',  label: "who's who", tab: 'home',   action: null },
+  { id: 'code',     label: 'code',      tab: 'home',   action: null },
+  { id: 'surveys',  label: 'surveys',   tab: 'home',   action: null },
+  { id: 'nukunem',  label: 'nukunem',   tab: 'home',   action: null },
 ];
 
-// ─── Grid icons (SVG) ─────────────────────────────────────────────────────────
+// ─── Grid icons ───────────────────────────────────────────────────────────────
 
 function GridIcon({ id }: { id: string }) {
   const s = '#fff';
@@ -255,7 +254,6 @@ function ChevronUpIcon() {
     </Svg>
   );
 }
-
 function PinIcon() {
   return (
     <Svg width={20} height={20} viewBox="0 0 24 24" fill="none">
@@ -264,7 +262,6 @@ function PinIcon() {
     </Svg>
   );
 }
-
 function PlusIcon() {
   return (
     <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
@@ -272,7 +269,6 @@ function PlusIcon() {
     </Svg>
   );
 }
-
 function SearchIcon() {
   return (
     <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
@@ -281,7 +277,6 @@ function SearchIcon() {
     </Svg>
   );
 }
-
 function CalendarIcon() {
   return (
     <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
@@ -294,18 +289,35 @@ function CalendarIcon() {
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
-type Props = {
+export default function HomeScreen({
+  onTabChange,
+  onOpenEvents,
+  onOpenHub,
+  onOpenWhosWho,
+}: {
   onTabChange: (id: string) => void;
+  onOpenEvents: () => void;
+  onOpenHub: () => void;
   onOpenWhosWho: () => void;
-};
-
-export default function HomeScreen({ onTabChange, onOpenWhosWho }: Props) {
+}) {
   const [activeNews, setActiveNews] = useState(0);
   const newsScrollRef = useRef<ScrollView>(null);
 
   const handleNewsScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(e.nativeEvent.contentOffset.x / CARD_WIDTH);
     setActiveNews(index);
+  };
+
+  const handleGridPress = (item: typeof GRID_ITEMS[0]) => {
+    if (item.action === 'events') {
+      onOpenEvents();
+    } else if (item.action === 'hub') {
+      onOpenHub();
+    } else if (item.action === 'whoswho') {
+      onOpenWhosWho();
+    } else if (item.tab) {
+      onTabChange(item.tab);
+    }
   };
 
   return (
@@ -346,7 +358,6 @@ export default function HomeScreen({ onTabChange, onOpenWhosWho }: Props) {
 
         {/* ── Coming up ─────────────────────────────────────────────────── */}
         <Text style={[styles.sectionTitle, styles.comingUpTitle]}>Coming up</Text>
-
         <View style={styles.comingUpCard}>
           {COMING_UP.map((item, index) => {
             const isLast = index === COMING_UP.length - 1;
@@ -411,7 +422,6 @@ export default function HomeScreen({ onTabChange, onOpenWhosWho }: Props) {
             </View>
           ))}
         </ScrollView>
-
         <View style={styles.dots}>
           {NEWS.map((_, i) => (
             <View key={i} style={[styles.dot, i === activeNews && styles.dotActive]} />
@@ -420,13 +430,12 @@ export default function HomeScreen({ onTabChange, onOpenWhosWho }: Props) {
 
         {/* ── Explore grid ──────────────────────────────────────────────── */}
         <Text style={[styles.sectionTitle, styles.gridTitle]}>Explore</Text>
-
         <View style={styles.grid}>
           {GRID_ITEMS.map((item) => (
             <Pressable
               key={item.id}
               style={({ pressed }) => [styles.gridCell, pressed && styles.gridCellPressed]}
-              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab)}
+              onPress={() => item.id === 'whoswho' ? onOpenWhosWho() : onTabChange(item.tab as string)}
               accessibilityRole="button"
               accessibilityLabel={item.label}
             >
