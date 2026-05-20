@@ -26,7 +26,7 @@ import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import ActivityScreen from '@/screens/activity-screen';
 import CartScreen from '@/screens/cart-screen';
-//import EventsScreen from '@/screens/events-screen';
+import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
@@ -164,6 +164,7 @@ export default function RootLayout() {
         // home
         case 'activity':
         case 'events':
+          return { ...prev, [activeTab]: null };
         case 'hub':
         case 'surveys':
           return { ...prev, [activeTab]: null };
@@ -223,6 +224,9 @@ export default function RootLayout() {
                   )}
                   {currentRoute.screen === 'whoswho' && (
                     <WhosWhoScreen onBack={handleBack} />
+                  )}
+                  {currentRoute.screen === 'events' && (
+                    <EventsScreen onBack={handleBack} />
                   )}
                   {currentRoute.screen === 'lesson' && (
                     <LessonDetailScreen
