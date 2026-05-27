@@ -499,6 +499,7 @@ const styles = StyleSheet.create({
   pairItem: {
     flex: 1,
     padding: 12,
+    width: 140,
     justifyContent: 'space-between',
   },
   pairItemDivider: {
