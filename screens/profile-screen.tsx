@@ -2,9 +2,7 @@ import GradientHeader from '@/components/gradient-header';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import IconButton from '../components/icon-button';
 import PhotoCircle from '../components/photo-circle';
-import Pill from '../components/pill';
 import SettingRow from '../components/setting-row';
 import SmallCapsHeader from '../components/small-caps-header';
 import TabBar from '../components/tab-bar';
@@ -96,8 +94,10 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
   
   return (
     <View style={styles.screen}>
-      <GradientHeader title="My Profile" variant="blue-gradient" />
+      <GradientHeader title="Profile" variant="blue-gradient" />
 
+      {
+        /*
       <View style={styles.headerRow}>
         <IconButton icon="settings" variant="translucent" accessibilityLabel="ajustes" onPress={() => {}} />
         <IconButton
@@ -107,6 +107,8 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           accessibilityLabel="cerrar sesión"
         />
       </View>
+        */
+      }
 
       <ScrollView
         style={styles.scrollWrap}
@@ -114,20 +116,20 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.profileBlock}>
-          <PhotoCircle size={108} initials={STUDENT.initials} />
+          <PhotoCircle size={108} initials={STUDENT.initials} ring={false} />
           <Text style={styles.name}>{STUDENT.name}</Text>
           {
             /*
           <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.metaLabel}>
             {STUDENT.levelLabel}
           </GradientText>
-            */
-          }
           <View style={styles.pillRow}>
             {STUDENT.pills.map((p) => (
               <Pill key={p} label={p} size="sm" />
             ))}
           </View>
+            */
+          }
         </View>
 
         {/* ── Team card ── */}
@@ -171,7 +173,6 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           >
             <View style={styles.teamNameRow}>
               <Text style={styles.teamLabel}>BENEFICIOS</Text>
-              <Text style={styles.teamName}>{STUDENT.benefits.name}</Text>
             </View>
             <View style={styles.teamMembersToggle}>
               <Text style={styles.teamMembersLabel}>DETALLES</Text>
@@ -312,13 +313,10 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 14,
     fontFamily: FONTS.archivoBlackItalic,
-    fontStyle: 'italic',
     fontWeight: '900',
     fontSize: 28,
     color: '#fff',
-    letterSpacing: -0.5,
     lineHeight: 30,
-    textAlign: 'center',
   },
   metaLabel: {
     marginTop: 4,
