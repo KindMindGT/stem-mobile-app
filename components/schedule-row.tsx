@@ -3,28 +3,30 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 import CheckBadge from './check-badge';
+import PhotoCircle from './photo-circle';
 
 type Props = {
   id?: string;
-  time1: string;
-  time2: string;
+  time_start: string;
+  duration: string;
   session: string;
   name: string;
+  initials: string;
   done?: boolean;
   last?: boolean;
   onPress?: (id: string) => void;
 };
 
-export default function ScheduleRow({ id = 'su3', time1, time2, session, name, done, last, onPress }: Props) {
+export default function ScheduleRow({ id = 'su3', time_start, duration, session, name, initials, done, last, onPress }: Props) {
   const content = (
     <>
       <View style={styles.timeCol}>
-        <Text style={styles.time}>{time1}</Text>
-        <Text style={styles.time}>{time2}</Text>
+        <PhotoCircle size={46} initials={initials} ring={false} />
       </View>
       <View style={styles.middle}>
-        <Text style={styles.sessionTeacher}>{name}</Text>
         <Text style={styles.sessionTitle}>{session}</Text>
+        <Text style={styles.time}>{time_start} - {duration}</Text>
+        <Text style={styles.sessionTeacher}>{name}</Text>
       </View>
       <CheckBadge done={done} />
     </>

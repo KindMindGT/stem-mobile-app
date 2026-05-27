@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { CARBON_SHADOW, IGNITE_INDIGO, setAlpha } from '../theme/colors';
 import { SHADOWS } from '../theme/shadows';
 import { FONTS } from '../theme/typography';
 
@@ -31,8 +32,8 @@ export default function DayChip({ dow, day, selected, today, hasSessions, onPres
       <LinearGradient
         colors={
           selected
-            ? ['#1a9eff', '#1466d6']
-            : ['rgba(255,255,255,0.10)', 'rgba(255,255,255,0.05)']
+            ? [ CARBON_SHADOW, IGNITE_INDIGO ]
+            : [ setAlpha(CARBON_SHADOW, 0.15), setAlpha(CARBON_SHADOW, 0.1) ]
         }
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}

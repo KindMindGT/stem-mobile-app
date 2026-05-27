@@ -118,9 +118,10 @@ function SessionRow({
       }
         <View style={styles.rows}>
           <ScheduleRow
-            time1={session.time}
-            time2={session.duration}
+            time_start={session.time}
+            duration={session.duration}
             session={session.title}
+            initials={session.teacher.initials}
             name={session.teacher.name}
             done={session.done}
           />
