@@ -20,24 +20,27 @@ const COMING_UP = [
 const NEWS = [
   {
     id: 'n1',
-    image: require('../assets/images/news-inscripciones.png'),
-    headline: 'Inscripciones\nabiertas',
-    date: '15 - 30 Agosto 2026',
-    location: 'HQ zona 14',
+    image: require('../assets/images/noti1.jpeg'),
+    headline: 'Final SR 2025',
+    description: 'Se llevó acabo la final de SR 2025 en Singapur. Donde el gran ganador fue el equipo Lunar de Australia',
+    date: '2025',
+    location: 'Singapur',
   },
   {
     id: 'n2',
-    image: require('../assets/images/news-inscripciones.png'),
-    headline: 'Nuevos\ncursos STEM',
-    date: '1 - 15 Sept 2026',
-    location: 'Campus Norte',
+    image: require('../assets/images/noti2.png'),
+    headline: 'Nuevo mentor en Ingeniería',
+    description: 'Hasso Tangelmann, quién participó en el entorno técnico del TWR Porsche WSC-95, el prototipo ganador de las 24 Horas de Le Mans de 1997, se une al equipo como mentor en el área de Ingeniería',
+    date: '2025',
+    location: 'STEM Racing',
   },
   {
     id: 'n3',
-    image: require('../assets/images/news-inscripciones.png'),
-    headline: 'Taller de\nRobótica',
-    date: '20 Sept 2026',
-    location: 'Lab B, zona 10',
+    image: require('../assets/images/noti3.jpg'),
+    headline: 'Guatemala se une a STEM Racing',
+    description: 'Guatemala se incorpora al circuito Stem Racing Global, convirtiéndose en el 3er país de Centro América en unirse',
+    date: '2025',
+    location: 'Centro América',
   },
 ];
 
@@ -61,44 +64,22 @@ function GridIcon({ id }: { id: string }) {
   const sw = 1.5;
   switch (id) {
 
-    // Calendar with dot grid
     case 'schedule':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Body */}
-          <Rect x={5} y={8} width={30} height={27} rx={4} stroke={s} strokeWidth={sw} />
-          {/* Ring bumps */}
-          <Path d="M13 4 L13 12" stroke={s} strokeWidth={2} strokeLinecap="round" />
-          <Path d="M27 4 L27 12" stroke={s} strokeWidth={2} strokeLinecap="round" />
-          {/* Header divider */}
-          <Path d="M5 17 H35" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Dot grid 3×2 */}
-          <Rect x={11} y={22} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-          <Rect x={18} y={22} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-          <Rect x={25} y={22} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-          <Rect x={11} y={29} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-          <Rect x={18} y={29} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-          <Rect x={25} y={29} width={4} height={4} rx={1} stroke={s} strokeWidth={1.2} />
-        </Svg>
+        <Image
+          source={require('../assets/images/Calendar.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
-    // Running stick figure
     case 'profile':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Head */}
-          <Circle cx={25} cy={7} r={3.5} stroke={s} strokeWidth={sw} />
-          {/* Torso leaning forward */}
-          <Path d="M23 11 L17 20" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Back arm up */}
-          <Path d="M21 14 L28 10" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Front arm down-forward */}
-          <Path d="M20 17 L14 21" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Back leg forward */}
-          <Path d="M17 20 L22 30" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Front leg back */}
-          <Path d="M17 20 L10 28" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-        </Svg>
+        <Image
+          source={require('../assets/images/Profile.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
     // Location pin
@@ -157,20 +138,11 @@ function GridIcon({ id }: { id: string }) {
     // Two people / who's who
     case 'whoswho':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Back person (right, slightly behind) */}
-          <Circle cx={24} cy={12} r={5} stroke={s} strokeWidth={sw} />
-          <Path
-            d="M14 34 C14 27.4 18.5 24 24 24 C29.5 24 34 27.4 34 34"
-            stroke={s} strokeWidth={sw} strokeLinecap="round"
-          />
-          {/* Front person (left, on top) */}
-          <Circle cx={16} cy={12} r={5} stroke={s} strokeWidth={sw} fill="#0D1B4B" />
-          <Path
-            d="M6 34 C6 27.4 10.5 24 16 24 C21.5 24 26 27.4 26 34"
-            stroke={s} strokeWidth={sw} strokeLinecap="round" fill="#0D1B4B"
-          />
-        </Svg>
+        <Image
+          source={require('../assets/images/Who\u2019s who.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
     // Document / code file
@@ -194,20 +166,11 @@ function GridIcon({ id }: { id: string }) {
     // Clipboard with checkmark
     case 'surveys':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Clipboard body */}
-          <Rect x={7} y={8} width={26} height={30} rx={3.5} stroke={s} strokeWidth={sw} />
-          {/* Clip at top */}
-          <Path
-            d="M15 8 L15 5 C15 3.9 15.9 3 17 3 L23 3 C24.1 3 25 3.9 25 5 L25 8"
-            stroke={s} strokeWidth={sw} strokeLinejoin="round"
-          />
-          {/* Checkmark */}
-          <Path
-            d="M14 22 L18 27 L26 17"
-            stroke={s} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
-          />
-        </Svg>
+        <Image
+          source={require('../assets/images/Survey.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
     // Nukunem — two interlocked oval rings (chain link style)
@@ -396,6 +359,15 @@ export default function HomeScreen({ onTabChange }: Props) {
                 resizeMode="cover"
               />
               <LinearGradient
+                colors={['transparent', '#000']}
+                start={{ x: 0, y: 0.4 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.newsOverlay}
+              >
+                <Text style={styles.newsHeadline}>{item.headline}</Text>
+                <Text style={styles.newsDescription}>{item.description}</Text>
+              </LinearGradient>
+              <LinearGradient
                 colors={[PITLANE_PINK, BURNOUT_ORANGE]}
                 start={{ x: 0, y: 0.5 }}
                 end={{ x: 1, y: 0.5 }}
@@ -418,8 +390,6 @@ export default function HomeScreen({ onTabChange }: Props) {
         </View>
 
         {/* ── Explore grid ──────────────────────────────────────────────── */}
-        <Text style={[styles.sectionTitle, styles.gridTitle]}>Explore</Text>
-
         <View style={styles.grid}>
           {GRID_ITEMS.map((item) => (
             <Pressable
@@ -512,7 +482,7 @@ export default function HomeScreen({ onTabChange }: Props) {
 
 const GRID_GAP = 10;
 const GRID_COLS = 3;
-const CARD_WIDTH = Dimensions.get('window').width - LAYOUT.screenPadding * 2;
+const CARD_WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   screen: {
@@ -643,9 +613,7 @@ const styles = StyleSheet.create({
   newsCarousel: {
     marginHorizontal: -LAYOUT.screenPadding,
   },
-  newsCarouselContent: {
-    paddingHorizontal: LAYOUT.screenPadding,
-  },
+  newsCarouselContent: {},
   newsCard: {
     width: CARD_WIDTH,
     borderRadius: 18,
@@ -653,6 +621,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   newsImage: { width: CARD_WIDTH, height: 260 },
+  newsOverlay: {
+    position: 'absolute',
+    bottom: 60,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 18,
+    paddingBottom: 14,
+  },
+  newsHeadline: {
+    fontFamily: FONTS.interBold,
+    fontWeight: '700',
+    fontSize: 20,
+    color: '#fff',
+    marginBottom: 6,
+  },
+  newsDescription: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 13,
+    color: 'rgba(255,255,255,0.9)',
+    lineHeight: 18,
+  },
   newsFooter: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -693,21 +682,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: GRID_GAP,
+    marginTop: 32,
   },
   gridCell: {
-    // (100% - gaps between columns) / 3 columns
-    width: `${(100 - (GRID_GAP * (GRID_COLS - 1)) / ((100 - LAYOUT.screenPadding * 2) / 100)) / GRID_COLS}%` as any,
-    aspectRatio: 1,
     backgroundColor: '#0D1B4B',
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
     paddingBottom: 10,
-    // Use flex basis so all cells are equal
     flexGrow: 1,
     flexBasis: '30%',
     maxWidth: '32%',
+    aspectRatio: 1,
   },
   gridCellPressed: {
     opacity: 0.75,
@@ -715,6 +702,7 @@ const styles = StyleSheet.create({
   gridIcon: {
     alignItems: 'center',
     justifyContent: 'center',
+    height: 56,
   },
   gridLabel: {
     fontFamily: FONTS.interRegular,
