@@ -450,6 +450,25 @@ export default function HomeScreen({ onTabChange }: Props) {
           />
         </View>
 
+        {/* Allies */}
+        <Text style={styles.partnersCategoryLabel}>allies</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/paleta.webp')}
+              style={styles.partnerLogoImageLarge}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/bi.png')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+
         {/* Supported by */}
         <Text style={styles.partnersCategoryLabel}>supported by</Text>
         <View style={styles.partnersGrid2}>
@@ -477,25 +496,6 @@ export default function HomeScreen({ onTabChange }: Props) {
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
               source={require('../assets/images/redbull.jpg')}
-              style={styles.partnerLogoImage}
-              resizeMode="contain"
-            />
-          </View>
-        </View>
-
-        {/* Allies */}
-        <Text style={styles.partnersCategoryLabel}>allies</Text>
-        <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image
-              source={require('../assets/images/paleta.webp')}
-              style={styles.partnerLogoImageLarge}
-              resizeMode="contain"
-            />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image
-              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
