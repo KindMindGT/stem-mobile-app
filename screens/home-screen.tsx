@@ -100,20 +100,11 @@ function GridIcon({ id }: { id: string }) {
     // Bar chart with trend line
     case 'activity':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Y axis */}
-          <Path d="M8 6 L8 32" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* X axis */}
-          <Path d="M8 32 L34 32" stroke={s} strokeWidth={sw} strokeLinecap="round" />
-          {/* Bar 1 (short) */}
-          <Rect x={11} y={24} width={5} height={8} rx={1.5} stroke={s} strokeWidth={1.3} />
-          {/* Bar 2 (medium) */}
-          <Rect x={19} y={18} width={5} height={14} rx={1.5} stroke={s} strokeWidth={1.3} />
-          {/* Bar 3 (tall) */}
-          <Rect x={27} y={12} width={5} height={20} rx={1.5} stroke={s} strokeWidth={1.3} />
-          {/* Trend line */}
-          <Path d="M11 22 L21 14 L33 10" stroke={s} strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
-        </Svg>
+        <Image
+          source={require('../assets/images/Activity.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
     // Ticket (angled, with notch)
