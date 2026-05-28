@@ -17,22 +17,22 @@ const TEACHER = {
   upcoming: [
     {
       id: 'tu1',
-      time1: '14 MAY',
-      time2: '08:30',
+      time_start: '14 MAY',
+      duration: '08:30',
       session: 'NIVEL 2 · CLASE 3',
       name: 'Aerodinámica Básica',
     },
     {
       id: 'tu2',
-      time1: '21 MAY',
-      time2: '08:30',
+      time_start: '21 MAY',
+      duration: '08:30',
       session: 'NIVEL 2 · CLASE 4',
       name: 'Suspensión y Geometría',
     },
     {
       id: 'tu3',
-      time1: '28 MAY',
-      time2: '14:00',
+      time_start: '28 MAY',
+      duration: '14:00',
       session: 'TALLER ABIERTO',
       name: 'Telemetría 101',
     },
@@ -76,8 +76,9 @@ export default function TeacherProfileScreen({ classId, onBack } : Props) {
             <ScheduleRow
               id={row.id}
               key={row.id}
-              time1={row.time1}
-              time2={row.time2}
+              initials={TEACHER.initials}
+              time_start={row.time_start}
+              duration={row.duration}
               session={row.session}
               name={row.name}
               last={i === TEACHER.upcoming.length - 1}

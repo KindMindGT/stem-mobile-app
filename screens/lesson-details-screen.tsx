@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import BulletItem from '../components/bullet-item';
 import GradientButton from '../components/gradient-button';
@@ -46,12 +47,8 @@ type Props = {
 export default function ClassDetailScreen({ classId, countdown = false, onBack, onTeacher, onEnter }: Props) {
   const { t } = useLanguage();
   // TODO: look up class data by classId when a real data layer is available
-  const cls = {
-    ...FEATURED_CLASS,
-    heroLabel: t.lessonDetail.photoLabel,
-    countdownLabel: t.lesson.availableIn,
-    ctaLabel: t.lesson.enterClass,
-  };
+  const cls = FEATURED_CLASS;
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.screen}>
       <ScrollView
@@ -130,7 +127,7 @@ export default function ClassDetailScreen({ classId, countdown = false, onBack, 
         </View>
       </ScrollView>
 
-      <View style={styles.ctaWrap}>
+      <View style={[styles.ctaWrap, { paddingBottom: insets.bottom }]}>
         {countdown ? (
           <View style={styles.countdown}>
             <Text style={styles.countdownLabel}>{cls.countdownLabel}</Text>

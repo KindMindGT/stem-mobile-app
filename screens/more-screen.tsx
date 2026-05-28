@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
   Dimensions,
@@ -9,10 +10,8 @@ import {
   StyleSheet,
   Text,
   UIManager,
-  View,
-  Image,
+  View
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { WebView } from 'react-native-webview';
 import GradientHeader from '../components/gradient-header';

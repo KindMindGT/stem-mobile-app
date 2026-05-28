@@ -1,19 +1,12 @@
 import GradientHeader from '@/components/gradient-header';
-import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import BadgeCard from '../components/badge-card';
-import GradientText from '../components/gradient-text';
-import IconButton from '../components/icon-button';
 import PhotoCircle from '../components/photo-circle';
-import Pill from '../components/pill';
-import ScheduleRow from '../components/schedule-row';
 import SettingRow from '../components/setting-row';
 import SmallCapsHeader from '../components/small-caps-header';
-import StatColumn from '../components/stat-column';
 import TabBar from '../components/tab-bar';
-import { BURNOUT_ORANGE, GRADIENTS, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { GRADIENTS, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -50,11 +43,25 @@ const STUDENT = {
       name: 'Telemetría 101',
     },
   ],
+  team: {
+    name: 'Lunar Boys',
+    members: ['Facundo Casse', 'Juan P. Rodas', 'Fredy Bressani', 'Daniel Castaneda'],
+  },
+  benefits: {
+    name: 'Beneficios',
+    members: ['Beneficio 1', 'Beneficio 2', 'Beneficio 3'],
+  },
   badges: [
     { id: 'b1', label: 'Primer\ndiseño', tone: 'pink' },
     { id: 'b2', label: 'Asistencia\nperfecta', tone: 'orange' },
     { id: 'b3', label: '10 clases\ncompletas', tone: 'blue' },
     { id: 'b4', label: 'Trabajo\nen equipo', tone: 'purple' },
+  ],
+  settings: [
+    //{ id: 'edit', label: 'Editar perfil' },
+    //{ id: 'notif', label: 'Notificaciones' },
+    //{ id: 'help', label: 'Ayuda y soporte' },
+    { id: 'logout', label: 'Cerrar sesión', danger: true },
   ],
 };
 
@@ -67,7 +74,8 @@ type Props = {
 };
 
 export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Props) {
-  const { t } = useLanguage();
+  const [teamExpanded, setTeamExpanded] = useState(false);
+  const [benefitsExpanded, setBenefitsExpanded] = useState(false);
   const settingHandlers = {
     edit: noop,
     notif: noop,
@@ -79,8 +87,10 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
   
   return (
     <View style={styles.screen}>
-      <GradientHeader title={t.profile.title} variant="blue-gradient" />
+      <GradientHeader title="Profile" variant="blue-gradient" />
 
+      {
+        /*
       <View style={styles.headerRow}>
         <IconButton icon="settings" variant="translucent" accessibilityLabel={t.common.settings} onPress={() => {}} />
         <IconButton
@@ -90,6 +100,8 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           accessibilityLabel={t.profile.closeSession}
         />
       </View>
+        */
+      }
 
       <ScrollView
         style={styles.scrollWrap}
@@ -97,8 +109,10 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.profileBlock}>
-          <PhotoCircle size={108} initials={STUDENT.initials} />
+          <PhotoCircle size={108} initials={STUDENT.initials} ring={false} />
           <Text style={styles.name}>{STUDENT.name}</Text>
+          {
+            /*
           <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.metaLabel}>
             {t.profile.levelLabel}
           </GradientText>
@@ -107,8 +121,74 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
               <Pill key={p} label={p} size="sm" />
             ))}
           </View>
+            */
+          }
         </View>
 
+        {/* ── Team card ── */}
+        <View style={styles.teamCard}>
+          <Pressable
+            style={styles.teamHeader}
+            onPress={() => setTeamExpanded(v => !v)}
+            accessibilityRole="button"
+            accessibilityLabel={teamExpanded ? 'ocultar equipo' : 'ver equipo'}
+          >
+            <View style={styles.teamNameRow}>
+              <Text style={styles.teamLabel}>EQUIPO</Text>
+              <Text style={styles.teamName}>{STUDENT.team.name}</Text>
+            </View>
+            <View style={styles.teamMembersToggle}>
+              <Text style={styles.teamMembersLabel}>MIEMBROS</Text>
+              <Text style={[styles.teamChevron, teamExpanded && styles.teamChevronUp]}>
+                {'›'}
+              </Text>
+            </View>
+          </Pressable>
+
+          {teamExpanded && (
+            <View style={styles.memberList}>
+              {STUDENT.team.members.map((member) => (
+                <View key={member} style={styles.memberChip}>
+                  <Text style={styles.memberName}>{member}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+
+        {/* ── Benefits card ── */}
+        <View style={styles.teamCard}>
+          <Pressable
+            style={styles.teamHeader}
+            onPress={() => setBenefitsExpanded(v => !v)}
+            accessibilityRole="button"
+            accessibilityLabel={benefitsExpanded ? 'ocultar beneficios' : 'ver beneficios'}
+          >
+            <View style={styles.teamNameRow}>
+              <Text style={styles.teamLabel}>BENEFICIOS</Text>
+            </View>
+            <View style={styles.teamMembersToggle}>
+              <Text style={styles.teamMembersLabel}>DETALLES</Text>
+              <Text style={[styles.teamChevron, benefitsExpanded && styles.teamChevronUp]}>
+                {'›'}
+              </Text>
+            </View>
+          </Pressable>
+
+          {benefitsExpanded && (
+            <View style={styles.memberList}>
+              {STUDENT.benefits.members.map((member) => (
+                <View key={member} style={styles.memberChip}>
+                  <Text style={styles.memberName}>{member}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+
+        {/* ── Stats card ── */}
+        {
+          /*
         <View style={styles.statsCard}>
           {[
             { value: '24', label: t.profile.classes, tone: 'pink' },
@@ -137,7 +217,10 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           </View>
           <Text style={styles.progressHint}>{t.profile.progressHint.replace('{remaining}', '4')}</Text>
         </View>
+          */
+        }
 
+        { /* ── Upcoming classes ──´
         <View style={styles.section}>
           <SmallCapsHeader top={0} bottom={4}>{t.profile.myNextClasses}</SmallCapsHeader>
         </View>
@@ -153,7 +236,11 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
             onPress={onOpenClass}
           />
         ))}
+         */ }
 
+        { /* ── Badges ── */ }
+        { 
+          /*
         <View style={styles.section}>
           <SmallCapsHeader top={0} bottom={10}>{t.profile.recentAchievements}</SmallCapsHeader>
           <View style={styles.badges}>
@@ -162,6 +249,8 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
             ))}
           </View>
         </View>
+          */
+        }
 
         <View style={styles.section}>
           <SmallCapsHeader top={0} bottom={10}>{t.profile.account}</SmallCapsHeader>
@@ -226,13 +315,10 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 14,
     fontFamily: FONTS.archivoBlackItalic,
-    fontStyle: 'italic',
     fontWeight: '900',
     fontSize: 28,
     color: '#fff',
-    letterSpacing: -0.5,
     lineHeight: 30,
-    textAlign: 'center',
   },
   metaLabel: {
     marginTop: 4,
@@ -249,7 +335,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   statsCard: {
-    marginTop: 22,
+    marginTop: 12,
     marginHorizontal: LAYOUT.screenPadding,
     flexDirection: 'row',
     alignItems: 'center',
@@ -319,5 +405,84 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
+  },
+
+  // ── Team card ──────────────────────────────────────────────────────────────
+  teamCard: {
+    marginTop: 22,
+    marginHorizontal: LAYOUT.screenPadding,
+    backgroundColor: 'rgba(13,71,161,0.6)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 18,
+    overflow: 'hidden',
+  },
+  teamHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+  },
+  teamNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  teamLabel: {
+    fontSize: 10,
+    letterSpacing: 2,
+    fontFamily: FONTS.interBold,
+    fontWeight: '800' as const,
+    color: 'rgba(255,255,255,0.55)',
+  },
+  teamName: {
+    fontFamily: FONTS.archivoBold,
+    fontWeight: '700' as const,
+    fontSize: 15,
+    color: '#fff',
+    letterSpacing: -0.2,
+  },
+  teamMembersToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  teamMembersLabel: {
+    fontSize: 10,
+    letterSpacing: 2,
+    fontFamily: FONTS.interBold,
+    fontWeight: '800' as const,
+    color: 'rgba(255,255,255,0.55)',
+  },
+  teamChevron: {
+    fontSize: 18,
+    color: '#fff',
+    transform: [{ rotate: '90deg' }],
+    lineHeight: 20,
+  },
+  teamChevronUp: {
+    transform: [{ rotate: '-90deg' }],
+  },
+  memberList: {
+    paddingHorizontal: 14,
+    paddingBottom: 14,
+    gap: 8,
+  },
+  memberChip: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(10,30,90,0.5)',
+    paddingVertical: 11,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  memberName: {
+    fontFamily: FONTS.interSemiBold,
+    fontWeight: '600' as const,
+    fontSize: 15,
+    color: '#fff',
+    letterSpacing: 0.1,
   },
 });

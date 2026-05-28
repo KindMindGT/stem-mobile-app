@@ -1,3 +1,4 @@
+import { PITLANE_PINK } from '@/theme/colors';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -13,7 +14,7 @@ export default function CheckBadge({ done } : Props) {
         <Svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <Path
             d="M5 12 L10 17 L19 7"
-            stroke="#0a0a0e"
+            stroke="rgba(255,255,255,0.55)"
             strokeWidth={2.8}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -46,8 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   done: {
-    backgroundColor: '#ffcf2a',
-    shadowColor: '#ffc828',
+    backgroundColor: PITLANE_PINK,
+    shadowColor: PITLANE_PINK,
     shadowOpacity: 0.35,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 6 },
