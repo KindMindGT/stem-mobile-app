@@ -39,7 +39,9 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       {/* Center logo */}
       <View style={styles.center}>
         <Image
-          source={require('../assets/images/stem-racing-gt-white.png')}
+          source={{
+            uri: 'https://zyjcmwcjaenfvseeuriq.supabase.co/storage/v1/object/public/Mobile%20App/stem-racing-gt-white.png'
+          }}
           style={styles.logoImage}
           resizeMode="contain"
         />
