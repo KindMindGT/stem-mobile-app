@@ -2,6 +2,7 @@ import { IconBack } from '@/components/ui/icon-back';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,7 +12,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Ellipse, Line, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
-import { BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { PITLANE_PINK, setAlpha, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
@@ -65,12 +66,12 @@ type Achievement = {
 };
 
 const ACHIEVEMENTS: Achievement[] = [
-  { id: 'a1', label: '1 month of Classes\nin a row',     unlocked: true  },
-  { id: 'a2', label: 'Most viewed\nepisode (podcast)',   unlocked: true  },
-  { id: 'a3', label: 'September\nbest team',             unlocked: true  },
-  { id: 'a4', label: 'Race\nChampion',                   unlocked: false },
-  { id: 'a5', label: 'Pit Stop\nMaster',                 unlocked: false },
-  { id: 'a6', label: 'Final\nLine',                      unlocked: false },
+  { id: 'a1', label: '1 month of Classes in a row',     unlocked: true  },
+  { id: 'a2', label: 'Most viewed episode (podcast)',   unlocked: true  },
+  { id: 'a3', label: 'September best team',             unlocked: true  },
+  { id: 'a4', label: 'Race Champion',                   unlocked: false },
+  { id: 'a5', label: 'Pit Stop Master',                 unlocked: false },
+  { id: 'a6', label: 'Final Line',                      unlocked: false },
 ];
 
 // ─── Achievement icons ─────────────────────────────────────────────────────────
@@ -149,16 +150,6 @@ function AchievementIcon({ id, size = 52 }: { id: string; size?: number }) {
   }
 }
 
-// ─── Back icon ─────────────────────────────────────────────────────────────────
-
-function BackIcon() {
-  return (
-    <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
-      <Path d="M15 18l-6-6 6-6" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
-    </Svg>
-  );
-}
-
 // ─── History view ──────────────────────────────────────────────────────────────
 
 function HistoryView() {
@@ -202,6 +193,52 @@ function HistoryView() {
   );
 }
 
+// ─── Achievement pair card ────────────────────────────────────────────────────
+// One image background shared by up to two achievements side-by-side.
+
+const GRADIENT_COLD = require('../assets/images/Gradients_Cold.png');
+
+function AchievePairCard({ pair }: { pair: Achievement[] }) {
+  // pair has 1 or 2 items
+  return (
+    <View style={styles.pairCard}>
+      {/* Shared background image */}
+      <Image
+        source={GRADIENT_COLD}
+        style={styles.background}
+        resizeMode="cover"
+      />
+      {/* Slight dark overlay so text is always readable 
+      <View style={styles.pairOverlay} />
+      */}
+
+      {pair.map((a, i) => (
+        <View
+          key={a.id}
+          style={[
+            styles.pairItem,
+            pair.length === 2 && i === 0 && styles.pairItemDivider,
+          ]}
+        >
+          <View style={styles.achieveIconWrap}>
+            <AchievementIcon id={a.id} size={52} />
+          </View>
+
+          <View
+            style={[
+              styles.pairDivider,
+              pair.length === 2 && i === 0 && styles.pairDividerRight,
+              pair.length === 2 && i === 1 && styles.pairDividerLeft,
+            ]}
+          />
+
+          <Text style={styles.achieveLabel}>{a.label}</Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
 // ─── Achievements view ─────────────────────────────────────────────────────────
 
 function AchievementsView() {
@@ -210,6 +247,12 @@ function AchievementsView() {
 
   const unlocked = ACHIEVEMENTS.filter(a => a.unlocked);
   const milestones = ACHIEVEMENTS.filter(a => !a.unlocked);
+
+  // Group unlocked into consecutive pairs: [[a1,a2],[a3]]
+  const pairs: Achievement[][] = [];
+  for (let i = 0; i < unlocked.length; i += 2) {
+    pairs.push(unlocked.slice(i, i + 2));
+  }
 
   return (
     <ScrollView
@@ -225,19 +268,8 @@ function AchievementsView() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.achieveRow}
       >
-        {unlocked.map(a => (
-          <View key={a.id} style={styles.achieveCard}>
-            <LinearGradient
-              colors={['#1a6edc', '#24c88a']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={StyleSheet.absoluteFill}
-            />
-            <View style={styles.achieveIconWrap}>
-              <AchievementIcon id={a.id} size={52} />
-            </View>
-            <Text style={styles.achieveLabel}>{a.label}</Text>
-          </View>
+        {pairs.map((pair, i) => (
+          <AchievePairCard key={pair.map(a => a.id).join('-')} pair={pair} />
         ))}
       </ScrollView>
 
@@ -300,7 +332,7 @@ export default function ActivityScreen({ onBack }: Props) {
               </Text>
               {isActive && (
                 <LinearGradient
-                  colors={[PITLANE_PINK, BURNOUT_ORANGE]}
+                  colors={[PITLANE_PINK, setAlpha(PITLANE_PINK, 0.9)]}
                   start={{ x: 0, y: 0.5 }}
                   end={{ x: 1, y: 0.5 }}
                   style={styles.tabUnderline}
@@ -320,8 +352,6 @@ export default function ActivityScreen({ onBack }: Props) {
 }
 
 // ─── Styles ────────────────────────────────────────────────────────────────────
-
-const ACHIEVE_CARD_W = 140;
 
 const styles = StyleSheet.create({
   screen:  { flex: 1, backgroundColor: STEM_BG },
@@ -455,15 +485,53 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingRight: LAYOUT.screenPadding,
   },
-  achieveCard: {
-    width: ACHIEVE_CARD_W,
+  background: {
+    flex: 1,                  // Ensures the background covers the entire screen
+    position: 'absolute',     // Allows the background to be positioned behind content
+    height: '100%',
+    width: '100%',
+  },
+  // Pair card — shared image background, two items side by side
+  pairCard: {
+    flexDirection: 'row',
     height: 160,
     borderRadius: 16,
     overflow: 'hidden',
-    padding: 12,
-    justifyContent: 'space-between',
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.12)',
+    borderColor: 'rgba(255,255,255,0.15)',
+  },
+  pairOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.15)',
+  },
+  pairItem: {
+    flex: 1,
+    padding: 12,
+    width: 140,
+    justifyContent: 'space-between',
+  },
+  pairItemDivider: {
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(255,255,255,0.2)',
+  },
+  pairItemSingleDivider: {
+    borderBottomColor: '#fff',
+    borderBottomWidth: 1,
+    marginVertical: 10,
+    width: '100%',
+  },
+  pairDivider: {
+    height: 1,
+    backgroundColor: '#fff',
+    marginHorizontal: 0,
+    marginVertical: 8,
+  },
+  pairDividerRight: {
+    marginRight: -12,
+  },
+  pairDividerLeft: {
+    marginLeft: -12,
   },
   achieveIconWrap: {
     alignItems: 'center',
