@@ -7,6 +7,7 @@ import TabBar from '../components/tab-bar';
 import { GRADIENTS, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const STRIP_EDGE_PADDING = 33;
 const UPCOMING_RACES = [
@@ -29,15 +30,16 @@ const SPONSOR_COUNT = 6;
 const SPONSOR_ACTIVE_INDEX = 1;
 
 export default function HomeScreen({ onTabChange } : { onTabChange: (id: string) => void }) {
+  const { t } = useLanguage();
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Event guide" variant="blue-gradient" />
+      <GradientHeader title={t.home.title} variant="blue-gradient" />
       <View style={styles.heroBlock}>
-        <Text style={styles.heroTitle}>Grand Final</Text>
+        <Text style={styles.heroTitle}>{t.home.heroTitle}</Text>
         <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.heroSubtitle}>
-          Tokyo 2026
+          {t.home.heroSubtitle}
         </GradientText>
-        <Text style={styles.upcomingLabel}>UPCOMING RACES</Text>
+        <Text style={styles.upcomingLabel}>{t.home.upcomingRaces}</Text>
       </View>
 
       <ScrollView
@@ -54,9 +56,9 @@ export default function HomeScreen({ onTabChange } : { onTabChange: (id: string)
       <View style={styles.sponsorWrap}>
         <View style={styles.sponsorBlock}>
           <View style={styles.sponsorHeader}>
-            <Text style={styles.sponsorTitle}>SPONSORS</Text>
+            <Text style={styles.sponsorTitle}>{t.home.sponsors}</Text>
             <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.viewAll}>
-              VIEW ALL
+              {t.home.viewAll}
             </GradientText>
           </View>
           <View style={styles.sponsorBox}>

@@ -7,6 +7,7 @@ import ScheduleRow from '../components/schedule-row';
 import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const TEACHER = {
   initials: 'AS',
@@ -44,6 +45,7 @@ type Props = {
 };
 
 export default function TeacherProfileScreen({ classId, onBack } : Props) {
+  const { t } = useLanguage();
   return (
     <View style={styles.screen}>
       <IconButton
@@ -51,7 +53,7 @@ export default function TeacherProfileScreen({ classId, onBack } : Props) {
         onPress={onBack}
         style={styles.backBtn}
         variant="ghost"
-        accessibilityLabel="atrás"
+        accessibilityLabel={t.common.back}
       />
 
       <ScrollView
@@ -69,7 +71,7 @@ export default function TeacherProfileScreen({ classId, onBack } : Props) {
         </View>
 
         <View style={styles.upcoming}>
-          <Text style={styles.sectionLabel}>PRÓXIMAS CLASES CON ANDREA</Text>
+          <Text style={styles.sectionLabel}>{t.teacher.upcomingWith.replace('{name}', TEACHER.name)}</Text>
           {TEACHER.upcoming.map((row, i) => (
             <ScheduleRow
               id={row.id}

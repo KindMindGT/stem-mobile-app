@@ -10,67 +10,67 @@ export const FONTS = {
   interMedium: 'Inter_500Medium',
   interSemiBold: 'Inter_600SemiBold',
   interBold: 'Inter_700Bold',
+  magistralItalic: 'Magistral-MediumItalic',
+  machoModular: 'MachoModular-Bold',
+  verdana: 'Verdana',
+  verdanaBold: 'Verdana-Bold',
+  verdanaItalic: 'Verdana-Italic',
+  verdanaBoldItalic: 'Verdana-BoldItalic',
 };
 
-// Heading typefaces: typeface + weight + italic only.
-// Callers always specify fontSize/lineHeight/letterSpacing — sizes vary too much per surface.
-const archivoItalicExtra = {
-  fontFamily: FONTS.archivoExtraBoldItalic,
+const headingMagistral = {
+  fontFamily: FONTS.magistralItalic,
   fontStyle: 'italic' as const,
-  fontWeight: '800' as const,
-  color: '#fff',
-};
-const archivoItalicBlack = {
-  fontFamily: FONTS.archivoBlackItalic,
-  fontStyle: 'italic' as const,
-  fontWeight: '900' as const,
   color: '#fff',
 };
 
 export const TEXT = {
-  // `display` is the only heading used at one fixed size across the app.
   display: {
-    ...archivoItalicBlack,
+    ...headingMagistral,
     fontSize: 46,
     letterSpacing: -1,
     lineHeight: 44,
   },
-  // Heading templates — caller specifies size + tracking.
-  h1: archivoItalicBlack,
-  h2: archivoItalicExtra,
-  h3: archivoItalicExtra,
+  h1: headingMagistral,
+  h2: headingMagistral,
+  h3: headingMagistral,
   ctaLabel: {
-    ...archivoItalicExtra,
+    ...headingMagistral,
     fontSize: 19,
     letterSpacing: 0.2,
   },
+  sectionTitle: {
+    fontFamily: FONTS.machoModular,
+    fontSize: 20,
+    color: '#E6007E',
+  },
   body: {
-    fontFamily: FONTS.interRegular,
+    fontFamily: FONTS.verdana,
     fontSize: 14,
     lineHeight: 21,
     color: 'rgba(255,255,255,0.78)',
   },
   bodyMuted: {
-    fontFamily: FONTS.interRegular,
+    fontFamily: FONTS.verdana,
     fontSize: 12,
     color: 'rgba(255,255,255,0.6)',
   },
   eyebrow: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '800' as const,
+    fontFamily: FONTS.verdanaBold,
+    fontWeight: '700' as const,
     fontSize: 10,
     letterSpacing: 2,
     color: 'rgba(255,255,255,0.55)',
   },
   smallCaps: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '800' as const,
+    fontFamily: FONTS.verdanaBold,
+    fontWeight: '700' as const,
     fontSize: 10,
     letterSpacing: 2.5,
     color: 'rgba(255,255,255,0.6)',
   },
   tabLabel: {
-    fontFamily: FONTS.interBold,
+    fontFamily: FONTS.verdanaBold,
     fontWeight: '700' as const,
     fontSize: 13,
     letterSpacing: 2.5,

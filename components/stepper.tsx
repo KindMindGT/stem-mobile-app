@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FONTS } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 type Props = {
   value?: number;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function Stepper({ value = 1, onChange, compact = false, min = 0, max = 99 } : Props) {
+  const { t } = useLanguage();
   const size = compact ? 26 : 32;
   const dec = () => onChange && onChange(Math.max(min, value - 1));
   const inc = () => onChange && onChange(Math.min(max, value + 1));
@@ -19,7 +21,7 @@ export default function Stepper({ value = 1, onChange, compact = false, min = 0,
       <Pressable
         onPress={dec}
         accessibilityRole="button"
-        accessibilityLabel="disminuir"
+        accessibilityLabel={t.stepper.decrease}
         style={[styles.btn, { width: size, height: size, borderRadius: size / 2 }]}
       >
         <Text style={styles.btnText}>−</Text>
@@ -28,7 +30,7 @@ export default function Stepper({ value = 1, onChange, compact = false, min = 0,
       <Pressable
         onPress={inc}
         accessibilityRole="button"
-        accessibilityLabel="aumentar"
+        accessibilityLabel={t.stepper.increase}
         style={[styles.btn, { width: size, height: size, borderRadius: size / 2 }]}
       >
         <Text style={styles.btnText}>+</Text>

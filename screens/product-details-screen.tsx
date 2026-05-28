@@ -12,6 +12,7 @@ import { formatGTQ } from '../constants/functions';
 import { APEX_GLACIER, CARBON_SHADOW, GRADIENTS } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const MAX_QTY = 20;
 const FEATURED_PRODUCT = {
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
+  const { t } = useLanguage();
   const product = FEATURED_PRODUCT;
   const [colorIdx, setColorIdx] = useState(0);
   const [size, setSize] = useState('M');
@@ -64,12 +66,12 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
             icon="back"
             onPress={onBack}
             style={[styles.headerBtn, styles.headerBtnLeft]}
-            accessibilityLabel="atrás"
+            accessibilityLabel={t.common.back}
           />
           <IconButton
             icon="heart"
             style={[styles.headerBtn, styles.headerBtnRight]}
-            accessibilityLabel="favoritos"
+            accessibilityLabel={t.product.favorites}
             onPress={() => {}}
           />
         </View>
@@ -82,14 +84,14 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
           </GradientText>
 
           <View style={styles.field}>
-            <Text style={styles.sectionLabel}>COLOR</Text>
+            <Text style={styles.sectionLabel}>{t.product.color}</Text>
             <View style={styles.colorRow}>
               {product.colors.map((c, i) => (
                 <Pressable
                   key={c}
                   onPress={() => setColorIdx(i)}
                   accessibilityRole="button"
-                  accessibilityLabel={`color ${i + 1}`}
+                  accessibilityLabel={t.product.colorLabel.replace('{index}', String(i + 1))}
                   style={[
                     styles.colorChip,
                     {
@@ -104,7 +106,7 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.sectionLabel}>TALLA</Text>
+            <Text style={styles.sectionLabel}>{t.product.size}</Text>
             <View style={styles.sizeRow}>
               {product.sizes.map((s) => {
                 const isActive = s === size;
@@ -113,7 +115,7 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
                     key={s}
                     onPress={() => setSize(s)}
                     accessibilityRole="button"
-                    accessibilityLabel={`talla ${s}`}
+                    accessibilityLabel={t.product.sizeLabel.replace('{size}', s)}
                     style={[styles.sizeChip, isActive && styles.sizeChipActive]}
                   >
                     <Text style={[styles.sizeText, isActive && styles.sizeTextActive]}>{s}</Text>
@@ -123,11 +125,11 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
             </View>
           </View>
 
-          <SmallCapsHeader>DESCRIPCIÓN</SmallCapsHeader>
+          <SmallCapsHeader>{t.product.description}</SmallCapsHeader>
           <Text style={styles.description}>{product.description}</Text>
 
           <View style={styles.qtyRow}>
-            <Text style={styles.sectionLabel}>CANTIDAD</Text>
+            <Text style={styles.sectionLabel}>{t.product.quantity}</Text>
             <Stepper value={qty} onChange={setQty} min={1} max={MAX_QTY} />
           </View>
         </View>
@@ -135,7 +137,7 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
 
       <View style={styles.ctaWrap}>
         <GradientButton
-          label="Añadir al carrito"
+          label={t.product.addToCart}
           onPress={onAddToCart}
           height={60}
           radius={18}

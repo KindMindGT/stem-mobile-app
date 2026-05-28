@@ -10,6 +10,7 @@ import { BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const FAB_SIZE = 58;
 const PEEK_OFFSET = -(DAY_CHIP_SIZE - LAYOUT.screenPadding);
@@ -53,13 +54,14 @@ type Props = {
 };
 
 export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
+  const { t } = useLanguage();
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Schedule" variant="blue-gradient" />
+      <GradientHeader title={t.schedule.title} variant="blue-gradient" />
 
       <View style={styles.tabs}>
         <View style={styles.tab}>
-          <Text style={[styles.tabText, styles.tabTextActive]}>MY SCHEDULE</Text>
+          <Text style={[styles.tabText, styles.tabTextActive]}>{t.schedule.mySchedule}</Text>
           <LinearGradient
             colors={[PITLANE_PINK, BURNOUT_ORANGE]}
             start={{ x: 0, y: 0.5 }}
@@ -68,7 +70,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
           />
         </View>
         <View style={styles.tab}>
-          <Text style={styles.tabText}>ALL SESSIONS</Text>
+          <Text style={styles.tabText}>{t.schedule.allSessions}</Text>
         </View>
       </View>
 
@@ -105,7 +107,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
       <Pressable
         style={styles.fab}
         accessibilityRole="button"
-        accessibilityLabel="agregar sesión"
+        accessibilityLabel={t.schedule.addSession}
       >
         <LinearGradient
           colors={['#ff2a8a', '#c01880']}
