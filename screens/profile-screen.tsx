@@ -9,23 +9,16 @@ import TabBar from '../components/tab-bar';
 import { GRADIENTS, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const HEADER_GRAD = GRADIENTS['blue-gradient'];
 const STUDENT = {
   initials: 'MR',
   name: 'Mateo Ramírez',
-  levelLabel: 'NIVEL 2 · ESTUDIANTE',
   pills: ['📍 Hub Zona 10', '14 años', 'Apex desde 2024'],
-  stats: [
-    { value: '24', label: 'CLASES', tone: 'pink' },
-    { value: '7', label: 'LOGROS', tone: 'orange' },
-    { value: '92%', label: 'ASIST.', tone: 'blue' },
-  ],
   progress: {
-    label: 'PROGRESO NIVEL 2',
     value: '12 / 16',
     pct: 0.75,
-    hint: 'Te faltan 4 clases para pasar al Nivel 3.',
   },
   upcoming: [
     {
@@ -99,12 +92,12 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
       {
         /*
       <View style={styles.headerRow}>
-        <IconButton icon="settings" variant="translucent" accessibilityLabel="ajustes" onPress={() => {}} />
+        <IconButton icon="settings" variant="translucent" accessibilityLabel={t.common.settings} onPress={() => {}} />
         <IconButton
           icon="logout"
           variant="translucent"
           onPress={onLogout}
-          accessibilityLabel="cerrar sesión"
+          accessibilityLabel={t.profile.closeSession}
         />
       </View>
         */
@@ -121,7 +114,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
           {
             /*
           <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.metaLabel}>
-            {STUDENT.levelLabel}
+            {t.profile.levelLabel}
           </GradientText>
           <View style={styles.pillRow}>
             {STUDENT.pills.map((p) => (
@@ -197,17 +190,21 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         {
           /*
         <View style={styles.statsCard}>
-          {STUDENT.stats.map((s, i) => (
+          {[
+            { value: '24', label: t.profile.classes, tone: 'pink' },
+            { value: '7', label: t.profile.achievements, tone: 'orange' },
+            { value: '92%', label: t.profile.attendance, tone: 'blue' },
+          ].map((s, i) => (
             <React.Fragment key={s.label}>
               <StatColumn value={s.value} label={s.label} tone={s.tone as any} />
-              {i < STUDENT.stats.length - 1 && <View style={styles.statDivider} />}
+              {i < 2 && <View style={styles.statDivider} />}
             </React.Fragment>
           ))}
         </View>
 
         <View style={styles.progressCard}>
           <View style={styles.progressHeader}>
-            <Text style={styles.progressLabel}>{STUDENT.progress.label}</Text>
+            <Text style={styles.progressLabel}>{t.profile.progress}</Text>
             <Text style={styles.progressVal}>{STUDENT.progress.value}</Text>
           </View>
           <View style={styles.progressTrack}>
@@ -218,14 +215,14 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
               style={[styles.progressFill, { width: `${STUDENT.progress.pct * 100}%` }]}
             />
           </View>
-          <Text style={styles.progressHint}>{STUDENT.progress.hint}</Text>
+          <Text style={styles.progressHint}>{t.profile.progressHint.replace('{remaining}', '4')}</Text>
         </View>
           */
         }
 
         { /* ── Upcoming classes ──´
         <View style={styles.section}>
-          <SmallCapsHeader top={0} bottom={4}>MIS PRÓXIMAS CLASES</SmallCapsHeader>
+          <SmallCapsHeader top={0} bottom={4}>{t.profile.myNextClasses}</SmallCapsHeader>
         </View>
         {STUDENT.upcoming.map((row, i) => (
           <ScheduleRow
@@ -245,7 +242,7 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         { 
           /*
         <View style={styles.section}>
-          <SmallCapsHeader top={0} bottom={10}>LOGROS RECIENTES</SmallCapsHeader>
+          <SmallCapsHeader top={0} bottom={10}>{t.profile.recentAchievements}</SmallCapsHeader>
           <View style={styles.badges}>
             {STUDENT.badges.map((b) => (
               <BadgeCard key={b.id} label={b.label} tone={b.tone as any} />
@@ -256,8 +253,13 @@ export default function ProfileScreen({ onTabChange, onOpenClass, onLogout }: Pr
         }
 
         <View style={styles.section}>
-          <SmallCapsHeader top={0} bottom={10}>CUENTA</SmallCapsHeader>
-          {STUDENT.settings.map((s) => (
+          <SmallCapsHeader top={0} bottom={10}>{t.profile.account}</SmallCapsHeader>
+          {[
+            { id: 'edit', label: t.profile.editProfile },
+            { id: 'notif', label: t.profile.notifications },
+            { id: 'help', label: t.profile.helpSupport },
+            { id: 'logout', label: t.profile.logout, danger: true },
+          ].map((s) => (
             <SettingRow
               key={s.id}
               label={s.label}

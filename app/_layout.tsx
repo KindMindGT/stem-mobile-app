@@ -22,6 +22,7 @@ import { StyleSheet, View } from 'react-native';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import SplashScreen from '@/components/splash-screen';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import ActivityScreen from '@/screens/activity-screen';
@@ -84,6 +85,12 @@ export default function RootLayout() {
     Inter_500Medium,
     Inter_600SemiBold,
     Inter_700Bold,
+    'Verdana': require('../assets/fonts/Verdana.ttf'),
+    'Verdana-Bold': require('../assets/fonts/Verdana-Bold.ttf'),
+    'Verdana-Italic': require('../assets/fonts/Verdana-Italic.ttf'),
+    'Verdana-BoldItalic': require('../assets/fonts/Verdana-BoldItalic.ttf'),
+    'Magistral-MediumItalic': require('../assets/fonts/fonnts.com-Magistral_Medium_Italic.otf'),
+    'MachoModular-Bold': require('../assets/fonts/fonnts.com-MachoModular_Bold.otf'),
   });
 
   useEffect(() => {
@@ -154,6 +161,11 @@ export default function RootLayout() {
     });
   }, []);
 
+  // ── menu stack ────────────────────────────────────────────────────────────
+  const handleMenuNavigate = useCallback((screen: 'faqs' | 'menu-media' | 'contact' | 'language') => {
+    setTabStacks(prev => ({ ...prev, menu: { screen } }));
+  }, []);
+
   // ── universal back ────────────────────────────────────────────────────────
   const handleBack = useCallback(() => {
     setTabStacks(prev => {
@@ -183,6 +195,12 @@ export default function RootLayout() {
           };
         case 'product':
           return { ...prev, market: null };
+        // menu — all sub-screens go back to the menu root
+        case 'faqs':
+        case 'menu-media':
+        case 'contact':
+        case 'language':
+          return { ...prev, [activeTab]: null };
         default:
           return { ...prev, [activeTab]: null };
       }
@@ -194,6 +212,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <LanguageProvider>
         <View style={{ flex: 1 }}>
           {stage === 'splash' && <SplashScreen onFinish={handleSplashFinish} />}
           {stage === 'login'  && <LoginScreen  onLogin={handleLogin} />}
@@ -249,10 +268,25 @@ export default function RootLayout() {
                   )}
                 </View>
               )}
+
+              {/* ── Menu detail screens ── */}
+              {currentRoute?.screen === 'faqs' && (
+                <FaqsScreen onBack={handleBack} onTabChange={handleTabChange} />
+              )}
+              {currentRoute?.screen === 'menu-media' && (
+                <MediaScreen onBack={handleBack} onTabChange={handleTabChange} />
+              )}
+              {currentRoute?.screen === 'contact' && (
+                <ContactScreen onBack={handleBack} onTabChange={handleTabChange} />
+              )}
+              {currentRoute?.screen === 'language' && (
+                <LanguageScreen onBack={handleBack} onTabChange={handleTabChange} />
+              )}
             </>
           )}
         </View>
         <StatusBar style="light" />
+        </LanguageProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );

@@ -340,7 +340,7 @@ export default function ScheduleScreen({ onTabChange, onOpenClass }: Props) {
 
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Schedule" variant="blue-gradient" />
+      <GradientHeader title={t.schedule.title} variant="blue-gradient" />
 
       {/* Inner tabs */}
       <View style={styles.tabs}>

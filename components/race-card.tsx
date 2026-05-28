@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SHADOWS } from '../theme/shadows';
 import { FONTS, TEXT } from '../theme/typography';
 import { FlagByCode } from './flags';
+import { useLanguage } from '../contexts/LanguageContext';
 
 type RaceCellProps = {
   flagCode: string;
@@ -50,6 +51,7 @@ function RaceCell({ flagCode, name, footLabel, footValue, showRight, footAlign =
 }
 
 export default function RaceCard({ pair, separator = true } : RaceCardProps) {
+  const { t } = useLanguage();
   return (
     <View style={styles.card}>
       <LinearGradient
@@ -70,7 +72,7 @@ export default function RaceCard({ pair, separator = true } : RaceCardProps) {
         <RaceCell
           flagCode={pair.left.flagCode}
           name={pair.left.name}
-          footLabel="START"
+          footLabel={t.raceCard.start}
           footValue={pair.start}
           footAlign="left"
           showRight={separator}
@@ -78,7 +80,7 @@ export default function RaceCard({ pair, separator = true } : RaceCardProps) {
         <RaceCell
           flagCode={pair.right.flagCode}
           name={pair.right.name}
-          footLabel="DATE"
+          footLabel={t.raceCard.date}
           footValue={pair.date}
           footAlign="right"
         />

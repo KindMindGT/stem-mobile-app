@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { TONE_RAMP } from '../theme/tones';
 import { FONTS } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 import ImgPlaceholder from './image-placeholder';
 
 type Props = {
@@ -13,11 +14,13 @@ type Props = {
   label?: string;
 };
 
-export default function ProductTile({ height = 220, name, price, tone = 'pink', label = 'producto' }: Props) {
+export default function ProductTile({ height = 220, name, price, tone = 'pink', label }: Props) {
+  const { t } = useLanguage();
+  const resolvedLabel = label ?? t.common.loading;
   return (
     <View style={[styles.card, { height }]}>
       <View style={styles.imgBlock}>
-        <ImgPlaceholder label={label} tone={tone} radius={0} />
+        <ImgPlaceholder label={resolvedLabel} tone={tone} radius={0} />
         <View style={styles.heart}>
           <Svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <Path

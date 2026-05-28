@@ -9,6 +9,7 @@ import { CARBON_SHADOW } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { FONTS } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const SHIPPING_GTQ = 25;
 const INITIAL_CART_ITEMS = [
@@ -39,6 +40,7 @@ const INITIAL_CART_ITEMS = [
 ];
 
 export default function CartScreen({ onPay }: { onPay: () => void }) {
+  const { t } = useLanguage();
   const [items, setItems] = useState(INITIAL_CART_ITEMS);
 
   const setQty = (id : string, qty : number) =>
@@ -52,7 +54,7 @@ export default function CartScreen({ onPay }: { onPay: () => void }) {
 
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Carrito" variant="primary-gradient-2" />
+      <GradientHeader title={t.cart.title} variant="primary-gradient-2" />
 
       <ScrollView
         style={styles.scrollWrap}
@@ -70,16 +72,16 @@ export default function CartScreen({ onPay }: { onPay: () => void }) {
       </ScrollView>
 
       <View style={styles.footer}>
-        <CartSummaryLine label="Subtotal" value={formatGTQ(subtotal)} />
-        <CartSummaryLine label="Envío" value={formatGTQ(SHIPPING_GTQ)} />
+        <CartSummaryLine label={t.cart.subtotal} value={formatGTQ(subtotal)} />
+        <CartSummaryLine label={t.cart.shipping} value={formatGTQ(SHIPPING_GTQ)} />
         <View style={styles.divider} />
         <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>TOTAL</Text>
+          <Text style={styles.totalLabel}>{t.cart.total}</Text>
           <Text style={styles.totalValue}>{formatGTQ(total)}</Text>
         </View>
         <View style={styles.ctaWrap}>
           <GradientButton
-            label={`Pagar ${formatGTQ(total)}`}
+            label={t.cart.pay.replace('{amount}', formatGTQ(total))}
             onPress={onPay}
             height={56}
             radius={16}

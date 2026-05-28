@@ -9,6 +9,7 @@ import { CARBON_SHADOW } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { SHADOWS } from '../theme/shadows';
 import { FONTS } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const GRID_GAP = 12;
 const TILE_HEIGHT = 228;
@@ -34,13 +35,14 @@ type Props = {
 };
 
 export default function MarketplaceScreen({ onTabChange, onOpenProduct }: Props) {
+  const { t } = useLanguage();
   const [active, setActive] = useState('all');
   const { width } = useWindowDimensions();
   const itemWidth = Math.floor((width - LAYOUT.screenPadding * 2 - GRID_GAP) / 2);
 
   return (
     <View style={styles.screen}>
-      <GradientHeader title="Marketplace" variant="primary-gradient-2" />
+      <GradientHeader title={t.marketplace.title} variant="primary-gradient-2" />
 
       <ScrollView
         style={styles.scrollWrap}
@@ -52,7 +54,12 @@ export default function MarketplaceScreen({ onTabChange, onOpenProduct }: Props)
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.chipsRow}
         >
-          {PRODUCT_CHIPS.map((c) => {
+          {[
+          { id: 'all', label: t.marketplace.all },
+          { id: 'merch', label: t.marketplace.merch },
+          { id: 'kits', label: t.marketplace.kits },
+          { id: 'eventos', label: t.marketplace.events },
+        ].map((c) => {
             const isActive = c.id === active;
             return (
               <Pressable

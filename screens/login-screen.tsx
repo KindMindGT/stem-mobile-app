@@ -8,11 +8,13 @@ import GradientText from '../components/gradient-text';
 //import SplashShapes from '../components/SplashShapes';
 import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
 import { FONTS } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const DEMO_EMAIL = __DEV__ ? 'mateo.ramirez@apex.gt' : '';
 const DEMO_PASSWORD = __DEV__ ? 'apexrules' : '';
 
 export default function LoginScreen({ onLogin }: { onLogin: () => void }) {
+  const { t } = useLanguage();
   const { width, height } = useWindowDimensions();
   const [email, setEmail] = useState(DEMO_EMAIL);
   const [password, setPassword] = useState(DEMO_PASSWORD);
@@ -30,28 +32,28 @@ export default function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
       <View style={styles.center}>
         <View style={styles.brandWrap}>
-          <BrandLockup markSize={82} pillLabel="STEM · GUATEMALA" pillFontSize={11} titleSize={26} />
+          <BrandLockup markSize={82} pillLabel={t.login.brand} pillFontSize={11} titleSize={26} />
         </View>
 
         <View style={styles.form}>
-          <GlassInput label="CORREO" value={email} onChangeText={setEmail} />
+          <GlassInput label={t.login.email} value={email} onChangeText={setEmail} />
           <GlassInput
-            label="CONTRASEÑA"
+            label={t.login.password}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
             mono
           />
           <View style={styles.ctaWrap}>
-            <GradientButton label="Iniciar sesión" onPress={onLogin} height={56} radius={16} />
+            <GradientButton label={t.login.signIn} onPress={onLogin} height={56} radius={16} />
           </View>
-          <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
+          <Text style={styles.forgot}>{t.login.forgotPassword}</Text>
         </View>
 
         <View style={styles.footerRow}>
-          <Text style={styles.footerLeft}>¿Nuevo aquí? </Text>
+          <Text style={styles.footerLeft}>{t.login.newHere}</Text>
           <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.footerLink}>
-            CREA UNA CUENTA
+            {t.login.createAccount}
           </GradientText>
         </View>
       </View>

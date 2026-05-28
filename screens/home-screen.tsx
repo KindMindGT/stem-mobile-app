@@ -7,6 +7,7 @@ import TabBar from '../components/tab-bar';
 import { AERO_SKY, APEX_GLACIER, BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
