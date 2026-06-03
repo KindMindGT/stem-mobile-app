@@ -220,18 +220,15 @@ function AchievePairCard({ pair }: { pair: Achievement[] }) {
             pair.length === 2 && i === 0 && styles.pairItemDivider,
           ]}
         >
+          {/* Icon area — takes all available space above the line */}
           <View style={styles.achieveIconWrap}>
             <AchievementIcon id={a.id} size={52} />
           </View>
 
-          <View
-            style={[
-              styles.pairDivider,
-              pair.length === 2 && i === 0 && styles.pairDividerRight,
-              pair.length === 2 && i === 1 && styles.pairDividerLeft,
-            ]}
-          />
+          {/* Full-width horizontal white divider between icon and label */}
+          <View style={styles.pairDivider} />
 
+          {/* Label below the line */}
           <Text style={styles.achieveLabel}>{a.label}</Text>
         </View>
       ))}
@@ -501,10 +498,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.15)',
   },
-  pairOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.15)',
-  },
+
   pairItem: {
     flex: 1,
     padding: 12,
@@ -515,23 +509,12 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderRightColor: 'rgba(255,255,255,0.2)',
   },
-  pairItemSingleDivider: {
-    borderBottomColor: '#fff',
-    borderBottomWidth: 1,
-    marginVertical: 10,
-    width: '100%',
-  },
+
   pairDivider: {
     height: 1,
-    backgroundColor: '#fff',
-    marginHorizontal: 0,
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    marginHorizontal: -12,  // bleed to pairItem edges
     marginVertical: 8,
-  },
-  pairDividerRight: {
-    marginRight: -12,
-  },
-  pairDividerLeft: {
-    marginLeft: -12,
   },
   achieveIconWrap: {
     alignItems: 'center',

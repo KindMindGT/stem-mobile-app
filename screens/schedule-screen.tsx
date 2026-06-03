@@ -48,23 +48,23 @@ export type SessionMap = Record<string, Session[]>;
 // Add or remove entries here; the calendar adapts automatically.
 
 export const SESSIONS: SessionMap = {
-  '2026-05-10': [
+  '2026-06-10': [
     { id: 's-fri-1', title: 'PMI', time: '02:30', duration: '1.5hrs', teacher: { name: 'Pablo Melendez', initials: 'PM' }, done: true },
     { id: 's-fri-2', title: 'Growth', time: '02:30', duration: '1.5hrs', teacher: { name: 'Ines Ordonez', initials: 'IO' }, done: true },
     { id: 's-fri-3', title: 'Design + Engineer', time: '02:30', duration: '1.5hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
   ],
-  '2026-05-11': [
+  '2026-06-11': [
     { id: 's-sat-1', title: 'Aerodinámica Básica', time: '08:30', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
     { id: 's-sat-2', title: 'Telemetría 101', time: '11:00', duration: '1.5hrs', teacher: { name: 'Pablo Melendez', initials: 'PM' } },
   ],
-  '2026-05-12': [
+  '2026-06-12': [
     { id: 's-sun-1', title: 'Suspensión y Geometría', time: '09:00', duration: '2hrs', teacher: { name: 'Andrea Solís', initials: 'AS' } },
   ],
-  '2026-05-13': [
+  '2026-06-13': [
     { id: 's-mon-1', title: 'Aerodynamic workshop', time: '02:30', duration: '1.5hrs', teacher: { name: 'Hasso Tangelmann', initials: 'HT' } },
     { id: 's-mon-2', title: 'Race Strategy', time: '14:00', duration: '1hr', teacher: { name: 'Ines Ordonez', initials: 'IO' } },
   ],
-  '2026-05-14': [
+  '2026-06-14': [
     { id: 's-tue-1', title: 'Gran Final', time: '10:00', duration: '3hrs', teacher: { name: 'Gabriel Rodriguez', initials: 'GR' } },
   ],
 };
