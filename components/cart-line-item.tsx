@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { formatGTQ } from '../constants/functions';
 import { FONTS } from '../theme/typography';
-import { useLanguage } from '../contexts/LanguageContext';
 import IconButton from './icon-button';
 import ImgPlaceholder from './image-placeholder';
 import Stepper from './stepper';
@@ -22,7 +21,6 @@ type Props = {
 };
 
 export default function CartLineItem({ item, onQty, onRemove }: Props) {
-  const { t } = useLanguage();
   return (
     <View style={styles.row}>
       <View style={styles.thumb}>
@@ -42,7 +40,7 @@ export default function CartLineItem({ item, onQty, onRemove }: Props) {
           variant="bare"
           size={22}
           onPress={onRemove}
-          accessibilityLabel={t.cart.deleteItem.replace('{name}', item.name.replace('\n', ' '))}
+          accessibilityLabel={`eliminar ${item.name.replace('\n', ' ')}`}
         />
       </View>
     </View>

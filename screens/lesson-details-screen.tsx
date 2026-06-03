@@ -14,7 +14,6 @@ import SmallCapsHeader from '../components/small-caps-header';
 import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
-import { useLanguage } from '../contexts/LanguageContext';
 
 const HERO_HEIGHT = 280;
 const FEATURED_CLASS = {
@@ -45,7 +44,6 @@ type Props = {
 };
 
 export default function ClassDetailScreen({ classId, countdown = false, onBack, onTeacher, onEnter }: Props) {
-  const { t } = useLanguage();
   // TODO: look up class data by classId when a real data layer is available
   const cls = FEATURED_CLASS;
   const insets = useSafeAreaInsets();
@@ -75,7 +73,7 @@ export default function ClassDetailScreen({ classId, countdown = false, onBack, 
             icon="back"
             onPress={onBack}
             style={styles.backBtn}
-            accessibilityLabel={t.common.back}
+            accessibilityLabel="atrás"
           />
           <View style={styles.heroText}>
             <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.heroLabel}>
@@ -92,15 +90,15 @@ export default function ClassDetailScreen({ classId, countdown = false, onBack, 
             ))}
           </View>
 
-          <SmallCapsHeader>{t.lesson.about}</SmallCapsHeader>
+          <SmallCapsHeader>SOBRE LA CLASE</SmallCapsHeader>
           <Text style={styles.about}>{cls.about}</Text>
 
-          <SmallCapsHeader>{t.lesson.teacher}</SmallCapsHeader>
+          <SmallCapsHeader>MAESTRO</SmallCapsHeader>
           <Pressable
             style={styles.teacherCard}
             onPress={onTeacher}
             accessibilityRole="button"
-            accessibilityLabel={t.lesson.viewProfile.replace('{name}', cls.teacher.name)}
+            accessibilityLabel={`ver perfil de ${cls.teacher.name}`}
           >
             <PhotoCircle size={56} initials={cls.teacher.initials} ring={false} />
             <View style={styles.teacherText}>
@@ -118,7 +116,7 @@ export default function ClassDetailScreen({ classId, countdown = false, onBack, 
             </Svg>
           </Pressable>
 
-          <SmallCapsHeader>{t.lesson.whatToBring}</SmallCapsHeader>
+          <SmallCapsHeader>QUÉ LLEVAR</SmallCapsHeader>
           <View style={styles.bullets}>
             {cls.bringList.map((b) => (
               <BulletItem key={b.icon} icon={b.icon as "notebook" | "bottle" | "ruler"} label={b.label} />
