@@ -1,31 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useLanguage } from '../contexts/LanguageContext';
 //import { FONTS } from '../theme/typography';
 //import ApexMark from './ApexMark';
 
 export default function BrandLockup({
   markSize = 92,
-  pillLabel,
+  pillLabel = 'NORDFIELD',
   pillFontSize = 13,
   titleSize = 28,
-}: {
-  markSize?: number;
-  pillLabel?: string;
-  pillFontSize?: number;
-  titleSize?: number;
 }) {
-  const { t } = useLanguage();
-  const resolvedPill = pillLabel ?? t.brandLookup.defaultPill;
   return (
     <View style={styles.row}>
       {/* <ApexMark size={markSize} /> */}
       <View style={styles.col}>
         <View style={styles.pill}>
-          <Text style={[styles.pillText, { fontSize: pillFontSize }]}>{resolvedPill}</Text>
+          <Text style={[styles.pillText, { fontSize: pillFontSize }]}>{pillLabel}</Text>
         </View>
         <Text style={[styles.title, { fontSize: titleSize, lineHeight: titleSize - 1 }]}>
-          {t.brandLookup.brandTitle}
+          {'APEX\nFORMULA'}
         </Text>
       </View>
     </View>
