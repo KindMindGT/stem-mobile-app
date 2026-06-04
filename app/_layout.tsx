@@ -27,6 +27,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import ActivityScreen from '@/screens/activity-screen';
 import CartScreen from '@/screens/cart-screen';
 //import EventsScreen from '@/screens/events-screen';
+import EventsScreen from '@/screens/events-screen';
 import HomeScreen from '@/screens/home-screen';
 import HubScreen from '@/screens/hub-screen';
 import LessonDetailScreen from '@/screens/lesson-details-screen';
@@ -246,6 +247,9 @@ export default function RootLayout() {
                   )}
                   {currentRoute.screen === 'cart' && (
                     <CartScreen onPay={() => {}} />
+                  )}
+                  {currentRoute.screen === 'events' && (
+                    <EventsScreen onBack={handleBack} />
                   )}
                 </View>
               )}
