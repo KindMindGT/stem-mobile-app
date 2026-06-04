@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
-import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Linking, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
@@ -163,35 +163,14 @@ function GridIcon({ id }: { id: string }) {
         />
       );
 
-    // Nukunem — two interlocked oval rings (chain link style)
+    // Nukunem — actual logo image
     case 'nukunem':
       return (
-        <Svg width={38} height={38} viewBox="0 0 40 40" fill="none">
-          {/* Left oval ring */}
-          <Path
-            d="M6 20 C6 14.5 9.5 11 14 11 C16.5 11 18.5 12.5 20 14.5 C21.5 12.5 23.5 11 26 11 C30.5 11 34 14.5 34 20 C34 25.5 30.5 29 26 29 C23.5 29 21.5 27.5 20 25.5 C18.5 27.5 16.5 29 14 29 C9.5 29 6 25.5 6 20 Z"
-            stroke={s} strokeWidth={sw}
-          />
-          {/* Inner crossing line (link overlap) */}
-          <Path
-            d="M17.5 14 C18.5 16 18.5 24 17.5 26"
-            stroke="#0D1B4B" strokeWidth={3} strokeLinecap="round"
-          />
-          <Path
-            d="M22.5 14 C21.5 16 21.5 24 22.5 26"
-            stroke="#0D1B4B" strokeWidth={3} strokeLinecap="round"
-          />
-          {/* Left inner oval */}
-          <Path
-            d="M8.5 20 C8.5 16 10.5 13.5 14 13.5 C16 13.5 17.5 15 18.5 17 C17.5 19 16 20.5 16 20 C16 21 17.5 21.5 18.5 23 C17.5 25 16 26.5 14 26.5 C10.5 26.5 8.5 24 8.5 20 Z"
-            stroke={s} strokeWidth={1}
-          />
-          {/* Right inner oval */}
-          <Path
-            d="M31.5 20 C31.5 24 29.5 26.5 26 26.5 C24 26.5 22.5 25 21.5 23 C22.5 21 24 20 24 20 C24 20 22.5 19 21.5 17 C22.5 15 24 13.5 26 13.5 C29.5 13.5 31.5 16 31.5 20 Z"
-            stroke={s} strokeWidth={1}
-          />
-        </Svg>
+        <Image
+          source={require('../assets/images/4F491E2D-A2C2-46FC-8BF7-E664C54A075E.png')}
+          style={{ width: 52, height: 52 }}
+          resizeMode="contain"
+        />
       );
 
     default:
@@ -277,6 +256,8 @@ export default function HomeScreen({
       onOpenActivity();
     } else if (item.action === 'surveys') {
       onOpenSurveys();
+    } else if (item.id === 'nukunem') {
+      Linking.openURL('https://www.nukunem.org');
     } else if (item.tab) {
       onTabChange(item.tab);
     }
