@@ -1,7 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
+import { Asset } from 'expo-asset';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import {
   Dimensions,
+  Image,
   LayoutAnimation,
   Linking,
   Platform,
@@ -12,13 +15,47 @@ import {
   UIManager,
   View
 } from 'react-native';
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { WebView } from 'react-native-webview';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
 import { AERO_SKY, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
-import { FONTS } from '../theme/typography';
+import { FONTS, TEXT } from '../theme/typography';
+
+const PDF_FILES = [
+  {
+    title: 'STEM Racing Competition Guidebook 2025 - 2026 PRIMARY',
+    file: require('../assets/PDFs/1. STEM Racing Competition Guidebook 2025-2026 PRIMARY.pdf'),
+  },
+  {
+    title: 'STEM Racing Development Technical Regulations 2025 - 2026',
+    file: require('../assets/PDFs/2. STEM Racing Development Technical Regulations 2025-2026.pdf'),
+  },
+  {
+    title: 'STEM Racing Entry Competition Guidebook 2025 - 2026',
+    file: require('../assets/PDFs/3. STEM Racing Entry Competition Guidebook 2025 - 2026.pdf'),
+  },
+  {
+    title: 'STEM Racing Professional Class Tech Regs 2025 - 2026',
+    file: require('../assets/PDFs/4. STEM Racing Professional Class Tech Regs 202526.pdf'),
+  },
+  {
+    title: 'STEM Racing Development and Professional Competition Rules',
+    file: require('../assets/PDFs/5. Stem Racing Development and Professional Competition Rules.pdf'),
+  },
+];
+
+async function openPdf(module: number) {
+  try {
+    const [asset] = await Asset.loadAsync(module);
+    if (asset.localUri) await Linking.openURL(asset.localUri);
+  } catch {
+    // fallback
+  }
+}
+
+const videoSource = require('../assets/videos/stem-racing.mp4');
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CONTENT_WIDTH = SCREEN_WIDTH - LAYOUT.screenPadding * 2;
@@ -34,38 +71,53 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const FAQS = [
   {
     id: 'f1',
-    question: 'Xxxxxxxxxxxxxx',
-    answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    question: '¿Cuándo inicia el programa?',
+    answer: 'El calendario oficial del próximo ciclo será anunciado por STEM Racing Guatemala en su página web y/o redes sociales oficiales. También si te suscribes al boletín mensual nuestro equipo te estará compartiendo: fechas de inicio, sesiones informativas, etapas del programa y próximos pasos.',
   },
   {
     id: 'f2',
-    question: 'Xxxxxxxxxxxx',
-    answer: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    question: '¿Cuál es el costo de participación?',
+    answer: 'El costo dependerá del tier en el que te encuentres, si cuentas con beca y modalidad de inscripción. Para recibir información específica, completa el formulario de contacto y nuestro equipo te compartirá los detalles disponibles.',
   },
   {
     id: 'f3',
-    question: 'Xxxxxxxxxxxxxx',
-    answer: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    question: '¿Qué incluye la inscripción?',
+    answer: 'La inscripción puede incluir acceso al programa académico, acompañamiento, materiales de trabajo, herramientas, sesiones formativas, actividades prácticas y participación en eventos o competencias según la categoría y ser parte de esta comunidad exclusiva. Los detalles finales se confirmarán según el nivel del estudiante, la modalidad del ciclo y los lineamientos oficiales del programa.',
   },
   {
     id: 'f4',
-    question: 'Xxxxxxxxxxxxx',
-    answer: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    question: '¿Cómo me registro?',
+    answer: 'El primer paso es llenar el formulario de registro o contacto en la web. Después, el equipo de STEM Racing Guatemala se pondrá en contacto para orientarte según tu caso: estudiante, padre de familia, colegio, empresa, voluntario, mentor o aliado.',
   },
   {
     id: 'f5',
-    question: 'Xxxxxxxxxxxxxx',
-    answer: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+    question: '¿Quiénes pueden participar?',
+    answer: 'Pueden participar niños y jóvenes de 6 a 19 años. El programa está dividido en tiers por edad y nivel de aprendizaje: Discovery, Primary, Entry, Development y Professional. Cada etapa adapta los retos, herramientas y contenidos al momento de desarrollo del estudiante.',
   },
   {
     id: 'f6',
-    question: 'Xxxxxxxxxxxxxx',
-    answer: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
+    question: '¿Puedo participar si mi colegio no tiene el programa?',
+    answer: 'Sí. Un estudiante puede mostrar interés de forma individual o en grupos (mínimo 4 - máximo 5) y llenar el formulario de contacto. El equipo de STEM Racing Guatemala le indicará las opciones disponibles para integrarse a un equipo, formar uno nuevo o participar en la modalidad correspondiente.',
   },
   {
     id: 'f7',
-    question: 'How can I end my contract',
-    answer: 'To end your contract, please contact our support team at least 30 days in advance. You can reach us through the app or by visiting any Hub location during office hours.',
+    question: '¿Cuántos estudiantes integran un equipo?',
+    answer: 'Tomando como referencia los lineamientos internacionales y nacionales de STEM Racing, los equipos suelen estar conformados por 4 a 5 estudiantes.',
+  },
+  {
+    id: 'f8',
+    question: '¿Dónde se realizarán las clases o sesiones?',
+    answer: 'Las sedes y formatos se confirmarán según el ciclo, las alianzas educativas y la disponibilidad del programa. Las actividades pueden requerir sesiones presenciales.',
+  },
+  {
+    id: 'f9',
+    question: '¿Todos los estudiantes compiten?',
+    answer: 'La participación en competencias depende de la categoría, el avance del equipo y los lineamientos del programa. Algunas categorías tienen una experiencia más introductoria, mientras otras pueden avanzar hacia competencias nacionales, centroamericanas y mundiales.',
+  },
+  {
+    id: 'f10',
+    question: '¿Puede un equipo de Guatemala llegar a las World Finals?',
+    answer: 'Sí. Un equipo de Guatemala puede aspirar a llegar a las World Finals si participa en el proceso competitivo correspondiente, cumple con los lineamientos oficiales y clasifica según su categoría. Según la estructura actual de STEM Racing Guatemala, la categoría Professional es la que puede aspirar a la Final Mundial.',
   },
 ];
 
@@ -95,6 +147,27 @@ function ChevronIcon({ open }: { open: boolean }) {
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+      <Rect x={2} y={2} width={20} height={20} rx={5} stroke="#fff" strokeWidth={1.6} />
+      <Circle cx={12} cy={12} r={5} stroke="#fff" strokeWidth={1.6} />
+      <Circle cx={17.5} cy={6.5} r={1.2} fill="#fff" />
+    </Svg>
+  );
+}
+
+function TikTokIcon() {
+  return (
+    <Svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M19.59 6.69A4.83 4.83 0 0 1 16.73 4.1V3.8h-2.83v9.38a3.12 3.12 0 0 1-1.95 2.9 3.12 3.12 0 0 1-3.44-.67 3.17 3.17 0 0 1-.02-4.48 3.12 3.12 0 0 1 3.43-.7V7.37a6.07 6.07 0 0 0-1.5-.2A5.96 5.96 0 0 0 8.3 16.28a5.96 5.96 0 0 0 10.3-4.23l.01-5.13a4.83 4.83 0 0 0 1.02-.23h-.04Z"
+        fill="#fff"
       />
     </Svg>
   );
@@ -136,6 +209,8 @@ type Props = {
 };
 
 export default function MoreScreen({ onTabChange }: Props) {
+  const player = useVideoPlayer(videoSource);
+
   return (
     <View style={styles.screen}>
       <GradientHeader title="More" variant="blue-gradient" />
@@ -155,151 +230,125 @@ export default function MoreScreen({ onTabChange }: Props) {
         {/* ── Media ─────────────────────────────────────────────────────── */}
         <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Media</Text>
 
-        {/* YouTube — embedded video */}
-        <View style={styles.webCard}>
-          <WebView
-            source={{ uri: 'https://www.youtube.com/embed/a5B-RPNqEt0?rel=0&modestbranding=1' }}
-            style={styles.youtubeWebView}
-            scrollEnabled={false}
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction={false}
-            allowsFullscreenVideo
-          />
-        </View>
+        {/* YouTube — local video */}
+        <VideoView
+          player={player}
+          style={styles.localVideo}
+          nativeControls
+          contentFit="contain"
+        />
         <Pressable
           style={styles.channelBtn}
           onPress={() => Linking.openURL('https://www.youtube.com/@STEMRacing_HQ')}
         >
           <Text style={styles.channelBtnText}>▶  Ver canal en YouTube</Text>
         </Pressable>
-        <Text style={styles.platformLabel}>Youtube</Text>
 
         {/* Instagram + TikTok side by side */}
         <View style={styles.socialRow}>
           {/* Instagram */}
           <View style={styles.socialCol}>
-            <View style={[styles.webCard, styles.socialWebCard]}>
-              <WebView
-                source={{ uri: 'https://www.instagram.com/p/DROiEcFEYaq/embed/' }}
-                style={styles.socialWebView}
-                scrollEnabled={false}
-              />
-            </View>
-            <View style={styles.followBtns}>
-              <Pressable
-                style={styles.followBtn}
-                onPress={() => Linking.openURL('https://www.instagram.com/stemracinghq/')}
-              >
-                <Text style={styles.followBtnText}>Seguir @stemracinghq</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.followBtn, { marginTop: 6 }]}
-                onPress={() => Linking.openURL('https://www.instagram.com/stemracinggt/')}
-              >
-                <Text style={styles.followBtnText}>Seguir @stemracinggt</Text>
-              </Pressable>
-            </View>
-            <Text style={styles.platformLabel}>Instagram</Text>
+            <Image source={require('../assets/social/instagram.jpg')} style={styles.socialProfilePic} />
+            <Pressable
+              style={styles.socialBtn}
+              onPress={() => Linking.openURL('https://www.instagram.com/stemracinggt/')}
+            >
+              <InstagramIcon />
+              <Text style={styles.socialBtnText}>Seguir @stemracinggt</Text>
+            </Pressable>
           </View>
 
           {/* TikTok */}
           <View style={styles.socialCol}>
-            <View style={[styles.webCard, styles.socialWebCard]}>
-              <WebView
-                source={{ uri: 'https://www.tiktok.com/embed/v2/7083871467288546566' }}
-                style={styles.socialWebView}
-                scrollEnabled={false}
-              />
-            </View>
+            <Image source={require('../assets/social/tiktok.jpg')} style={styles.socialProfilePic} />
             <Pressable
-              style={styles.followBtn}
+              style={styles.socialBtn}
               onPress={() => Linking.openURL('https://www.tiktok.com/@stemracing_hq')}
             >
-              <Text style={styles.followBtnText}>Seguir @stemracing_hq</Text>
+              <TikTokIcon />
+              <Text style={styles.socialBtnText}>Seguir @stemracing_hq</Text>
             </Pressable>
-            <Text style={styles.platformLabel}>TikTok</Text>
           </View>
         </View>
 
-        {/* ── Podcast ───────────────────────────────────────────────────── */}
-        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Podcast</Text>
-
-        {/* Player with playlist — listType=playlist shows the full playlist */}
-        <View style={styles.webCard}>
-          <WebView
-            source={{ uri: 'https://www.youtube.com/embed/c_kSkzmQ4Os?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU&listType=playlist&rel=0&modestbranding=1' }}
-            style={styles.podcastWebView}
-            scrollEnabled={false}
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction={false}
-            allowsFullscreenVideo
-          />
-        </View>
-        <Pressable
-          style={styles.channelBtn}
-          onPress={() => Linking.openURL('https://www.youtube.com/playlist?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU')}
-        >
-          <Text style={styles.channelBtnText}>▶  Ver playlist completa</Text>
-        </Pressable>
-        <Text style={[styles.platformLabel, { marginBottom: 32 }]}>STEM Racing Podcast</Text>
-
-        {/* ── Partners carrusel ─────────────────────────────────────────── */}
+        {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
 
+        {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
-          <Text style={styles.partnerLogoText}>🐚 Shell</Text>
+          <Image
+            source={require('../assets/images/shell.jpg')}
+            style={styles.partnerLogoImage}
+            resizeMode="contain"
+          />
         </View>
 
-        <Text style={styles.partnersCategoryLabel}>supported by</Text>
-        <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Honda</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Puma</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#1A1F71' }]}>
-            <Text style={[styles.partnerLogoText, { color: '#fff', fontSize: 24 }]}>VISA</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Red Bull</Text>
-          </View>
-        </View>
-
+        {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Paleta</Text>
+            <Image
+              source={require('../assets/images/paleta.webp')}
+              style={styles.partnerLogoImageLarge}
+              resizeMode="contain"
+            />
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#003087' }]}>
-            <Text style={[styles.partnerLogoText, { color: '#fff' }]}>Bi Banco{'\n'}Industrial</Text>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/bi.png')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+
+        {/* Supported by */}
+        <Text style={styles.partnersCategoryLabel}>supported by</Text>
+        <View style={styles.partnersGrid2}>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/honda-1596081_1280.webp')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/puma.jpg')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/visa.jpg')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image
+              source={require('../assets/images/redbull.jpg')}
+              style={styles.partnerLogoImage}
+              resizeMode="contain"
+            />
           </View>
         </View>
 
         {/* ── Terms & Conditions ───────────────────────────────────────── */}
         <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Terms & Conditions</Text>
 
-        <View style={styles.termsCard}>
-          <Text style={styles.termsText}>
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n'}
-            {'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}
-          </Text>
+        <View style={styles.pdfList}>
+          {PDF_FILES.map((pdf, i) => (
+            <Pressable
+              key={i}
+              style={({ pressed }) => [styles.pdfItem, pressed && styles.pdfItemPressed]}
+              onPress={() => openPdf(pdf.file)}
+            >
+              <Text style={styles.pdfItemText}>{pdf.title}</Text>
+            </Pressable>
+          ))}
         </View>
 
         {/* ── Contact Us ────────────────────────────────────────────────── */}
@@ -401,16 +450,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     marginBottom: 10,
   },
-  youtubeWebView: {
+  localVideo: {
     width: CONTENT_WIDTH,
     height: 220,
+    borderRadius: 16,
+    marginBottom: 10,
+    backgroundColor: '#000',
   },
   channelBtn: {
     backgroundColor: '#FF0000',
     borderRadius: 10,
     paddingVertical: 11,
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 24,
   },
   channelBtnText: {
     fontFamily: FONTS.interBold,
@@ -430,50 +482,42 @@ const styles = StyleSheet.create({
   socialRow: {
     flexDirection: 'row',
     gap: 10,
+    marginBottom: 32,
   },
   socialCol: {
     flex: 1,
   },
-  socialWebCard: {
+  socialProfilePic: {
+    width: HALF_WIDTH / 2,
+    height: HALF_WIDTH / 2,
+    borderRadius: 12,
+    backgroundColor: '#000',
     marginBottom: 8,
+    alignSelf: 'center',
   },
-  socialWebView: {
-    width: HALF_WIDTH,
-    height: 260,
-  },
-  followBtns: {
-    gap: 0,
-  },
-  followBtn: {
+  socialBtn: {
     backgroundColor: AERO_SKY,
     borderRadius: 10,
     paddingVertical: 9,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    justifyContent: 'center',
+    gap: 6,
     paddingHorizontal: 6,
   },
-  followBtnText: {
+  socialBtnText: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
     fontSize: 11,
     color: '#fff',
-    textAlign: 'center',
   },
-
-  // ── Podcast
-  podcastWebView: {
-    width: CONTENT_WIDTH,
-    height: 300,
-  },
-
   // ── Partners
   partnersHeading: {
-    fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '700',
+    ...TEXT.h2,
     fontSize: 20,
+    lineHeight: 24,
     color: '#fff',
     textAlign: 'center',
+    marginTop: 8,
     marginBottom: 20,
   },
   partnersCategoryLabel: {
@@ -503,29 +547,36 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 10,
   },
-  partnerLogoText: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '700',
-    fontSize: 18,
-    color: '#222',
-    textAlign: 'center',
+  partnerLogoImage: {
+    width: '100%',
+    height: 90,
+  },
+  partnerLogoImageLarge: {
+    width: '100%',
+    height: 110,
   },
 
   // ── Terms & Conditions
-  termsCard: {
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
-    paddingHorizontal: 20,
-    paddingVertical: 22,
+  pdfList: {
+    gap: 8,
     marginBottom: 10,
   },
-  termsText: {
-    fontFamily: FONTS.interRegular,
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.85)',
-    lineHeight: 26,
+  pdfItem: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+  },
+  pdfItemPressed: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+  },
+  pdfItemText: {
+    fontFamily: FONTS.interSemiBold,
+    fontSize: 13,
+    color: '#fff',
+    lineHeight: 18,
   },
 
   // ── Contact Us
