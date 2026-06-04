@@ -1,39 +1,93 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
-import BulletItem from '../components/bullet-item';
-import GradientButton from '../components/gradient-button';
-import GradientText from '../components/gradient-text';
-import IconButton from '../components/icon-button';
-import ImgPlaceholder from '../components/image-placeholder';
+import GradientHeader from '../components/gradient-header';
 import PhotoCircle from '../components/photo-circle';
-import Pill from '../components/pill';
-import SmallCapsHeader from '../components/small-caps-header';
-import { CARBON_SHADOW, GRADIENTS } from '../theme/colors';
+import { AERO_SKY, GRADIENTS, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
 
-const HERO_HEIGHT = 280;
+// ─── Data ──────────────────────────────────────────────────────────────────────
+
 const FEATURED_CLASS = {
-  id: 'c-aero-2-3',
-  label: 'NIVEL 2 · CLASE 3',
-  title: 'Aerodinámica para Karting',
-  pills: ['08:30 — 11:00', 'Hub Zona 10', 'Nivel 2'],
+  id: 'c-pmi-2-3',
+  courseLabel: 'Project Management',
   about:
-    'Aprenderás cómo el aire se mueve sobre un kart y cómo pequeños cambios en la carrocería afectan la velocidad. Construiremos alerones de cartón y los probaremos en el túnel de viento del Hub Zona 10.',
-  teacher: { initials: 'AS', name: 'Andrea Solís', role: 'Ingeniera de pista' },
-  bringList: [
-    { icon: 'notebook', label: 'Cuaderno y lápiz' },
-    { icon: 'bottle', label: 'Botella de agua' },
-    { icon: 'ruler', label: 'Regla de 30 cm' },
-  ],
-  heroLabel: 'foto · clase de aerodinámica',
+    'This course teaches students how to plan, organize, and execute a competitive project from start to finish. Inspired by PMI methodologies, students learn to manage timelines, roles, deliverables, resources, risks, and goals as a professional team',
+  teacher: {
+    initials: 'PM',
+    name: 'Pablo Melendez',
+    role: 'PMI Academic',
+  },
+  ctaLabel: 'Go to Class',
   countdownLabel: 'DISPONIBLE EN',
   countdownValue: '02:14:33',
-  ctaLabel: 'Entrar a la clase',
 };
+
+const HERO_IMAGE = require('../assets/images/Gradients_Cold.png');
+
+// ─── Sponsor block (PMI logo replica) ─────────────────────────────────────────
+
+function SponsorBlock() {
+  return (
+    <View style={styles.sponsorBlock}>
+      
+      {/* Left: stylised "E+" mark in orange/black */}
+      <View style={styles.sponsorMark}>
+        
+      </View>
+
+      {/* Right: text stack */}
+      <View style={styles.sponsorText}>
+        <Text style={styles.sponsorLine1}>Educational</Text>
+        <Text style={styles.sponsorLine2}>Foundation</Text>
+        <Text style={styles.sponsorLine3}>Project</Text>
+        <Text style={styles.sponsorLine3}>Management</Text>
+        <Text style={styles.sponsorLine3}>Institute.</Text>
+      </View>
+    </View>
+  );
+}
+
+// ─── Icons ─────────────────────────────────────────────────────────────────────
+
+function BackIcon() {
+  return (
+    <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M15 18l-6-6 6-6"
+        stroke="#fff"
+        strokeWidth={2.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+function ChevronRightIcon() {
+  return (
+    <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M9 18l6-6-6-6"
+        stroke="rgba(255,255,255,0.7)"
+        strokeWidth={2.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+// ─── Screen ────────────────────────────────────────────────────────────────────
 
 type Props = {
   classId: string;
@@ -43,191 +97,240 @@ type Props = {
   onEnter: () => void;
 };
 
-export default function ClassDetailScreen({ classId, countdown = false, onBack, onTeacher, onEnter }: Props) {
-  // TODO: look up class data by classId when a real data layer is available
+export default function ClassDetailScreen({
+  classId,
+  countdown = false,
+  onBack,
+  onTeacher,
+  onEnter,
+}: Props) {
+  // TODO: resolve class data by classId when a real data layer is available
   const cls = FEATURED_CLASS;
   const insets = useSafeAreaInsets();
+
   return (
     <View style={styles.screen}>
+      <GradientHeader title="Courses" variant="blue-gradient" />
+
+      {/* Back button */}
+      <Pressable
+        style={[styles.backBtn, { top: insets.top + 12 }]}
+        onPress={onBack}
+        hitSlop={12}
+        accessibilityLabel="atrás"
+      >
+        <BackIcon />
+      </Pressable>
+
       <ScrollView
         style={styles.scrollWrap}
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 100 }]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.hero}>
-          <ImgPlaceholder label={cls.heroLabel} tone="orange" radius={0} />
+        {/* ── Hero card with gradient background ── */}
+        <View style={styles.heroCard}>
           <LinearGradient
-            colors={[
-              'rgba(0,0,0,0.45)',
-              'rgba(0,0,0,0)',
-              'rgba(8,8,11,0)',
-              'rgba(8,8,11,0.92)',
-            ]}
-            locations={[0, 0.3, 0.5, 1]}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
+            colors={GRADIENTS['blue-green-gradient'].colors as [string, string]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
             style={StyleSheet.absoluteFill}
-            pointerEvents="none"
           />
-          <IconButton
-            icon="back"
-            onPress={onBack}
-            style={styles.backBtn}
-            accessibilityLabel="atrás"
-          />
-          <View style={styles.heroText}>
-            <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.heroLabel}>
-              {cls.label}
-            </GradientText>
-            <Text style={styles.heroTitle}>{cls.title}</Text>
-          </View>
+          <SponsorBlock />
         </View>
 
+        {/* ── Body ── */}
         <View style={styles.body}>
-          <View style={styles.pills}>
-            {cls.pills.map((p) => (
-              <Pill key={p} label={p} />
-            ))}
-          </View>
+          {/* Course label in pink */}
+          <Text style={styles.courseLabel}>{cls.courseLabel}</Text>
 
-          <SmallCapsHeader>SOBRE LA CLASE</SmallCapsHeader>
-          <Text style={styles.about}>{cls.about}</Text>
+          {/* About */}
+          <Text style={styles.sectionTitle}>About:</Text>
+          <Text style={styles.aboutText}>{cls.about}</Text>
 
-          <SmallCapsHeader>MAESTRO</SmallCapsHeader>
+          {/* Trainer */}
+          <Text style={styles.trainerHeading}>Trainer</Text>
+
           <Pressable
             style={styles.teacherCard}
             onPress={onTeacher}
             accessibilityRole="button"
             accessibilityLabel={`ver perfil de ${cls.teacher.name}`}
           >
-            <PhotoCircle size={56} initials={cls.teacher.initials} ring={false} />
-            <View style={styles.teacherText}>
-              <Text style={styles.teacherName}>{cls.teacher.name}</Text>
-              <Text style={styles.teacherRole}>{cls.teacher.role}</Text>
-            </View>
-            <Svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <Path
-                d="M9 5 L16 12 L9 19"
-                stroke="rgba(255,255,255,0.55)"
-                strokeWidth={2.2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </Svg>
+            <PhotoCircle size={52} initials={cls.teacher.initials} ring={false} />
+            <Text style={styles.teacherName}>
+              {cls.teacher.name} / {cls.teacher.role}
+            </Text>
+            <ChevronRightIcon />
           </Pressable>
-
-          <SmallCapsHeader>QUÉ LLEVAR</SmallCapsHeader>
-          <View style={styles.bullets}>
-            {cls.bringList.map((b) => (
-              <BulletItem key={b.icon} icon={b.icon as "notebook" | "bottle" | "ruler"} label={b.label} />
-            ))}
-          </View>
         </View>
       </ScrollView>
 
-      <View style={[styles.ctaWrap, { paddingBottom: insets.bottom }]}>
+      {/* ── CTA fixed at bottom ── */}
+      <View style={[styles.ctaWrap, { paddingBottom: insets.bottom + 16 }]}>
         {countdown ? (
           <View style={styles.countdown}>
             <Text style={styles.countdownLabel}>{cls.countdownLabel}</Text>
             <Text style={styles.countdownValue}>{cls.countdownValue}</Text>
           </View>
         ) : (
-          <GradientButton label={cls.ctaLabel} onPress={onEnter} height={60} radius={18} />
+          <Pressable
+            style={styles.ctaBtn}
+            onPress={onEnter}
+            accessibilityRole="button"
+            accessibilityLabel={cls.ctaLabel}
+          >
+            <Text style={styles.ctaBtnText}>{cls.ctaLabel}</Text>
+          </Pressable>
         )}
       </View>
     </View>
   );
 }
 
+// ─── Styles ────────────────────────────────────────────────────────────────────
+
+const HERO_HEIGHT = 150;
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: CARBON_SHADOW,
-    overflow: 'hidden',
-  },
-  scrollWrap: {
-    flex: 1,
-  },
-  scroll: {
-    paddingBottom: 120,
-  },
-  hero: {
-    height: HERO_HEIGHT,
-    position: 'relative',
-    overflow: 'hidden',
+    backgroundColor: STEM_BG,
   },
   backBtn: {
     position: 'absolute',
-    top: LAYOUT.safeTop,
     left: 18,
+    zIndex: 10,
+    width: 36,
+    height: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  heroText: {
-    position: 'absolute',
-    left: LAYOUT.screenPadding,
-    right: LAYOUT.screenPadding,
-    bottom: 14,
+  scrollWrap: { flex: 1 },
+  scroll:     { paddingTop: 20 },
+
+  // Hero card
+  heroCard: {
+    marginHorizontal: LAYOUT.screenPadding,
+    height: HERO_HEIGHT,
+    borderRadius: 18,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  heroLabel: {
-    fontSize: 10,
-    letterSpacing: 1.8,
+  sponsorBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingHorizontal: 20,
+  },
+  sponsorMark: {
+    width: 64,
+    height: 64,
+  },
+  sponsorText: {
+    gap: 0,
+  },
+  sponsorLine1: {
     fontFamily: FONTS.interBold,
-    fontWeight: '800',
+    fontWeight: '700' as const,
+    fontSize: 18,
+    color: '#1a1a1a',
+    lineHeight: 22,
   },
-  heroTitle: {
-    ...TEXT.h1,
-    fontSize: 32,
-    lineHeight: 32,
-    letterSpacing: -0.6,
-    marginTop: 4,
+  sponsorLine2: {
+    fontFamily: FONTS.interBold,
+    fontWeight: '700' as const,
+    fontSize: 18,
+    color: '#1a1a1a',
+    lineHeight: 22,
   },
+  sponsorLine3: {
+    fontFamily: FONTS.interRegular,
+    fontSize: 13,
+    color: '#1a1a1a',
+    lineHeight: 17,
+  },
+
+  // Body
   body: {
     paddingHorizontal: LAYOUT.screenPadding,
-    paddingTop: 18,
+    paddingTop: 20,
+    gap: 6,
   },
-  pills: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
+  courseLabel: {
+    fontFamily: FONTS.archivoBoldItalic,
+    fontWeight: '700' as const,
+    fontSize: 18,
+    color: PITLANE_PINK,
+    marginBottom: 4,
   },
-  about: {
+  sectionTitle: {
+    fontFamily: FONTS.interBold,
+    fontWeight: '700' as const,
+    fontSize: 14,
+    color: '#fff',
+    marginBottom: 2,
+  },
+  aboutText: {
     ...TEXT.body,
+    fontSize: 14,
+    lineHeight: 21,
+    color: 'rgba(255,255,255,0.85)',
+  },
+  trainerHeading: {
+    fontFamily: FONTS.archivoBoldItalic,
+    fontWeight: '700' as const,
+    fontSize: 18,
+    color: AERO_SKY,
+    marginTop: 16,
+    marginBottom: 8,
   },
   teacherCard: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 14,
-    backgroundColor: 'rgba(20,20,26,0.85)',
+    backgroundColor: 'rgba(10,20,70,0.75)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.06)',
+    borderColor: 'rgba(255,255,255,0.15)',
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 12,
   },
-  teacherText: {
-    flex: 1,
-  },
   teacherName: {
-    fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
-    fontSize: 18,
+    flex: 1,
+    fontFamily: FONTS.interSemiBold,
+    fontWeight: '600' as const,
+    fontSize: 15,
     color: '#fff',
-    letterSpacing: -0.3,
-    lineHeight: 20,
+    letterSpacing: 0.1,
   },
-  teacherRole: {
-    ...TEXT.bodyMuted,
-    marginTop: 2,
-  },
-  bullets: {
-    gap: 10,
-  },
+
+  // CTA
   ctaWrap: {
     position: 'absolute',
-    left: LAYOUT.edgePadding,
-    right: LAYOUT.edgePadding,
-    bottom: LAYOUT.tabBarBottom,
+    left: LAYOUT.screenPadding,
+    right: LAYOUT.screenPadding,
+    bottom: 0,
   },
+  ctaBtn: {
+    height: 56,
+    borderRadius: 18,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.35)',
+    backgroundColor: AERO_SKY,
+  },
+  ctaBtnText: {
+    fontFamily: FONTS.archivoBold,
+    fontWeight: '700' as const,
+    fontSize: 17,
+    color: '#fff',
+    letterSpacing: 0.2,
+  },
+
+  // Countdown
   countdown: {
     height: 64,
     borderRadius: 18,
@@ -241,17 +344,16 @@ const styles = StyleSheet.create({
     fontSize: 10,
     letterSpacing: 1.6,
     fontFamily: FONTS.interBold,
-    fontWeight: '800',
+    fontWeight: '800' as const,
     color: 'rgba(255,255,255,0.55)',
   },
   countdownValue: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
+    fontStyle: 'italic' as const,
+    fontWeight: '800' as const,
     fontSize: 22,
     color: '#fff',
     letterSpacing: 0.5,
     marginTop: 1,
-    fontVariant: ['tabular-nums'],
   },
 });
