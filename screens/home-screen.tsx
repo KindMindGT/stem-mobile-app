@@ -626,12 +626,13 @@ const styles = StyleSheet.create({
   },
   newsCarouselContent: {},
   newsCard: {
-    width: CARD_WIDTH,
+    width: CARD_WIDTH - 40,
+    marginHorizontal: 20,
     borderRadius: 18,
     overflow: 'hidden',
     backgroundColor: '#000',
   },
-  newsImage: { width: CARD_WIDTH, height: 260 },
+  newsImage: { width: '100%', height: 260 },
   newsOverlay: {
     position: 'absolute',
     bottom: 60,
