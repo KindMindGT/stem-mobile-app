@@ -241,6 +241,7 @@ export default function RootLayout() {
                   )}
                   {currentRoute.screen === 'product' && (
                     <ProductDetailScreen
+                      productId={currentRoute.productId}
                       onBack={handleBack}
                       onAddToCart={handleAddToCart}
                     />
