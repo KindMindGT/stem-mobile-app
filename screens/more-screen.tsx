@@ -1,7 +1,7 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
 import { Asset } from 'expo-asset';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import React, { useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -16,7 +16,6 @@ import {
   View
 } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
-import { WebView } from 'react-native-webview';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
 import { AERO_SKY, PITLANE_PINK, STEM_BG } from '../theme/colors';
@@ -400,8 +399,8 @@ const styles = StyleSheet.create({
   // Section label
   sectionLabel: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '700',
+    //fontStyle: 'italic',
+    //fontWeight: '700',
     fontSize: 22,
     color: PITLANE_PINK,
     marginBottom: 16,
@@ -466,7 +465,7 @@ const styles = StyleSheet.create({
   },
   channelBtnText: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 14,
     color: '#fff',
   },

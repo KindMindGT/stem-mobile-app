@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 16,
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     color: '#fff',
     letterSpacing: 0.2,
   },
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   },
   tileName: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 11,
     color: '#fff',
     lineHeight: 14,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 16,
     color: '#fff',
   },

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontFamily: FONTS.archivoSemiBold,
-    fontWeight: '600',
+    //fontWeight: '600',
     color: 'rgba(255,255,255,0.85)',
     fontSize: 13,
     lineHeight: 17,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.interBold,
     fontSize: 10,
     letterSpacing: 1.5,
-    fontWeight: '800',
+    //fontWeight: '800',
   },
   name: {
     ...TEXT.h3,
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
   },
   sessionTitle: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 15,
     color: '#fff',
     letterSpacing: -0.2,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   sessionTeacher: {
     fontFamily: FONTS.interMedium,
-    fontWeight: '500' as const,
+    //fontWeight: '500' as const,
     fontSize: 13,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 1,

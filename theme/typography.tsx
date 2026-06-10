@@ -1,77 +1,105 @@
+// ─── Font system ───────────────────────────────────────────────────────────────
+//
+// Brand fonts (loaded as local .otf assets in app/_layout.tsx):
+//   MagistralExtraBoldItalic  → all titles and subtitles (H1–H2)
+//   MachoModularMedium        → all subheadings (H3–H5), body, labels
+//
+// All legacy Archivo / Inter FONTS tokens are remapped to the brand fonts so
+// that every file using FONTS.archivoBold, FONTS.interRegular, etc. picks up
+// the new typefaces automatically without file-by-file changes.
+
+// PostScript names read directly from the .otf files:
+//   Magistral Extra Bold Italic  →  'Magistral-ExtraBoldItalic'
+//   MachoModular Medium          →  'MachoModular-Medium'
+// React Native (iOS/Android) resolves fontFamily by PostScript name,
+// so these strings must match exactly.
+
 export const FONTS = {
-  archivoRegular: 'Archivo_400Regular',
-  archivoSemiBold: 'Archivo_600SemiBold',
-  archivoBold: 'Archivo_700Bold',
-  archivoExtraBold: 'Archivo_800ExtraBold',
-  archivoBoldItalic: 'Archivo_700Bold_Italic',
-  archivoExtraBoldItalic: 'Archivo_800ExtraBold_Italic',
-  archivoBlackItalic: 'Archivo_900Black_Italic',
-  interRegular: 'Inter_400Regular',
-  interMedium: 'Inter_500Medium',
-  interSemiBold: 'Inter_600SemiBold',
-  interBold: 'Inter_700Bold',
+  // ── Brand fonts ────────────────────────────────────────────────────────────
+  magistralExtraBoldItalic: 'Magistral-ExtraBoldItalic',
+  machoModularMedium:       'MachoModular-Medium',
+
+  // ── Archivo tokens → Magistral (heading / title roles) ────────────────────
+  archivoRegular:           'Magistral-ExtraBoldItalic',
+  archivoSemiBold:          'Magistral-ExtraBoldItalic',
+  archivoBold:              'Magistral-ExtraBoldItalic',
+  archivoExtraBold:         'Magistral-ExtraBoldItalic',
+  archivoBoldItalic:        'Magistral-ExtraBoldItalic',
+  archivoExtraBoldItalic:   'Magistral-ExtraBoldItalic',
+  archivoBlackItalic:       'Magistral-ExtraBoldItalic',
+
+  // ── Inter tokens → MachoModular (body / label roles) ──────────────────────
+  interRegular:             'MachoModular-Medium',
+  interMedium:              'MachoModular-Medium',
+  interSemiBold:            'MachoModular-Medium',
+  interBold:                'MachoModular-Medium',
 };
 
-// Heading typefaces: typeface + weight + italic only.
-// Callers always specify fontSize/lineHeight/letterSpacing — sizes vary too much per surface.
-const archivoItalicExtra = {
-  fontFamily: FONTS.archivoExtraBoldItalic,
-  fontStyle: 'italic' as const,
-  fontWeight: '800' as const,
+// ─── Base style objects ────────────────────────────────────────────────────────
+
+const magistral = {
+  fontFamily: FONTS.magistralExtraBoldItalic,
   color: '#fff',
 };
-const archivoItalicBlack = {
-  fontFamily: FONTS.archivoBlackItalic,
-  fontStyle: 'italic' as const,
-  fontWeight: '900' as const,
+
+const macho = {
+  fontFamily: FONTS.machoModularMedium,
   color: '#fff',
 };
+
+// ─── TEXT scale ────────────────────────────────────────────────────────────────
 
 export const TEXT = {
-  // `display` is the only heading used at one fixed size across the app.
+  // Display — largest one-off heading (fixed size)
   display: {
-    ...archivoItalicBlack,
+    ...magistral,
     fontSize: 46,
     letterSpacing: -1,
     lineHeight: 44,
   },
-  // Heading templates — caller specifies size + tracking.
-  h1: archivoItalicBlack,
-  h2: archivoItalicExtra,
-  h3: archivoItalicExtra,
-  ctaLabel: {
-    ...archivoItalicExtra,
-    fontSize: 19,
-    letterSpacing: 0.2,
-  },
+
+  // H1 & H2 → Magistral Extra Bold Italic
+  h1: magistral,
+  h2: magistral,
+
+  // H3, H4, H5 → MachoModular Medium
+  h3: macho,
+  h4: macho,
+  h5: macho,
+
+  // Body → MachoModular Medium
   body: {
-    fontFamily: FONTS.interRegular,
+    ...macho,
     fontSize: 14,
     lineHeight: 21,
     color: 'rgba(255,255,255,0.78)',
   },
   bodyMuted: {
-    fontFamily: FONTS.interRegular,
+    ...macho,
     fontSize: 12,
     color: 'rgba(255,255,255,0.6)',
   },
+
+  // UI chrome (tabs, eyebrows, CTAs, smallCaps) → MachoModular Medium
+  ctaLabel: {
+    ...magistral,
+    fontSize: 19,
+    letterSpacing: 0.2,
+  },
   eyebrow: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '800' as const,
+    ...macho,
     fontSize: 10,
     letterSpacing: 2,
     color: 'rgba(255,255,255,0.55)',
   },
   smallCaps: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '800' as const,
+    ...macho,
     fontSize: 10,
     letterSpacing: 2.5,
     color: 'rgba(255,255,255,0.6)',
   },
   tabLabel: {
-    fontFamily: FONTS.interBold,
-    fontWeight: '700' as const,
+    ...macho,
     fontSize: 13,
     letterSpacing: 2.5,
   },

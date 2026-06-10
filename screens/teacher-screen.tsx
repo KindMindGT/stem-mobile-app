@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 26,
     color: '#fff',
     textAlign: 'center',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   role: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 20,
     color: '#fff',
     textAlign: 'center',
@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
   },
   bio: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 14,
     lineHeight: 22,
     color: 'rgba(255,255,255,0.85)',
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   upcomingLabel: {
     fontFamily: FONTS.interBold,
-    fontWeight: '800' as const,
+    //fontWeight: '800' as const,
     fontSize: 11,
     letterSpacing: 2,
     color: '#fff',
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
   classDate: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 12,
     color: '#fff',
     letterSpacing: 0.2,
@@ -257,8 +257,8 @@ const styles = StyleSheet.create({
   className: {
     flex: 1,
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 14,
     color: '#fff',
     lineHeight: 20,

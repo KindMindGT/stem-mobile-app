@@ -13,9 +13,9 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path, Polyline } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
-import { AERO_SKY, APEX_GLACIER, BURNOUT_ORANGE, IGNITE_INDIGO, PITLANE_PINK, STEM_BG } from '../theme/colors';
+import { AERO_SKY, APEX_GLACIER, IGNITE_INDIGO, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
-import { FONTS, TEXT } from '../theme/typography';
+import { FONTS } from '../theme/typography';
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -348,8 +348,8 @@ const styles = StyleSheet.create({
   },
   listTopLabel: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 20,
     color: PITLANE_PINK,
     marginBottom: 6,
@@ -360,8 +360,8 @@ const styles = StyleSheet.create({
   },
   groupHeading: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 17,
     color: '#fff',
     letterSpacing: -0.2,
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   surveyTitle: {
     flex: 1,
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
     fontSize: 15,
     color: '#fff',
   },
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
   },
   formSurveyTitle: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 18,
     color: '#fff',
     letterSpacing: -0.2,
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   dropLabel: {
     flex: 1,
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
     fontSize: 15,
     color: 'rgba(255,255,255,0.6)',
   },
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
   dropOptionSelected: {
     color: AERO_SKY,
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
   },
 
   // Comment
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   },
   commentLabel: {
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
     fontSize: 14,
     color: '#fff',
   },
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
   },
   sendBtnText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 15,
     letterSpacing: 2,
     color: '#fff',

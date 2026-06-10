@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255,255,255,0.85)',
     fontFamily: FONTS.interMedium,
-    fontWeight: '500',
+    //fontWeight: '500',
   },
 });

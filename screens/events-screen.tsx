@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '700',
+    //fontStyle: 'italic',
+    //fontWeight: '700',
     fontSize: 15,
     color: '#fff',
     marginBottom: 4,

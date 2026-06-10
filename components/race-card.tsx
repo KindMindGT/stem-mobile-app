@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 1.6,
     opacity: 0.9,
-    fontWeight: '700',
+    //fontWeight: '700',
   },
   footValue: {
     fontFamily: FONTS.archivoBold,
     color: '#fff',
     fontSize: 14,
-    fontWeight: '700',
+    //fontWeight: '700',
     marginTop: 3,
   },
 });

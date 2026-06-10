@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   fieldLabel: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 10,
     letterSpacing: 1.5,
     color: 'rgba(255,255,255,0.65)',
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
   },
   signInText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 18,
     color: '#fff',
     letterSpacing: 0.2,
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 13,
     color: '#fff',
     letterSpacing: 1,
