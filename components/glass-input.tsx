@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 2,
-    fontFamily: FONTS.interSemiBold,
+    //fontFamily: FONTS.interSemiBold,
     //fontWeight: '600',
     fontSize: 16,
     color: '#fff',
