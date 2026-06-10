@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
+    //fontStyle: 'italic',
     fontWeight: '800',
     fontSize: 17,
     color: '#fff',

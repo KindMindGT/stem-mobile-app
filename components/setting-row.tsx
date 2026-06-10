@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 15,
     color: 'rgba(255,255,255,0.92)',
   },

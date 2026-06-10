@@ -565,7 +565,7 @@ const styles = StyleSheet.create({
   comingRowLeft: { flex: 1 },
   comingRowTitle: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 15,
     color: '#fff',
     marginBottom: 3,
@@ -624,7 +624,7 @@ const styles = StyleSheet.create({
   },
   newsHeadline: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 20,
     color: '#fff',
     marginBottom: 6,
@@ -645,7 +645,7 @@ const styles = StyleSheet.create({
   newsFooterText: { flex: 1 },
   newsFooterDate: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 14,
     color: '#fff',
   },
@@ -768,7 +768,7 @@ const styles = StyleSheet.create({
   },
   partnerLogoText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 20,
     color: '#222',
     textAlign: 'center',

@@ -422,8 +422,8 @@ const styles = StyleSheet.create({
   },
   monthLabel: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 17,
     color: '#fff',
     letterSpacing: -0.2,
@@ -445,8 +445,8 @@ const styles = StyleSheet.create({
   // Date heading
   dateHeading: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 20,
     color: '#fff',
     letterSpacing: -0.3,
@@ -478,8 +478,8 @@ const styles = StyleSheet.create({
   sessionInfo:     { flex: 1 },
   sessionTitle: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '700' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '700' as const,
     fontSize: 15,
     color: '#fff',
     letterSpacing: -0.2,
@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
   },
   sessionTeacher: {
     fontFamily: FONTS.interMedium,
-    fontWeight: '500' as const,
+    //fontWeight: '500' as const,
     fontSize: 13,
     color: 'rgba(255,255,255,0.85)',
     marginTop: 1,

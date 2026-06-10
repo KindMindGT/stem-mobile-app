@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: 'rgba(255,255,255,0.65)',
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600',
+    //fontWeight: '600',
   },
   value: {
     fontSize: 14,
     color: '#fff',
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
   },
 });

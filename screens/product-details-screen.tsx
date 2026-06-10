@@ -181,16 +181,16 @@ const styles = StyleSheet.create({
   },
   titleBold: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
-    fontStyle: 'italic',
+    //fontWeight: '700',
+    //fontStyle: 'italic',
     fontSize: 26,
     color: '#fff',
     letterSpacing: -0.4,
   },
   titlePrice: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
+    //fontStyle: 'italic',
+    //fontWeight: '800',
     fontSize: 26,
     color: '#fff',
     letterSpacing: -0.4,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   /* Section labels */
   sectionLabel: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 16,
     color: '#fff',
     marginBottom: 10,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   },
   sizeText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 18,
     color: '#fff',
     letterSpacing: 0.5,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   /* Description */
   descLabel: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 16,
     color: '#fff',
     marginBottom: 6,
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   goBuyText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 18,
     color: '#fff',
     letterSpacing: 0.3,
