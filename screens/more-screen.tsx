@@ -16,10 +16,15 @@ import {
   View
 } from 'react-native';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 =======
 import { openURL } from '../constants/functions';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
+=======
+import { openURL } from '../constants/functions';
+import Svg, { Circle, Path } from 'react-native-svg';
+>>>>>>> Stashed changes
 import { WebView } from 'react-native-webview';
 >>>>>>> Stashed changes
 import GradientHeader from '../components/gradient-header';
@@ -335,20 +340,28 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           onPress={() => Linking.openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
 =======
           onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+>>>>>>> Stashed changes
+=======
+          onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/')}
 >>>>>>> Stashed changes
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
         >
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <Image
             source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
+=======
+          <Image source={require('../assets/images/texaco.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
 =======
           <Image source={require('../assets/images/texaco.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
 >>>>>>> Stashed changes
@@ -359,7 +372,11 @@ export default function MoreScreen({ onTabChange }: Props) {
         <View style={styles.partnersGrid2}>
           <Pressable
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             onPress={() => Linking.openURL('https://www.instagram.com/valvolinegt/')}
+=======
+            onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
+>>>>>>> Stashed changes
 =======
             onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
 >>>>>>> Stashed changes
@@ -367,6 +384,7 @@ export default function MoreScreen({ onTabChange }: Props) {
             accessibilityLabel="Valvoline GT - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             <Image
               source={require('../assets/images/valvoline.jpeg')}
@@ -377,21 +395,30 @@ export default function MoreScreen({ onTabChange }: Props) {
           <Pressable
             onPress={() => Linking.openURL('https://www.instagram.com/gulfoilguatemala/')}
 =======
+=======
+>>>>>>> Stashed changes
             <Image source={require('../assets/images/valvoline.jpeg')} style={styles.partnerLogoImageLarge} resizeMode="contain" />
           </Pressable>
           <Pressable
             onPress={() => openURL('https://www.instagram.com/gulfoilguatemala/')}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             accessibilityRole="link"
             accessibilityLabel="Gulf Oil Guatemala - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <Image
               source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
+=======
+            <Image source={require('../assets/images/gulf.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
 =======
             <Image source={require('../assets/images/gulf.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
 >>>>>>> Stashed changes
@@ -402,6 +429,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>supported by</Text>
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             <Image
               source={require('../assets/images/honda-1596081_1280.webp')}
@@ -447,16 +475,35 @@ export default function MoreScreen({ onTabChange }: Props) {
           <Pressable
             onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
 >>>>>>> Stashed changes
+=======
+            <Image source={require('../assets/images/honda-1596081_1280.webp')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/puma.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/visa.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/redbull.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
+>>>>>>> Stashed changes
             accessibilityRole="link"
             accessibilityLabel="KitKat Centroamérica - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             <Image
               source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
+=======
+            <Image source={require('../assets/images/kitkat.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
 =======
             <Image source={require('../assets/images/kitkat.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
 >>>>>>> Stashed changes
@@ -676,6 +723,14 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   partnerCardWhite: { backgroundColor: '#fff' },
+  partnerLogoImage: {
+    width: '100%',
+    height: 90,
+  },
+  partnerLogoImageLarge: {
+    width: '100%',
+    height: 110,
+  },
   partnersGrid2: {
     flexDirection: 'row',
     flexWrap: 'wrap',

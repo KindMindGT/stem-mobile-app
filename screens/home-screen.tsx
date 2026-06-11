@@ -405,7 +405,11 @@ export default function HomeScreen({
         {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
+<<<<<<< Updated upstream
           onPress={() => Linking.openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+=======
+          onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/')}
+>>>>>>> Stashed changes
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
