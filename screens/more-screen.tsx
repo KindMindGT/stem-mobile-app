@@ -219,15 +219,9 @@ export default function MoreScreen({ onTabChange }: Props) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── FAQs ──────────────────────────────────────────────────────── */}
-        <Text style={styles.sectionLabel}>FAQs</Text>
-
-        {FAQS.map((faq) => (
-          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
-        ))}
-
+        
         {/* ── Media ─────────────────────────────────────────────────────── */}
-        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Media</Text>
+        <Text style={[styles.sectionLabel]}>Media</Text>
 
         {/* YouTube — local video */}
         <VideoView
@@ -270,6 +264,13 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
         </View>
 
+        {/* ── FAQs ──────────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>FAQs</Text>
+
+        {FAQS.map((faq) => (
+          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
+        ))}
+
         {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
 
@@ -277,7 +278,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
-            source={require('../assets/images/shell.jpg')}
+            source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
@@ -288,14 +289,14 @@ export default function MoreScreen({ onTabChange }: Props) {
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/paleta.webp')}
+              source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -314,7 +315,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/puma.jpg')}
+              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -328,7 +329,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/redbull.jpg')}
+              source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -457,7 +458,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   channelBtn: {
-    backgroundColor: '#FF0000',
+    backgroundColor: AERO_SKY,
     borderRadius: 10,
     paddingVertical: 11,
     alignItems: 'center',
@@ -466,7 +467,8 @@ const styles = StyleSheet.create({
   channelBtnText: {
     fontFamily: FONTS.interBold,
     //fontWeight: '700',
-    fontSize: 14,
+    fontSize: 16,
+    lineHeight: 16,
     color: '#fff',
   },
   platformLabel: {
@@ -506,7 +508,8 @@ const styles = StyleSheet.create({
   },
   socialBtnText: {
     fontFamily: FONTS.interBold,
-    fontSize: 11,
+    fontSize: 12,
+    lineHeight: 16,
     color: '#fff',
   },
   // ── Partners
