@@ -466,7 +466,8 @@ const styles = StyleSheet.create({
   channelBtnText: {
     fontFamily: FONTS.interBold,
     //fontWeight: '700',
-    fontSize: 14,
+    fontSize: 16,
+    lineHeight: 16,
     color: '#fff',
   },
   platformLabel: {
@@ -506,7 +507,8 @@ const styles = StyleSheet.create({
   },
   socialBtnText: {
     fontFamily: FONTS.interBold,
-    fontSize: 11,
+    fontSize: 12,
+    lineHeight: 16,
     color: '#fff',
   },
   // ── Partners
