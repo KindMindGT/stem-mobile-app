@@ -235,7 +235,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           style={styles.channelBtn}
           onPress={() => Linking.openURL('https://www.youtube.com/@STEMRacing_HQ')}
         >
-          <Text style={styles.channelBtnText}>▶  Ver canal en YouTube</Text>
+          <Text style={styles.channelBtnText}>Ver canal en YouTube</Text>
         </Pressable>
 
         {/* Instagram + TikTok side by side */}
@@ -247,7 +247,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               style={styles.socialBtn}
               onPress={() => Linking.openURL('https://www.instagram.com/stemracinggt/')}
             >
-              <InstagramIcon />
               <Text style={styles.socialBtnText}>Seguir @stemracinggt</Text>
             </Pressable>
           </View>
@@ -259,7 +258,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               style={styles.socialBtn}
               onPress={() => Linking.openURL('https://www.tiktok.com/@stemracing_hq')}
             >
-              <TikTokIcon />
               <Text style={styles.socialBtnText}>Seguir @stemracing_hq</Text>
             </Pressable>
           </View>
