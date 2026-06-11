@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
-import { Dimensions, Image, Linking, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { openURL } from '../constants/functions';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
@@ -258,7 +259,7 @@ export default function HomeScreen({
     } else if (item.action === 'surveys') {
       onOpenSurveys();
     } else if (item.id === 'nukunem') {
-      Linking.openURL('https://www.nukunem.org');
+      openURL('https://www.nukunem.org');
     } else if (item.tab) {
       onTabChange(item.tab);
     }
@@ -407,6 +408,7 @@ export default function HomeScreen({
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
           onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/')}
+>>>>>>> Stashed changes
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
@@ -422,7 +424,7 @@ export default function HomeScreen({
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
           <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/valvolinegt/')}
+            onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
             accessibilityRole="link"
             accessibilityLabel="Valvoline GT - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
@@ -434,7 +436,7 @@ export default function HomeScreen({
             />
           </Pressable>
           <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/gulfoilguatemala/')}
+            onPress={() => openURL('https://www.instagram.com/gulfoilguatemala/')}
             accessibilityRole="link"
             accessibilityLabel="Gulf Oil Guatemala - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
@@ -472,7 +474,7 @@ export default function HomeScreen({
             />
           </View>
           <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/kitkatcentroamerica/')}
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
             accessibilityRole="link"
             accessibilityLabel="KitKat Centroamérica - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
