@@ -219,15 +219,9 @@ export default function MoreScreen({ onTabChange }: Props) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── FAQs ──────────────────────────────────────────────────────── */}
-        <Text style={styles.sectionLabel}>FAQs</Text>
-
-        {FAQS.map((faq) => (
-          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
-        ))}
-
+        
         {/* ── Media ─────────────────────────────────────────────────────── */}
-        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Media</Text>
+        <Text style={[styles.sectionLabel]}>Media</Text>
 
         {/* YouTube — local video */}
         <VideoView
@@ -269,6 +263,13 @@ export default function MoreScreen({ onTabChange }: Props) {
             </Pressable>
           </View>
         </View>
+
+        {/* ── FAQs ──────────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>FAQs</Text>
+
+        {FAQS.map((faq) => (
+          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
+        ))}
 
         {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
