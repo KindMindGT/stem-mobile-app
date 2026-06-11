@@ -277,7 +277,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
-            source={require('../assets/images/shell.jpg')}
+            source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
@@ -288,14 +288,14 @@ export default function MoreScreen({ onTabChange }: Props) {
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/paleta.webp')}
+              source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -314,7 +314,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/puma.jpg')}
+              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -328,7 +328,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/redbull.jpg')}
+              source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   channelBtn: {
-    backgroundColor: '#FF0000',
+    backgroundColor: AERO_SKY,
     borderRadius: 10,
     paddingVertical: 11,
     alignItems: 'center',

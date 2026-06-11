@@ -406,7 +406,7 @@ export default function HomeScreen({
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
-            source={require('../assets/images/shell.jpg')}
+            source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
@@ -417,14 +417,14 @@ export default function HomeScreen({
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/paleta.webp')}
+              source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -443,7 +443,7 @@ export default function HomeScreen({
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/puma.jpg')}
+              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -457,7 +457,7 @@ export default function HomeScreen({
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/redbull.jpg')}
+              source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -711,8 +711,8 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: '#fff',
     textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 5,
   },
   partnersCategoryLabel: {
     fontFamily: FONTS.interRegular,
