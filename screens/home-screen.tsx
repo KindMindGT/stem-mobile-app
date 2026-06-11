@@ -164,12 +164,12 @@ function GridIcon({ id }: { id: string }) {
         />
       );
 
-    // Nukunem — actual logo image
+    // Nukunem — remote logo image
     case 'nukunem':
       return (
         <Image
-          source={require('../assets/images/4F491E2D-A2C2-46FC-8BF7-E664C54A075E.png')}
-          style={{ width: 52, height: 52 }}
+          source={{ uri: 'https://zyjcmwcjaenfvseeuriq.supabase.co/storage/v1/object/public/Mobile%20App/Nukunem.png' }}
+          style={{ width: 90, height: 90 }}
           resizeMode="contain"
         />
       );
