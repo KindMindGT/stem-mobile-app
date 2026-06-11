@@ -2,6 +2,7 @@ import { Asset } from 'expo-asset';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import React, { useState } from 'react';
+import { openURL } from '../constants/functions';
 import {
   Dimensions,
   Image,
@@ -327,13 +328,18 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
+            accessibilityRole="link"
+            accessibilityLabel="KitKat Centroamérica - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
               source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         </View>
 
         {/* ── Terms & Conditions ───────────────────────────────────────── */}
