@@ -1,7 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
 import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { openURL } from '../constants/functions';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
@@ -408,7 +407,6 @@ export default function HomeScreen({
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
           onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/')}
->>>>>>> Stashed changes
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
