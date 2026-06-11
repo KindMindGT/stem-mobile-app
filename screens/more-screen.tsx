@@ -15,7 +15,13 @@ import {
   UIManager,
   View
 } from 'react-native';
+<<<<<<< Updated upstream
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
+=======
+import { openURL } from '../constants/functions';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import { WebView } from 'react-native-webview';
+>>>>>>> Stashed changes
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
 import { AERO_SKY, PITLANE_PINK, STEM_BG } from '../theme/colors';
@@ -232,7 +238,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         />
         <Pressable
           style={styles.channelBtn}
-          onPress={() => Linking.openURL('https://www.youtube.com/@STEMRacing_HQ')}
+          onPress={() => openURL('https://www.youtube.com/@STEMRacing_HQ')}
         >
           <Text style={styles.channelBtnText}>▶  Ver canal en YouTube</Text>
         </Pressable>
@@ -241,6 +247,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         <View style={styles.socialRow}>
           {/* Instagram */}
           <View style={styles.socialCol}>
+<<<<<<< Updated upstream
             <Image source={require('../assets/social/instagram.jpg')} style={styles.socialProfilePic} />
             <Pressable
               style={styles.socialBtn}
@@ -249,14 +256,43 @@ export default function MoreScreen({ onTabChange }: Props) {
               <InstagramIcon />
               <Text style={styles.socialBtnText}>Seguir @stemracinggt</Text>
             </Pressable>
+=======
+            <View style={[styles.webCard, styles.socialWebCard]}>
+              <WebView
+                source={{ uri: 'https://www.instagram.com/p/DROiEcFEYaq/embed/' }}
+                style={styles.socialWebView}
+                scrollEnabled={false}
+              />
+            </View>
+            <View style={styles.followBtns}>
+              <Pressable
+                style={styles.followBtn}
+                onPress={() => openURL('https://www.instagram.com/stemracinghq/')}
+              >
+                <Text style={styles.followBtnText}>Seguir @stemracinghq</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.followBtn, { marginTop: 6 }]}
+                onPress={() => openURL('https://www.instagram.com/stemracinggt/')}
+              >
+                <Text style={styles.followBtnText}>Seguir @stemracinggt</Text>
+              </Pressable>
+            </View>
+            <Text style={styles.platformLabel}>Instagram</Text>
+>>>>>>> Stashed changes
           </View>
 
           {/* TikTok */}
           <View style={styles.socialCol}>
             <Image source={require('../assets/social/tiktok.jpg')} style={styles.socialProfilePic} />
             <Pressable
+<<<<<<< Updated upstream
               style={styles.socialBtn}
               onPress={() => Linking.openURL('https://www.tiktok.com/@stemracing_hq')}
+=======
+              style={styles.followBtn}
+              onPress={() => openURL('https://www.tiktok.com/@stemracing_hq')}
+>>>>>>> Stashed changes
             >
               <TikTokIcon />
               <Text style={styles.socialBtnText}>Seguir @stemracing_hq</Text>
@@ -267,9 +303,30 @@ export default function MoreScreen({ onTabChange }: Props) {
         {/* ── FAQs ──────────────────────────────────────────────────────── */}
         <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>FAQs</Text>
 
+<<<<<<< Updated upstream
         {FAQS.map((faq) => (
           <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
         ))}
+=======
+        {/* Player with playlist — listType=playlist shows the full playlist */}
+        <View style={styles.webCard}>
+          <WebView
+            source={{ uri: 'https://www.youtube.com/embed/c_kSkzmQ4Os?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU&listType=playlist&rel=0&modestbranding=1' }}
+            style={styles.podcastWebView}
+            scrollEnabled={false}
+            allowsInlineMediaPlayback
+            mediaPlaybackRequiresUserAction={false}
+            allowsFullscreenVideo
+          />
+        </View>
+        <Pressable
+          style={styles.channelBtn}
+          onPress={() => openURL('https://www.youtube.com/playlist?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU')}
+        >
+          <Text style={styles.channelBtnText}>▶  Ver playlist completa</Text>
+        </Pressable>
+        <Text style={[styles.platformLabel, { marginBottom: 32 }]}>STEM Racing Podcast</Text>
+>>>>>>> Stashed changes
 
         {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
@@ -277,27 +334,40 @@ export default function MoreScreen({ onTabChange }: Props) {
         {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
+<<<<<<< Updated upstream
           onPress={() => Linking.openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+=======
+          onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+>>>>>>> Stashed changes
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
         >
+<<<<<<< Updated upstream
           <Image
             source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
+=======
+          <Image source={require('../assets/images/texaco.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
         </Pressable>
 
         {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
           <Pressable
+<<<<<<< Updated upstream
             onPress={() => Linking.openURL('https://www.instagram.com/valvolinegt/')}
+=======
+            onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
+>>>>>>> Stashed changes
             accessibilityRole="link"
             accessibilityLabel="Valvoline GT - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
+<<<<<<< Updated upstream
             <Image
               source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
@@ -306,15 +376,25 @@ export default function MoreScreen({ onTabChange }: Props) {
           </Pressable>
           <Pressable
             onPress={() => Linking.openURL('https://www.instagram.com/gulfoilguatemala/')}
+=======
+            <Image source={require('../assets/images/valvoline.jpeg')} style={styles.partnerLogoImageLarge} resizeMode="contain" />
+          </Pressable>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/gulfoilguatemala/')}
+>>>>>>> Stashed changes
             accessibilityRole="link"
             accessibilityLabel="Gulf Oil Guatemala - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
+<<<<<<< Updated upstream
             <Image
               source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
+=======
+            <Image source={require('../assets/images/gulf.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
           </Pressable>
         </View>
 
@@ -322,6 +402,7 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>supported by</Text>
         <View style={styles.partnersGrid2}>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+<<<<<<< Updated upstream
             <Image
               source={require('../assets/images/honda-1596081_1280.webp')}
               style={styles.partnerLogoImage}
@@ -351,15 +432,34 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <Pressable
             onPress={() => Linking.openURL('https://www.instagram.com/kitkatcentroamerica/')}
+=======
+            <Image source={require('../assets/images/honda-1596081_1280.webp')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/puma.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/visa.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+            <Image source={require('../assets/images/redbull.jpg')} style={styles.partnerLogoImage} resizeMode="contain" />
+          </View>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
+>>>>>>> Stashed changes
             accessibilityRole="link"
             accessibilityLabel="KitKat Centroamérica - Instagram"
             style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
           >
+<<<<<<< Updated upstream
             <Image
               source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
+=======
+            <Image source={require('../assets/images/kitkat.jpeg')} style={styles.partnerLogoImage} resizeMode="contain" />
+>>>>>>> Stashed changes
           </Pressable>
         </View>
 
@@ -391,15 +491,15 @@ export default function MoreScreen({ onTabChange }: Props) {
           <Text style={styles.contactText}>10 avenida 11-83</Text>
           <Text style={styles.contactText}>horario 8am - 5pm</Text>
 
-          <Pressable onPress={() => Linking.openURL('mailto:hola@stemracing.gt')}>
+          <Pressable onPress={() => openURL('mailto:hola@stemracing.gt')}>
             <Text style={[styles.contactText, styles.contactLink, { marginTop: 16 }]}>hola@stemracing.gt</Text>
           </Pressable>
 
-          <Pressable onPress={() => Linking.openURL('https://www.stemracing.gt')}>
+          <Pressable onPress={() => openURL('https://www.stemracing.gt')}>
             <Text style={[styles.contactText, styles.contactLink, { marginTop: 12 }]}>www.stemracing.gt</Text>
           </Pressable>
 
-          <Pressable onPress={() => Linking.openURL('tel:+50223691199')}>
+          <Pressable onPress={() => openURL('tel:+50223691199')}>
             <Text style={[styles.contactText, styles.contactLink, { marginTop: 12 }]}>+502 2369 - 1199</Text>
           </Pressable>
         </LinearGradient>
@@ -589,6 +689,16 @@ const styles = StyleSheet.create({
   partnerLogoImageLarge: {
     width: '100%',
     height: 110,
+<<<<<<< Updated upstream
+=======
+  },
+  partnerLogoText: {
+    fontFamily: FONTS.interBold,
+    fontWeight: '700',
+    fontSize: 18,
+    color: '#222',
+    textAlign: 'center',
+>>>>>>> Stashed changes
   },
 
   // ── Terms & Conditions
