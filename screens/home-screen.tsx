@@ -1,10 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef, useState } from 'react';
 import { Dimensions, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { openURL } from '../constants/functions';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
+import { openURL } from '../constants/functions';
 import { AERO_SKY, APEX_GLACIER, BURNOUT_ORANGE, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
@@ -406,7 +406,7 @@ export default function HomeScreen({
         {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <Pressable
-          onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+          onPress={() => openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/')}
           accessibilityRole="link"
           accessibilityLabel="Texaco con Techron - Puntos Texaco"
           style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}

@@ -276,46 +276,31 @@ export default function MoreScreen({ onTabChange }: Props) {
 
         {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
-        <Pressable
-          onPress={() => Linking.openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
-          accessibilityRole="link"
-          accessibilityLabel="Texaco con Techron - Puntos Texaco"
-          style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
-        >
+        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
             source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
-        </Pressable>
+        </View>
 
         {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
-          <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/valvolinegt/')}
-            accessibilityRole="link"
-            accessibilityLabel="Valvoline GT - Instagram"
-            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
-          >
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
               source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
-          </Pressable>
-          <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/gulfoilguatemala/')}
-            accessibilityRole="link"
-            accessibilityLabel="Gulf Oil Guatemala - Instagram"
-            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
-          >
+          </View>
+          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
               source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </Pressable>
+          </View>
         </View>
 
         {/* Supported by */}
@@ -349,18 +334,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </View>
-          <Pressable
-            onPress={() => Linking.openURL('https://www.instagram.com/kitkatcentroamerica/')}
-            accessibilityRole="link"
-            accessibilityLabel="KitKat Centroamérica - Instagram"
-            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
-          >
-            <Image
-              source={require('../assets/images/kitkat.jpeg')}
-              style={styles.partnerLogoImage}
-              resizeMode="contain"
-            />
-          </Pressable>
         </View>
 
         {/* ── Terms & Conditions ───────────────────────────────────────── */}
@@ -477,10 +450,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     marginBottom: 10,
   },
-  podcastWebView: {
-    width: CONTENT_WIDTH,
-    height: 220,
-  },
   localVideo: {
     width: CONTENT_WIDTH,
     height: 220,
@@ -543,7 +512,6 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: '#fff',
   },
-
   // ── Partners
   partnersHeading: {
     ...TEXT.h2,
@@ -578,7 +546,6 @@ const styles = StyleSheet.create({
   partnerCardWhite: { backgroundColor: '#fff' },
   partnersGrid2: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 10,
     marginBottom: 10,
   },
