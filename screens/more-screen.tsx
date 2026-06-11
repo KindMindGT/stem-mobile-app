@@ -1,7 +1,7 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
 import { Asset } from 'expo-asset';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
+import React, { useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -16,7 +16,6 @@ import {
   View
 } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
-import { WebView } from 'react-native-webview';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
 import { AERO_SKY, PITLANE_PINK, STEM_BG } from '../theme/colors';
@@ -220,15 +219,9 @@ export default function MoreScreen({ onTabChange }: Props) {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── FAQs ──────────────────────────────────────────────────────── */}
-        <Text style={styles.sectionLabel}>FAQs</Text>
-
-        {FAQS.map((faq) => (
-          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
-        ))}
-
+        
         {/* ── Media ─────────────────────────────────────────────────────── */}
-        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Media</Text>
+        <Text style={[styles.sectionLabel]}>Media</Text>
 
         {/* YouTube — local video */}
         <VideoView
@@ -271,26 +264,12 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
         </View>
 
-        {/* ── Podcast ───────────────────────────────────────────────────── */}
-        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Podcast</Text>
+        {/* ── FAQs ──────────────────────────────────────────────────────── */}
+        <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>FAQs</Text>
 
-        <View style={styles.webCard}>
-          <WebView
-            source={{ uri: 'https://www.youtube.com/embed/c_kSkzmQ4Os?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU&listType=playlist&rel=0&modestbranding=1' }}
-            style={styles.podcastWebView}
-            scrollEnabled={false}
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction={false}
-            allowsFullscreenVideo
-          />
-        </View>
-        <Pressable
-          style={styles.channelBtn}
-          onPress={() => Linking.openURL('https://www.youtube.com/playlist?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU')}
-        >
-          <Text style={styles.channelBtnText}>▶  Ver playlist completa</Text>
-        </Pressable>
-        <Text style={[styles.platformLabel, { marginBottom: 32 }]}>STEM Racing Podcast</Text>
+        {FAQS.map((faq) => (
+          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
+        ))}
 
         {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
@@ -351,7 +330,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/puma.jpg')}
+              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -365,7 +344,7 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/redbull.jpg')}
+              source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -448,8 +427,8 @@ const styles = StyleSheet.create({
   // Section label
   sectionLabel: {
     fontFamily: FONTS.archivoBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '700',
+    //fontStyle: 'italic',
+    //fontWeight: '700',
     fontSize: 22,
     color: PITLANE_PINK,
     marginBottom: 16,
@@ -510,7 +489,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   channelBtn: {
-    backgroundColor: '#FF0000',
+    backgroundColor: AERO_SKY,
     borderRadius: 10,
     paddingVertical: 11,
     alignItems: 'center',
@@ -518,8 +497,9 @@ const styles = StyleSheet.create({
   },
   channelBtnText: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
-    fontSize: 14,
+    //fontWeight: '700',
+    fontSize: 16,
+    lineHeight: 16,
     color: '#fff',
   },
   platformLabel: {
@@ -559,7 +539,8 @@ const styles = StyleSheet.create({
   },
   socialBtnText: {
     fontFamily: FONTS.interBold,
-    fontSize: 11,
+    fontSize: 12,
+    lineHeight: 16,
     color: '#fff',
   },
 

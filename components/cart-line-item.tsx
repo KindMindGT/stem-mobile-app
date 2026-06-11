@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
+    //fontStyle: 'italic',
+    //fontWeight: '800',
     fontSize: 17,
     color: '#fff',
     letterSpacing: -0.2,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontFamily: FONTS.archivoExtraBold,
-    fontWeight: '800',
+    //fontWeight: '800',
     fontSize: 15,
     color: '#fff',
   },

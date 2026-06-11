@@ -52,15 +52,15 @@ const styles = StyleSheet.create({
   btnText: {
     color: '#fff',
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 16,
   },
   value: {
     minWidth: 22,
     textAlign: 'center',
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
-    fontWeight: '800',
+    //fontStyle: 'italic',
+    //fontWeight: '800',
     color: '#fff',
   },
 });

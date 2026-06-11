@@ -39,14 +39,14 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: 'rgba(255,255,255,0.85)',
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600',
+    //fontWeight: '600',
     letterSpacing: 0.2,
   },
   textMd: {
     fontSize: 12,
     color: 'rgba(255,255,255,0.88)',
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600',
+    //fontWeight: '600',
     letterSpacing: 0.2,
   },
 });

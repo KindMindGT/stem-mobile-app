@@ -4,12 +4,12 @@ import { IconSearch } from '@/components/ui/icon-search';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useMemo, useState } from 'react';
 import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import GradientHeader from '../components/gradient-header';
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   },
   categoryLabel: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 16,
     color: 'rgba(255,255,255,0.45)',
     paddingBottom: 10,
@@ -401,14 +401,14 @@ const styles = StyleSheet.create({
   personLabel: {
     flex: 1,
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
     fontSize: 15,
     color: '#fff',
     letterSpacing: 0.1,
   },
   personRole: {
     fontFamily: FONTS.interRegular,
-    fontWeight: '400' as const,
+    //fontWeight: '400' as const,
     fontSize: 15,
     color: 'rgba(255,255,255,0.65)',
   },

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   cardName: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 16,
     color: '#fff',
     marginBottom: 4,

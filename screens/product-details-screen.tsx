@@ -1,146 +1,127 @@
-import { TONE_RAMP } from '@/theme/tones';
-import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import GradientButton from '../components/gradient-button';
-import GradientText from '../components/gradient-text';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import GradientHeader from '../components/gradient-header';
 import IconButton from '../components/icon-button';
-import ImgPlaceholder from '../components/image-placeholder';
-import SmallCapsHeader from '../components/small-caps-header';
-import Stepper from '../components/stepper';
-import { formatGTQ } from '../constants/functions';
-import { APEX_GLACIER, CARBON_SHADOW, GRADIENTS } from '../theme/colors';
+import TabBar from '../components/tab-bar';
+import { getProductById } from '../constants/products';
 import { LAYOUT } from '../theme/layout';
-import { FONTS, TEXT } from '../theme/typography';
-
-const MAX_QTY = 20;
-const FEATURED_PRODUCT = {
-  id: 'pf-hoodie-2026',
-  eyebrow: 'APEX MERCH · ED. 2026',
-  title: 'Hoodie Apex 2026',
-  price: 450,
-  description:
-    'Sudadera de algodón orgánico con capucha forrada y logotipo bordado. Diseñada para los talleres en el Hub Zona 10 — cómoda, abrigada y resistente al taller.',
-  heroLabel: 'hoodie · apex 2026',
-  heroTone: 'orange',
-  colors: ['#0a0a0e', '#ff1f7a', '#ff7a1a', '#2a8eff'],
-  sizes: ['S', 'M', 'L', 'XL'],
-};
+import { FONTS } from '../theme/typography';
 
 type Props = {
+  productId?: string;
   onBack: () => void;
   onAddToCart: () => void;
+  onTabChange?: (tabId: string) => void;
 };
 
-export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
-  const product = FEATURED_PRODUCT;
+export default function ProductDetailScreen({ productId, onBack, onAddToCart, onTabChange }: Props) {
+  const product = (productId ? getProductById(productId) : undefined) ?? getProductById('p1')!;
+
   const [colorIdx, setColorIdx] = useState(0);
-  const [size, setSize] = useState('M');
-  const [qty, setQty] = useState(1);
+  const [size, setSize] = useState(product.sizes?.[0] ?? '');
+
+  const hasColors = Array.isArray(product.colors) && product.colors.length > 0;
+  const hasSizes  = Array.isArray(product.sizes)  && product.sizes.length  > 0;
 
   return (
     <View style={styles.screen}>
+      <View style={styles.headerWrap}>
+        <GradientHeader title="Shop" variant="stem-header-gradient" />
+        <IconButton
+          icon="back"
+          onPress={onBack}
+          variant="translucent"
+          size={36}
+          accessibilityLabel="Volver al shop"
+          style={styles.backBtn}
+        />
+      </View>
+
       <ScrollView
         style={styles.scrollWrap}
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.hero}>
-          <ImgPlaceholder label={product.heroLabel} tone={product.heroTone as keyof typeof TONE_RAMP} radius={0} />
-          <LinearGradient
-            colors={[
-              'rgba(0,0,0,0.35)',
-              'rgba(0,0,0,0)',
-              'rgba(8,8,11,0)',
-              'rgba(8,8,11,1)',
-            ]}
-            locations={[0, 0.25, 0.7, 1]}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-            style={StyleSheet.absoluteFill}
-            pointerEvents="none"
-          />
-          <IconButton
-            icon="back"
-            onPress={onBack}
-            style={[styles.headerBtn, styles.headerBtnLeft]}
-            accessibilityLabel="atrás"
-          />
-          <IconButton
-            icon="heart"
-            style={[styles.headerBtn, styles.headerBtnRight]}
-            accessibilityLabel="favoritos"
-            onPress={() => {}}
-          />
+        {/* Hero image */}
+        <View style={styles.heroWrap}>
+          <View style={styles.heroImg}>
+            <Image
+              source={{ uri: product.imageUrl }}
+              style={styles.heroImageFill}
+              resizeMode="contain"
+              accessibilityLabel={product.name}
+            />
+          </View>
         </View>
 
+        {/* Body */}
         <View style={styles.body}>
-          <Text style={styles.eyebrow}>{product.eyebrow}</Text>
-          <Text style={styles.title}>{product.title}</Text>
-          <GradientText colors={GRADIENTS['primary-gradient-2'].colors} style={styles.price}>
-            {formatGTQ(product.price)}
-          </GradientText>
 
-          <View style={styles.field}>
-            <Text style={styles.sectionLabel}>COLOR</Text>
-            <View style={styles.colorRow}>
-              {product.colors.map((c, i) => (
-                <Pressable
-                  key={c}
-                  onPress={() => setColorIdx(i)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`color ${i + 1}`}
-                  style={[
-                    styles.colorChip,
-                    {
-                      backgroundColor: c,
-                      borderColor: i === colorIdx ? '#fff' : 'rgba(255,255,255,0.18)',
-                    },
-                    i === colorIdx && styles.colorChipActive,
-                  ]}
-                />
-              ))}
-            </View>
+          {/* Title + price */}
+          <View style={styles.titleRow}>
+            <Text style={styles.titleBold}>{product.name} </Text>
+            <Text style={styles.titlePrice}>{product.price}</Text>
           </View>
 
-          <View style={styles.field}>
-            <Text style={styles.sectionLabel}>TALLA</Text>
-            <View style={styles.sizeRow}>
-              {product.sizes.map((s) => {
-                const isActive = s === size;
-                return (
+          {/* Color — only if product has colors */}
+          {hasColors && (
+            <>
+              <Text style={styles.sectionLabel}>Color</Text>
+              <View style={styles.colorRow}>
+                {product.colors!.map((c, i) => (
+                  <Pressable
+                    key={c}
+                    onPress={() => setColorIdx(i)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`color ${i + 1}`}
+                    style={[
+                      styles.colorChip,
+                      { backgroundColor: c },
+                      i === colorIdx && styles.colorChipActive,
+                    ]}
+                  />
+                ))}
+              </View>
+            </>
+          )}
+
+          {/* Talla — only if product has sizes */}
+          {hasSizes && (
+            <>
+              <Text style={styles.sectionLabel}>Talla</Text>
+              <View style={styles.sizeRow}>
+                {product.sizes!.map((s) => (
                   <Pressable
                     key={s}
                     onPress={() => setSize(s)}
                     accessibilityRole="button"
                     accessibilityLabel={`talla ${s}`}
-                    style={[styles.sizeChip, isActive && styles.sizeChipActive]}
+                    style={[styles.sizeChip, s === size && styles.sizeChipActive]}
                   >
-                    <Text style={[styles.sizeText, isActive && styles.sizeTextActive]}>{s}</Text>
+                    <Text style={styles.sizeText}>{s}</Text>
                   </Pressable>
-                );
-              })}
-            </View>
-          </View>
+                ))}
+              </View>
+            </>
+          )}
 
-          <SmallCapsHeader>DESCRIPCIÓN</SmallCapsHeader>
+          {/* Description */}
+          <Text style={styles.descLabel}>Description</Text>
           <Text style={styles.description}>{product.description}</Text>
 
-          <View style={styles.qtyRow}>
-            <Text style={styles.sectionLabel}>CANTIDAD</Text>
-            <Stepper value={qty} onChange={setQty} min={1} max={MAX_QTY} />
-          </View>
+          {/* Go Buy button */}
+          <Pressable
+            onPress={() => Linking.openURL(product.buyUrl)}
+            accessibilityRole="button"
+            accessibilityLabel="Go Buy"
+            style={({ pressed }) => [styles.goBuyBtn, pressed && styles.goBuyBtnPressed]}
+          >
+            <Text style={styles.goBuyText}>Go Buy</Text>
+          </Pressable>
         </View>
       </ScrollView>
 
-      <View style={styles.ctaWrap}>
-        <GradientButton
-          label="Añadir al carrito"
-          onPress={onAddToCart}
-          height={60}
-          radius={18}
-        />
-      </View>
+      <TabBar active="market" onChange={onTabChange ?? (() => {})} />
     </View>
   );
 }
@@ -148,120 +129,158 @@ export default function ProductDetailScreen({ onBack, onAddToCart } : Props) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: CARBON_SHADOW,
+    backgroundColor: '#1565C0',
     overflow: 'hidden',
+  },
+  headerWrap: {
+    position: 'relative',
+  },
+  backBtn: {
+    position: 'absolute',
+    left: LAYOUT.screenPadding,
+    bottom: 14,
   },
   scrollWrap: {
     flex: 1,
   },
   scroll: {
-    paddingBottom: 110,
+    paddingBottom: 24,
   },
-  hero: {
-    width: '100%',
+
+  /* Hero */
+  heroWrap: {
+    alignItems: 'center',
+    paddingTop: 24,
+    paddingBottom: 8,
+    paddingHorizontal: LAYOUT.screenPadding,
+  },
+  heroImg: {
+    width: '90%',
     aspectRatio: 1,
-    position: 'relative',
+    borderRadius: 20,
     overflow: 'hidden',
+    backgroundColor: '#fff',
   },
-  headerBtn: {
-    position: 'absolute',
-    top: LAYOUT.safeTop,
+  heroImageFill: {
+    width: '100%',
+    height: '100%',
   },
-  headerBtnLeft: {
-    left: 18,
-  },
-  headerBtnRight: {
-    right: 18,
-  },
+
+  /* Body */
   body: {
     paddingHorizontal: LAYOUT.screenPadding,
-    paddingTop: 6,
+    paddingTop: 12,
   },
-  eyebrow: {
-    ...TEXT.eyebrow,
+
+  /* Title row */
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    marginBottom: 18,
   },
-  title: {
-    ...TEXT.h1,
-    fontSize: 30,
-    lineHeight: 30,
-    letterSpacing: -0.6,
-    marginTop: 4,
+  titleBold: {
+    fontFamily: FONTS.archivoBold,
+    //fontWeight: '700',
+    //fontStyle: 'italic',
+    fontSize: 26,
+    color: '#fff',
+    letterSpacing: -0.4,
   },
-  price: {
-    marginTop: 8,
-    fontFamily: FONTS.archivoBlackItalic,
-    fontStyle: 'italic',
-    fontWeight: '900',
-    fontSize: 28,
-    letterSpacing: 0.5,
+  titlePrice: {
+    fontFamily: FONTS.archivoExtraBoldItalic,
+    //fontStyle: 'italic',
+    //fontWeight: '800',
+    fontSize: 26,
+    color: '#fff',
+    letterSpacing: -0.4,
   },
-  field: {
-    marginTop: 18,
-  },
+
+  /* Section labels */
   sectionLabel: {
-    ...TEXT.eyebrow,
+    fontFamily: FONTS.interBold,
+    //fontWeight: '700',
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 10,
   },
+
+  /* Colors */
   colorRow: {
     flexDirection: 'row',
-    gap: 10,
-    marginTop: 8,
+    gap: 12,
+    marginBottom: 18,
   },
   colorChip: {
-    width: 30,
-    height: 30,
-    borderRadius: 99,
-    borderWidth: 2,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    borderWidth: 3,
+    borderColor: 'transparent',
   },
   colorChipActive: {
-    shadowColor: '#fff',
-    shadowOpacity: 0.18,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 4,
+    borderColor: 'rgba(255,255,255,0.9)',
   },
+
+  /* Sizes */
   sizeRow: {
     flexDirection: 'row',
-    gap: 8,
-    marginTop: 8,
+    gap: 10,
+    marginBottom: 20,
   },
   sizeChip: {
     flex: 1,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: 'rgba(20,20,26,0.85)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    height: 60,
+    borderRadius: 14,
+    backgroundColor: '#0D1B3E',
     alignItems: 'center',
     justifyContent: 'center',
   },
   sizeChipActive: {
-    backgroundColor: 'rgba(255,255,255,0.92)',
-    borderWidth: 0,
+    backgroundColor: '#1a2a5e',
   },
   sizeText: {
-    fontFamily: FONTS.archivoExtraBold,
-    fontWeight: '800',
-    fontSize: 14,
-    letterSpacing: 1,
+    fontFamily: FONTS.archivoBold,
+    //fontWeight: '700',
+    fontSize: 18,
     color: '#fff',
+    letterSpacing: 0.5,
   },
-  sizeTextActive: {
-    color: APEX_GLACIER,
+
+  /* Description */
+  descLabel: {
+    fontFamily: FONTS.interBold,
+    //fontWeight: '700',
+    fontSize: 16,
+    color: '#fff',
+    marginBottom: 6,
   },
   description: {
-    ...TEXT.body,
-    color: 'rgba(255,255,255,0.75)',
+    fontFamily: FONTS.interRegular,
+    fontSize: 14,
+    lineHeight: 22,
+    color: 'rgba(255,255,255,0.85)',
+    marginBottom: 24,
   },
-  qtyRow: {
-    marginTop: 22,
-    flexDirection: 'row',
+
+  /* Go Buy button */
+  goBuyBtn: {
+    backgroundColor: '#00bcd4',
+    borderRadius: 14,
+    paddingVertical: 16,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    marginTop: 4,
+    marginBottom: 8,
   },
-  ctaWrap: {
-    position: 'absolute',
-    left: LAYOUT.edgePadding,
-    right: LAYOUT.edgePadding,
-    bottom: LAYOUT.tabBarBottom,
+  goBuyBtnPressed: {
+    opacity: 0.8,
+  },
+  goBuyText: {
+    fontFamily: FONTS.archivoBold,
+    //fontWeight: '700',
+    fontSize: 18,
+    color: '#fff',
+    letterSpacing: 0.3,
   },
 });

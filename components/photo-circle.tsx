@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   initials: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
+    //fontStyle: 'italic',
     color: '#fff',
     letterSpacing: -0.5,
   },

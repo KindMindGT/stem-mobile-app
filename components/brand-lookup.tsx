@@ -43,16 +43,16 @@ const styles = StyleSheet.create({
   },
   pillText: {
     //fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
+    //fontStyle: 'italic',
     color: '#fff',
-    fontWeight: '800',
+    //fontWeight: '800',
     letterSpacing: 0.5,
   },
   title: {
     //fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic',
+    //fontStyle: 'italic',
     color: '#fff',
     letterSpacing: -0.5,
-    fontWeight: '800',
+    //fontWeight: '800',
   },
 });

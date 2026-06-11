@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   },
   value: {
     fontFamily: FONTS.archivoBlackItalic,
-    fontStyle: 'italic',
-    fontWeight: '900',
+    //fontStyle: 'italic',
+    //fontWeight: '900',
     fontSize: 28,
     letterSpacing: -0.4,
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 1.8,
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     color: 'rgba(255,255,255,0.55)',
   },
 });

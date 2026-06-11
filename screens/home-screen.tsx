@@ -404,31 +404,46 @@ export default function HomeScreen({
 
         {/* Powered by */}
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
-        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
+        <Pressable
+          onPress={() => Linking.openURL('https://www.texacocontechron.com/gt/programas/puntos-texaco/?https://www.texacocontechron.com/gt/programas/puntos-texaco/?utm_source=google&utm_medium=paid&utm_campaign=puntostexaco&gad_source=1&gad_campaignid=23869454855&gbraid=0AAAABDYc-Brmk6UdhgBmGBsEzle4vGVmB&gclid=Cj0KCQjwlqTRBhCBARIsANrkrxi_-9huTl1_m5jGRsPc_6vE_t71dWZMrA6Q_CsS2ZhxP7NObfKQCt0aAgjyEALw_wcB')}
+          accessibilityRole="link"
+          accessibilityLabel="Texaco con Techron - Puntos Texaco"
+          style={({ pressed }) => [styles.partnerCard, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+        >
           <Image
-            source={require('../assets/images/shell.jpg')}
+            source={require('../assets/images/texaco.jpeg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
-        </View>
+        </Pressable>
 
         {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => Linking.openURL('https://www.instagram.com/valvolinegt/')}
+            accessibilityRole="link"
+            accessibilityLabel="Valvoline GT - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/paleta.webp')}
+              source={require('../assets/images/valvoline.jpeg')}
               style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          </Pressable>
+          <Pressable
+            onPress={() => Linking.openURL('https://www.instagram.com/gulfoilguatemala/')}
+            accessibilityRole="link"
+            accessibilityLabel="Gulf Oil Guatemala - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         </View>
 
         {/* Supported by */}
@@ -443,7 +458,7 @@ export default function HomeScreen({
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/puma.jpg')}
+              source={require('../assets/images/bi.png')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
@@ -455,13 +470,18 @@ export default function HomeScreen({
               resizeMode="contain"
             />
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => Linking.openURL('https://www.instagram.com/kitkatcentroamerica/')}
+            accessibilityRole="link"
+            accessibilityLabel="KitKat Centroamérica - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/redbull.jpg')}
+              source={require('../assets/images/kitkat.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         </View>
       </ScrollView>
 
@@ -565,7 +585,7 @@ const styles = StyleSheet.create({
   comingRowLeft: { flex: 1 },
   comingRowTitle: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 15,
     color: '#fff',
     marginBottom: 3,
@@ -624,7 +644,7 @@ const styles = StyleSheet.create({
   },
   newsHeadline: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 20,
     color: '#fff',
     marginBottom: 6,
@@ -645,7 +665,7 @@ const styles = StyleSheet.create({
   newsFooterText: { flex: 1 },
   newsFooterDate: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 14,
     color: '#fff',
   },
@@ -711,8 +731,8 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: '#fff',
     textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 5,
   },
   partnersCategoryLabel: {
     fontFamily: FONTS.interRegular,
@@ -768,7 +788,7 @@ const styles = StyleSheet.create({
   },
   partnerLogoText: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
+    //fontWeight: '700',
     fontSize: 20,
     color: '#222',
     textAlign: 'center',

@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
   },
   avatarInitials: {
     fontFamily: FONTS.archivoExtraBoldItalic,
-    fontStyle: 'italic' as const,
-    fontWeight: '800' as const,
+    //fontStyle: 'italic' as const,
+    //fontWeight: '800' as const,
     fontSize: 18,
     color: '#fff',
     letterSpacing: 0.5,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 16,
     color: '#fff',
     letterSpacing: -0.2,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: FONTS.interBold,
-    fontWeight: '700' as const,
+    //fontWeight: '700' as const,
     fontSize: 10,
     letterSpacing: 2,
     color: 'rgba(255,255,255,0.4)',
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   },
   rowLabel: {
     fontFamily: FONTS.interSemiBold,
-    fontWeight: '600' as const,
+    //fontWeight: '600' as const,
     fontSize: 15,
   },
   rowSublabel: {

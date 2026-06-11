@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: FONTS.archivoBold,
-    fontWeight: '700',
     fontSize: 11,
     color: '#fff',
     textAlign: 'center',

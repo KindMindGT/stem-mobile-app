@@ -1,18 +1,3 @@
-import {
-  Archivo_400Regular,
-  Archivo_600SemiBold,
-  Archivo_700Bold,
-  Archivo_700Bold_Italic,
-  Archivo_800ExtraBold,
-  Archivo_800ExtraBold_Italic,
-  Archivo_900Black_Italic,
-} from '@expo-google-fonts/archivo';
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-} from '@expo-google-fonts/inter';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as ExpoSplashScreen from 'expo-splash-screen';
@@ -74,17 +59,8 @@ export default function RootLayout() {
   const [tabStacks, setTabStacks] = useState<TabStacks>(INITIAL_TAB_STACKS);
 
   const [fontsLoaded] = useFonts({
-    Archivo_400Regular,
-    Archivo_600SemiBold,
-    Archivo_700Bold,
-    Archivo_700Bold_Italic,
-    Archivo_800ExtraBold,
-    Archivo_800ExtraBold_Italic,
-    Archivo_900Black_Italic,
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
+    'Magistral-ExtraBoldItalic': require('../assets/fonts/fonnts.com-Magistral_Extra_Bold_Italic.otf'),
+    'MachoModular-Medium':       require('../assets/fonts/fonnts.com-MachoModular_Medium.otf'),
   });
 
   useEffect(() => {
@@ -241,6 +217,7 @@ export default function RootLayout() {
                   )}
                   {currentRoute.screen === 'product' && (
                     <ProductDetailScreen
+                      productId={currentRoute.productId}
                       onBack={handleBack}
                       onAddToCart={handleAddToCart}
                     />
