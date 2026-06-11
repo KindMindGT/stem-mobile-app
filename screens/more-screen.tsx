@@ -271,14 +271,9 @@ export default function MoreScreen({ onTabChange }: Props) {
           </View>
         </View>
 
-<<<<<<< Updated upstream
-        {/* ── Partners ──────────────────────────────────────────────────── */}
-=======
         {/* ── Podcast ───────────────────────────────────────────────────── */}
         <Text style={[styles.sectionLabel, styles.mediaSectionLabel]}>Podcast</Text>
 
-<<<<<<< Updated upstream
-        {/* Player with playlist — listType=playlist shows the full playlist */}
         <View style={styles.webCard}>
           <WebView
             source={{ uri: 'https://www.youtube.com/embed/c_kSkzmQ4Os?list=PLBGlZc-MbXc3ANJgCGv05F_ezK8HeVFCU&listType=playlist&rel=0&modestbranding=1' }}
@@ -296,26 +291,6 @@ export default function MoreScreen({ onTabChange }: Props) {
           <Text style={styles.channelBtnText}>▶  Ver playlist completa</Text>
         </Pressable>
         <Text style={[styles.platformLabel, { marginBottom: 32 }]}>STEM Racing Podcast</Text>
-
-        {/* ── Partners carrusel ─────────────────────────────────────────── */}
->>>>>>> Stashed changes
-        <Text style={styles.partnersHeading}>Thank you partners</Text>
-
-        {/* Powered by */}
-        <Text style={styles.partnersCategoryLabel}>Powered by</Text>
-        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
-<<<<<<< Updated upstream
-          <Image
-            source={require('../assets/images/shell.jpg')}
-            style={styles.partnerLogoImage}
-            resizeMode="contain"
-          />
-=======
-          <Text style={styles.partnerLogoText}>🐚 Shell</Text>
-=======
-        {FAQS.map((faq) => (
-          <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
-        ))}
 
         {/* ── Partners ──────────────────────────────────────────────────── */}
         <Text style={styles.partnersHeading}>Thank you partners</Text>
@@ -362,44 +337,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </Pressable>
->>>>>>> Stashed changes
-        </View>
-
-        <Text style={styles.partnersCategoryLabel}>supported by</Text>
-        <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Honda</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Puma</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, { backgroundColor: '#1A1F71' }]}>
-            <Text style={[styles.partnerLogoText, { color: '#fff', fontSize: 24 }]}>VISA</Text>
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Text style={styles.partnerLogoText}>Red Bull</Text>
-          </View>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-        </View>
-
-        {/* Allies */}
-        <Text style={styles.partnersCategoryLabel}>allies</Text>
-        <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image
-              source={require('../assets/images/paleta.webp')}
-              style={styles.partnerLogoImageLarge}
-              resizeMode="contain"
-            />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
-            <Image
-              source={require('../assets/images/bi.png')}
-              style={styles.partnerLogoImage}
-              resizeMode="contain"
-            />
-          </View>
         </View>
 
         {/* Supported by */}
@@ -433,7 +370,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </View>
-=======
           <Pressable
             onPress={() => Linking.openURL('https://www.instagram.com/kitkatcentroamerica/')}
             accessibilityRole="link"
@@ -446,7 +382,6 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </Pressable>
->>>>>>> Stashed changes
         </View>
 
         {/* ── Terms & Conditions ───────────────────────────────────────── */}
@@ -563,6 +498,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     marginBottom: 10,
   },
+  podcastWebView: {
+    width: CONTENT_WIDTH,
+    height: 220,
+  },
   localVideo: {
     width: CONTENT_WIDTH,
     height: 220,
@@ -623,6 +562,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#fff',
   },
+
   // ── Partners
   partnersHeading: {
     ...TEXT.h2,
@@ -657,6 +597,7 @@ const styles = StyleSheet.create({
   partnerCardWhite: { backgroundColor: '#fff' },
   partnersGrid2: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 10,
     marginBottom: 10,
   },
