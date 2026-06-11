@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: LAYOUT.screenPadding,
   },
   heroImg: {
-    width: '75%',
+    width: '90%',
     aspectRatio: 1,
     borderRadius: 20,
     overflow: 'hidden',
