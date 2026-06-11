@@ -1,6 +1,4 @@
 export const formatGTQ = (n : number) => `Q ${n.toFixed(2)}`;
-<<<<<<< Updated upstream
-=======
 
 import { Linking } from 'react-native';
 
@@ -12,4 +10,3 @@ export async function openURL(url: string) {
     console.warn('openURL error:', e);
   }
 }
->>>>>>> Stashed changes
