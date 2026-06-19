@@ -18,6 +18,7 @@ import {
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import GradientHeader from '../components/gradient-header';
 import TabBar from '../components/tab-bar';
+import { openURL } from '../constants/functions';
 import { AERO_SKY, PITLANE_PINK, STEM_BG } from '../theme/colors';
 import { LAYOUT } from '../theme/layout';
 import { FONTS, TEXT } from '../theme/typography';
@@ -278,7 +279,14 @@ export default function MoreScreen({ onTabChange }: Props) {
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
-            source={require('../assets/images/texaco.jpeg')}
+            source={require('../assets/images/visa.jpg')}
+            style={styles.partnerLogoImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
+          <Image
+            source={require('../assets/images/shell.jpg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
@@ -287,20 +295,30 @@ export default function MoreScreen({ onTabChange }: Props) {
         {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
+            accessibilityRole="link"
+            accessibilityLabel="KitKat Centroamérica - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/valvoline.jpeg')}
-              style={styles.partnerLogoImageLarge}
+              source={require('../assets/images/kitkat.jpeg')}
+              style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          </Pressable>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/gulfoilguatemala/')}
+            accessibilityRole="link"
+            accessibilityLabel="Gulf Oil Guatemala - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
               source={require('../assets/images/gulf.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         </View>
 
         {/* Supported by */}
@@ -313,27 +331,42 @@ export default function MoreScreen({ onTabChange }: Props) {
               resizeMode="contain"
             />
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/hesguatemala/')}
+            accessibilityRole="link"
+            accessibilityLabel="Huawei Guatemala - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/huawei.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          </Pressable>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/vifriogt/')}
+            accessibilityRole="link"
+            accessibilityLabel="Vifrio Guatemala - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/visa.jpg')}
+              source={require('../assets/images/vifrio.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
-          </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          </Pressable>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
+            accessibilityRole="link"
+            accessibilityLabel="Valvoline GT - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/kitkat.jpeg')}
-              style={styles.partnerLogoImage}
+              source={require('../assets/images/valvoline.jpeg')}
+              style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         </View>
 
         {/* ── Terms & Conditions ───────────────────────────────────────── */}

@@ -406,7 +406,14 @@ export default function HomeScreen({
         <Text style={styles.partnersCategoryLabel}>Powered by</Text>
         <View style={[styles.partnerCard, styles.partnerCardWhite]}>
           <Image
-            source={require('../assets/images/texaco.jpeg')}
+            source={require('../assets/images/visa.jpg')}
+            style={styles.partnerLogoImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={[styles.partnerCard, styles.partnerCardWhite]}>
+          <Image
+            source={require('../assets/images/shell.jpg')}
             style={styles.partnerLogoImage}
             resizeMode="contain"
           />
@@ -415,10 +422,15 @@ export default function HomeScreen({
         {/* Allies */}
         <Text style={styles.partnersCategoryLabel}>allies</Text>
         <View style={styles.partnersGrid2}>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/kitkatcentroamerica/')}
+            accessibilityRole="link"
+            accessibilityLabel="KitKat Centroamérica - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/valvoline.jpeg')}
-              style={styles.partnerLogoImageLarge}
+              source={require('../assets/images/kitkat.jpeg')}
+              style={styles.partnerLogoImage}
               resizeMode="contain"
             />
           </View>
@@ -443,22 +455,27 @@ export default function HomeScreen({
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/bi.png')}
+              source={require('../assets/images/huawei.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
           </View>
           <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
             <Image
-              source={require('../assets/images/visa.jpg')}
+              source={require('../assets/images/vifrio.jpeg')}
               style={styles.partnerLogoImage}
               resizeMode="contain"
             />
           </View>
-          <View style={[styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite]}>
+          <Pressable
+            onPress={() => openURL('https://www.instagram.com/valvolinegt/')}
+            accessibilityRole="link"
+            accessibilityLabel="Valvoline GT - Instagram"
+            style={({ pressed }) => [styles.partnerCard, styles.partnerCard2, styles.partnerCardWhite, pressed && { opacity: 0.75 }]}
+          >
             <Image
-              source={require('../assets/images/kitkat.jpeg')}
-              style={styles.partnerLogoImage}
+              source={require('../assets/images/valvoline.jpeg')}
+              style={styles.partnerLogoImageLarge}
               resizeMode="contain"
             />
           </View>
